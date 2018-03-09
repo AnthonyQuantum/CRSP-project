@@ -4,12 +4,30 @@ header {
     color: white;
     text-align: center;
     font-family: "Indie Flower";
-}
-
-.tasks-list {
-    list-style-type: none;
+    margin-bottom: 10px;
 }
 
 .list-item {
-    box-shadow: 0px 0px 60px rgba(122,122,122,0.3);
+    text-align: left;
+    border: 1px solid lightgray;
+    margin-bottom: 5px;
+}
+
+.badge-green {
+    background: limegreen;
+}
+.badge-blue {
+    background: lightskyblue;
+}
+
+.chkbox {
+    position: absolute;
+    right: 10px;
+    top: 2.5px;
+}
+
+.badge {
+    position: absolute;
+    top: 2.5px;
+    right: 30px;
 }
