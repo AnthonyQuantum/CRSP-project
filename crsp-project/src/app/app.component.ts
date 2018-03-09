@@ -8,10 +8,10 @@ import { DataService } from './data.service';
 })
 export class AppComponent {
   
-  users: Array<any>;
+  tasks: Array<any>;
 
   constructor(private _dataService: DataService) {
-    this._dataService.getUsers()
-      .subscribe(res => this.users = res);
+    this._dataService.getTasks()
+      .subscribe(res => this.tasks = res);
   }
 }

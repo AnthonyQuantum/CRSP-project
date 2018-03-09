@@ -1,0 +1,15 @@
+header {
+    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    font-size: 4em;
+    color: white;
+    text-align: center;
+    font-family: "Indie Flower";
+}
+
+.tasks-list {
+    list-style-type: none;
+}
+
+.list-item {
+    box-shadow: 0px 0px 60px rgba(122,122,122,0.3);
+}
