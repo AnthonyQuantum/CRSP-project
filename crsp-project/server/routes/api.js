@@ -3,8 +3,7 @@ const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-
-//Connect
+// Connect
 const connection = (closure) => {
     return MongoClient.connect('mongodb://localhost:27017/crsp-project', (err, db) => {
         if (err) return console.log(err);
@@ -13,21 +12,21 @@ const connection = (closure) => {
     });
 };
 
-//Error handling
+// Error handling
 const sendError = (err, res) => {
     response.status = 501;
     response.message = typeof err == 'object' ? err.message : err;
     res.status(501).json(response);
 };
 
-//Response handling
+// Response handling
 let response = {
     status: 200,
     data: [],
     message: null
 };
 
-//Get users
+// Get users
 router.get('/users', (req, res) => {
     connection((db) => {
         db.collection('users')
