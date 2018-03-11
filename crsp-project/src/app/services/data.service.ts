@@ -16,8 +16,18 @@ export class DataService {
   }
 
   addTask(title: string, priority: string) {
-    let obj = {title: title, priority: priority};
-    this._http.post("/api/tasks", obj)
+    this._http.post("/api/tasksAdd", {
+      title: title,
+      priority: priority,
+      status: 0
+    })
+    .subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log("Error occured");
+      }
+    )
   }
-
 }

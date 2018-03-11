@@ -43,10 +43,11 @@ router.get('/tasks', (req, res) => {
 });
 
 // Add new task
-router.post('/tasks', (req, res) => {
+router.post('/tasksAdd', (req, res) => {
+    console.log("In api.js:");
+        console.log(req.body);
     connection((db) => {
-        var obj = JSON.parse("{title: '" + req.title + "', priority: '" + req.priority + "', status: 0}");
-        db.collection('tasks').insert(obj)
+        db.collection('tasks').insert(req.body)
             .catch((err) => {
                 sendError(err, res);
             });

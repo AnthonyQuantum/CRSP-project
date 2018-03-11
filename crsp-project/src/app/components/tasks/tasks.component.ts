@@ -23,6 +23,8 @@ export class TasksComponent implements OnInit {
           message:'Confirm message'})
           .subscribe((isConfirmed)=>{
               if(isConfirmed) {
+                this._dataService.getTasks()
+                  .subscribe(res => this.tasks = res);
               }
           });
   }
