@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +7,4 @@ import { DataService } from './data.service';
 })
 export class AppComponent {
   
-  tasks: Array<any>;
-
-  constructor(private _dataService: DataService) {
-    this._dataService.getTasks()
-      .subscribe(res => this.tasks = res);
-  }
 }

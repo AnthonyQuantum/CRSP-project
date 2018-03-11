@@ -1,0 +1,38 @@
+header {
+    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    font-size: 4em;
+    color: white;
+    text-align: center;
+    font-family: "Indie Flower";
+    margin-bottom: 10px;
+}
+
+.list-item {
+    text-align: left;
+    border: 1px solid lightgray;
+    margin-bottom: 5px;
+}
+
+.badge-green {
+    background: limegreen;
+}
+.badge-blue {
+    background: lightskyblue;
+}
+
+.chkbox {
+    position: absolute;
+    right: 10px;
+    top: 2.5px;
+}
+
+.badge {
+    position: absolute;
+    top: 2.5px;
+    right: 30px;
+}
+
+.search-button {
+    background: white;
+    color: black;
+}

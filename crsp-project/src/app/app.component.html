@@ -1,12 +1,2 @@
-<header >Tasks</header>
-
-<div class="container">
-    <div class="list-item col-lg-12" *ngFor="let task of tasks">
-      {{ task.title }} 
-      <span *ngIf="task.priority == 'A'" class="badge badge-green">{{ task.priority }}</span>
-      <span *ngIf="task.priority == 'B'" class="badge badge-blue">{{ task.priority }}</span> 
-      <input *ngIf="task.status == 1" class="chkbox" type="checkbox" checked="checked">
-      <input *ngIf="task.status == 0" class="chkbox" type="checkbox">
-    </div>
-</div>
+<tasks></tasks>
   
