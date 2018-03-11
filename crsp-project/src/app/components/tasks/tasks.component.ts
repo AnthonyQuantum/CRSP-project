@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'tasks',
@@ -9,6 +9,7 @@ import { DataService } from '../data.service';
 export class TasksComponent implements OnInit {
 
   tasks: Array<any>;
+  searchPriority = "A/B";
 
   constructor(private _dataService: DataService) {
     this._dataService.getTasks()

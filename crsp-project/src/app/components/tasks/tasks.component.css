@@ -19,6 +19,9 @@ header {
 .badge-blue {
     background: lightskyblue;
 }
+.badge-grey {
+    background: grey;
+}
 
 .chkbox {
     position: absolute;
@@ -30,9 +33,19 @@ header {
     position: absolute;
     top: 2.5px;
     right: 30px;
+    color: black;
 }
 
 .search-button {
     background: white;
     color: black;
+}
+
+.srch {
+    margin-bottom: 50px;
+}
+
+.drop-li {
+    position: relative;
+    left: 25px;
 }
