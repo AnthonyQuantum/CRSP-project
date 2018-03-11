@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { ConfirmComponent } from '../confirm/confirm.component';
+import { DialogService } from "ng2-bootstrap-modal";
 
 @Component({
   selector: 'tasks',
@@ -11,14 +13,18 @@ export class TasksComponent implements OnInit {
   tasks: Array<any>;
   searchPriority = "A/B";
 
-  constructor(private _dataService: DataService) {
+  constructor(private _dataService: DataService, private dialogService:DialogService) {
     this._dataService.getTasks()
       .subscribe(res => this.tasks = res);
   }
 
-  newTask()
-  {
-
+  showDialog() {
+      let disposable = this.dialogService.addDialog(ConfirmComponent, {
+          message:'Confirm message'})
+          .subscribe((isConfirmed)=>{
+              if(isConfirmed) {
+              }
+          });
   }
 
   ngOnInit() {

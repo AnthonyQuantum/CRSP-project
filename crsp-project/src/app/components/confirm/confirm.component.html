@@ -1,0 +1,30 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+     <div class="modal-header">
+        <span>New task</span>
+       <button type="button" class="close" (click)="close()" >&times;</button>
+     </div>
+
+     <div class="modal-body">
+        <div class="input-group">
+            <input class="form-control" [(ngModel)]="newTaskTitle" placeholder="Title...">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span>{{ newTaskPriority }}</span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right"> 
+                <li class="drop-li"><a href="#" class="badge badge-green" (click)="newTaskPriority = 'A'">A</a></li><br>
+                <li class="drop-li"><a href="#" class="badge badge-blue" (click)="newTaskPriority = 'B'">B</a></li><br>
+              </ul>
+            </div>
+          </div>
+
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-default" (click)="confirm()">Create</button>
+       <button type="button" class="btn btn-default" (click)="close()" >Cancel</button>
+     </div>
+   </div>
+</div>

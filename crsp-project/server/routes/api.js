@@ -42,4 +42,15 @@ router.get('/tasks', (req, res) => {
     });
 });
 
+// Add new task
+router.post('/tasks', (req, res) => {
+    connection((db) => {
+        var obj = JSON.parse("{title: '" + req.title + "', priority: '" + req.priority + "', status: 0}");
+        db.collection('tasks').insert(obj)
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
 module.exports = router;

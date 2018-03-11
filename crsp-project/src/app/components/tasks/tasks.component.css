@@ -49,3 +49,8 @@ header {
     position: relative;
     left: 25px;
 }
+
+.btn {
+    background: white;
+    color: black;
+}

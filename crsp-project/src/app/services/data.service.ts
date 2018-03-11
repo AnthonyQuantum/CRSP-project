@@ -15,4 +15,9 @@ export class DataService {
       .map(result => this.result = result.json().data);
   }
 
+  addTask(title: string, priority: string) {
+    let obj = {title: title, priority: priority};
+    this._http.post("/api/tasks", obj)
+  }
+
 }

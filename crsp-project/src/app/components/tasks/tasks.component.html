@@ -14,14 +14,13 @@
         <li class="drop-li"><a href="#" class="badge badge-blue" (click)="searchPriority = 'B'">B</a></li><br>
         <li class="drop-li"><a href="#" class="badge badge-grey" (click)="searchPriority = 'A/B'">A/B</a></li>
       </ul>
+
+      <button type="button" class="btn btn-default" (click)="showDialog()">
+          <span>New</span>
+      </button>
+
     </div>
   </div>
-</div>
-
-<div class="row srch">
-  <button type="button" class="btn btn-default" (click)="newTask()">
-    <span>New</span>
-  </button>
 </div>
 
     <div class="list-item col-lg-12" *ngFor="let task of tasks | filter : searchText : searchPriority">
