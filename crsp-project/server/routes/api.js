@@ -44,10 +44,17 @@ router.get('/tasks', (req, res) => {
 
 // Add new task
 router.post('/tasksAdd', (req, res) => {
-    console.log("In api.js:");
-        console.log(req.body);
     connection((db) => {
         db.collection('tasks').insert(req.body)
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+router.delete('/tasksDelete', (req, res) => {
+    connection((db) => {
+        db.collection('tasks').remove(JSON.parse(req.params))
             .catch((err) => {
                 sendError(err, res);
             });

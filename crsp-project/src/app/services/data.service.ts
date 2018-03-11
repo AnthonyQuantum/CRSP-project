@@ -30,4 +30,8 @@ export class DataService {
       }
     )
   }
+
+  deleteTask(title: string) {
+    this._http.delete("/api/tasksDelete", "{title: " + title + "}");
+  }
 }
