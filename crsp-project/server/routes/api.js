@@ -52,9 +52,9 @@ router.post('/tasksAdd', (req, res) => {
     });
 });
 
-router.delete('/tasksDelete', (req, res) => {
+router.delete('/tasksDelete/:id', (req, res) => {
     connection((db) => {
-        db.collection('tasks').remove(JSON.parse(req.params))
+        db.collection('tasks').remove({ id: req.params.id })
             .catch((err) => {
                 sendError(err, res);
             });

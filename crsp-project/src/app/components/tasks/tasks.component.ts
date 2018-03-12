@@ -32,6 +32,8 @@ export class TasksComponent implements OnInit {
   deleteTask(event: any)
   {
     this._dataService.deleteTask(event.target.id);
+    this._dataService.getTasks()
+      .subscribe(res => this.tasks = res);
   }
 
   ngOnInit() {

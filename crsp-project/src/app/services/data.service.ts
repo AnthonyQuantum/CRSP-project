@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { UUID } from 'angular2-uuid';
 
 @Injectable()
 export class DataService {
@@ -19,7 +20,8 @@ export class DataService {
     this._http.post("/api/tasksAdd", {
       title: title,
       priority: priority,
-      status: 0
+      status: 0,
+      id: UUID.UUID()
     })
     .subscribe(
       res => {
@@ -31,7 +33,19 @@ export class DataService {
     )
   }
 
-  deleteTask(title: string) {
-    this._http.delete("/api/tasksDelete", "{title: " + title + "}");
+  deleteTask(id: string) {
+    //this._http.delete("/api/tasksDelete", title);
+    this._http.delete("/api/tasksDelete/" + id)
+    .subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log("Error occured");
+      }
+    )
   }
+
+
+
 }
