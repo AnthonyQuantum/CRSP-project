@@ -10,13 +10,15 @@ import { DataService } from './services/data.service';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { FilterPipe }from './pipes/filter.pipe';
 import { ConfirmComponent } from './components/confirm/confirm.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TasksComponent,
     FilterPipe,
-    ConfirmComponent
+    ConfirmComponent,
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,

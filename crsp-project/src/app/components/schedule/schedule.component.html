@@ -1,0 +1,8 @@
+<header>{{ now | date:'MMMM d, E' }}</header>
+
+<div class="container">
+  <div class="row" *ngFor="let timeRow of timeRows">
+    <div class="col-lg-1 tme">{{ timeRow }}</div>
+    <hr class="col-lg-10">
+  </div>
+</div>
