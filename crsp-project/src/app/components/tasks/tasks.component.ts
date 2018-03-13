@@ -12,6 +12,7 @@ export class TasksComponent implements OnInit {
 
   tasks: Array<any>;
   searchPriority = "A/B";
+  status: number;
 
   constructor(private _dataService: DataService, private dialogService:DialogService) {
     this._dataService.getTasks()
@@ -34,6 +35,17 @@ export class TasksComponent implements OnInit {
     this._dataService.deleteTask(event.target.id);
     this._dataService.getTasks()
       .subscribe(res => this.tasks = res);
+  }
+
+  toggleStatus(event: any)
+  {
+    if (event.target.checked)
+      this.status = 1;
+    else
+      this.status = 0;
+    this._dataService.updateTask(event.target.id, this.status);
+    /*this._dataService.getTasks()
+      .subscribe(res => this.tasks = res);*/
   }
 
   ngOnInit() {

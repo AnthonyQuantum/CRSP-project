@@ -58,6 +58,10 @@ header {
 .close {
     position: absolute;
     right: 5px;
-    bottom: 2.5px;
+    bottom: 1px;
     color: red;
+}
+
+.srch-comp {
+    margin-bottom: 30px;
 }

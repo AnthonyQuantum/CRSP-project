@@ -34,7 +34,6 @@ export class DataService {
   }
 
   deleteTask(id: string) {
-    //this._http.delete("/api/tasksDelete", title);
     this._http.delete("/api/tasksDelete/" + id)
     .subscribe(
       res => {
@@ -46,6 +45,17 @@ export class DataService {
     )
   }
 
+  updateTask(id: string, status: number) {
+    this._http.put("/api/tasksUpdate/" + id, { status: status })
+    .subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log("Error occured");
+      }
+    )
+  }
 
 
 }

@@ -42,6 +42,22 @@ router.get('/tasks', (req, res) => {
     });
 });
 
+// Get task by id
+function getTaskById(cId)
+{
+    connection((db) => {
+        db.collection('tasks')
+            .find()
+            .toArray()
+            .then((tasks) => {
+                return JSON.parse(tasks);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+}
+
 // Add new task
 router.post('/tasksAdd', (req, res) => {
     connection((db) => {
@@ -52,12 +68,24 @@ router.post('/tasksAdd', (req, res) => {
     });
 });
 
+// Delete task
 router.delete('/tasksDelete/:id', (req, res) => {
     connection((db) => {
         db.collection('tasks').remove({ id: req.params.id })
             .catch((err) => {
                 sendError(err, res);
             });
+    });
+});
+
+router.put('/tasksUpdate/:id', (req, res) => {
+    connection((db) => {
+        db.collection('tasks').update({ id: req.params.id },
+            { $set:
+                {
+                    status: req.body.status
+                }
+            })
     });
 });
 

@@ -1,6 +1,6 @@
 <header >Tasks</header>
 <div class="container">
-<div class="col-lg-12">
+<div class="col-lg-12 srch-comp">
   <div class="input-group">
     <input class="form-control" [(ngModel)]="searchText" placeholder="Search...">
     <div class="input-group-btn">
@@ -27,8 +27,8 @@
       {{ task.title }} 
       <span *ngIf="task.priority == 'A'" class="badge badge-green">{{ task.priority }}</span>
       <span *ngIf="task.priority == 'B'" class="badge badge-blue">{{ task.priority }}</span> 
-      <input *ngIf="task.status == 1" class="chkbox" type="checkbox" checked="checked">
-      <input *ngIf="task.status == 0" class="chkbox" type="checkbox">
-    <span class="close" (click)="deleteTask($event)" id="{{ task.id }}">x</span>
+      <input *ngIf="task.status == 1" class="chkbox" type="checkbox" checked="checked" id="{{ task.id }}" (click)="toggleStatus($event)">
+      <input *ngIf="task.status == 0" class="chkbox" type="checkbox" id="{{ task.id }}" (click)="toggleStatus($event)">
+    <span class="close" (click)="deleteTask($event)" id="{{ task.id }}">&times;</span>
     </div>
 </div>
