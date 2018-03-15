@@ -1,0 +1,33 @@
+.linkButton {
+    position: fixed;
+    right: 5px;
+    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    width: 50px;
+    height: 50px;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 2em;
+    cursor: default;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.tasks {
+    bottom: 115px;
+}
+
+.schedule {
+    bottom: 60px;
+}
+
+.rhythms {
+    bottom: 5px;
+}
