@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
+import { DataService } from '../../services/data/data.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
 

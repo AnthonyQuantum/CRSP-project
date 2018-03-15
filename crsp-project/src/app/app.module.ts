@@ -7,12 +7,13 @@ import { routing } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
-import { DataService } from './services/data.service';
+import { DataService } from './services/data/data.service';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { FilterPipe }from './pipes/filter.pipe';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { RhythmsComponent } from './components/rhythms/rhythms.component';
+import { ChartsService } from './services/charts/charts.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { RhythmsComponent } from './components/rhythms/rhythms.component';
   entryComponents: [
     ConfirmComponent
   ],
-  providers: [DataService],
+  providers: [DataService, ChartsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
