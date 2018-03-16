@@ -18,16 +18,18 @@ export class RhythmsComponent implements AfterViewInit {
     let myChart = new Chart(this.ctx, {
       type: 'line',
       data: {
-          labels: ["New", "In Progress", "On Hold"],
+          labels: ["6am", "8am", "10am", "12pm", "2pm", "4pm", "6pm", "8pm", "10pm", "12am", "2am", "4am", "6am"],
           datasets: [{
-              label: '# of Votes',
-              data: [1,2,3],
+              label: 'Natural rhythm',
+              data: [100,120,132,115,100,100,107,111,103,90,70,53,100],
               backgroundColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)'
+                  '#1E90FF',
+                  '#1E90FF',
+                  '#1E90FF'
               ],
-              borderWidth: 1
+              borderWidth: 2,
+              borderColor: '#1E90FF',
+              fill: false 
           }]
       },
       options: {
