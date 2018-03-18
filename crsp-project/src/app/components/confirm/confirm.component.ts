@@ -16,13 +16,14 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   message: string;
   newTaskTitle: string;
   newTaskPriority = "A";
+  newTaskTime = 1;
 
   constructor(dialogService: DialogService, private _dataService: DataService) {
     super(dialogService);
   }
 
   confirm() {
-    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority);
+    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime);
     this.result = true;
     this.close();
   }

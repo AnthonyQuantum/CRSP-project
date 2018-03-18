@@ -7,17 +7,33 @@
      <div class="modal-body">
         <div class="input-group">
             <input class="form-control" [(ngModel)]="newTaskTitle" placeholder="Title...">
+            
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span>{{ newTaskPriority }}</span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right"> 
+                    <li class="drop-li"><a class="badge badge-green" (click)="newTaskPriority = 'A'">A</a></li><br>
+                    <li class="drop-li"><a class="badge badge-blue" (click)="newTaskPriority = 'B'">B</a></li><br>
+                  </ul>
+            </div>
+            
             <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
-                <span>{{ newTaskPriority }}</span>
+                <span>{{ newTaskTime }}h</span>
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right"> 
-                <li class="drop-li"><a href="#" class="badge badge-green" (click)="newTaskPriority = 'A'">A</a></li><br>
-                <li class="drop-li"><a href="#" class="badge badge-blue" (click)="newTaskPriority = 'B'">B</a></li><br>
+                <li class="drop-li"><a (click)="newTaskTime = 0.5">0.5h</a></li><br>
+                <li class="drop-li"><a (click)="newTaskTime = 1">1h</a></li><br>
+                <li class="drop-li"><a (click)="newTaskTime = 1.5">1.5h</a></li><br>
+                <li class="drop-li"><a (click)="newTaskTime = 2">2h</a></li><br>
               </ul>
             </div>
+
           </div>
 
      </div>

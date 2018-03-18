@@ -46,6 +46,7 @@ header {
     top: 2.5px;
     right: 45px;
     color: black;
+    padding: 1px 7px !important;
 }
 
 .search-button {
@@ -60,6 +61,7 @@ header {
 .drop-li {
     position: relative;
     left: 25px;
+    margin-bottom: 5px;
 }
 
 .btn {
@@ -76,4 +78,9 @@ header {
 
 .srch-comp {
     margin-bottom: 30px;
+}
+
+.task-time {
+    position: absolute;
+    right: 75px;
 }
