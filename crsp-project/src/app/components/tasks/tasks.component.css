@@ -34,11 +34,14 @@ header {
 .badge-grey {
     background: grey;
 }
+.badge-yellow {
+    background: yellow;
+}
 
 .chkbox {
     position: absolute;
     right: 25px;
-    top: 2.5px;
+    top: -2px;
 }
 
 .badge {
@@ -83,4 +86,9 @@ header {
 .task-time {
     position: absolute;
     right: 75px;
+}
+
+.start-time {
+    position: absolute;
+    right: 100px;
 }

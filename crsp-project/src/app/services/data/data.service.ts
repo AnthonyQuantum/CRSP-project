@@ -16,13 +16,14 @@ export class DataService {
       .map(result => this.result = result.json().data);
   }
 
-  addTask(title: string, priority: string, time: number) {
+  addTask(title: string, priority: string, time: number, startTime: string) {
     this._http.post("/api/tasksAdd", {
       title: title,
       priority: priority,
       status: 0,
       id: UUID.UUID(),
-      time: time
+      time: time,
+      startTime: startTime
     })
     .subscribe(
       res => {

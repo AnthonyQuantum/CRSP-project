@@ -8,7 +8,8 @@
         <div class="input-group">
             <input class="form-control" [(ngModel)]="newTaskTitle" placeholder="Title...">
             
-            <div class="input-group-btn">
+            <div class="input-group">
+              Priority:
                 <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span>{{ newTaskPriority }}</span>
@@ -17,10 +18,24 @@
                   <ul class="dropdown-menu dropdown-menu-right"> 
                     <li class="drop-li"><a class="badge badge-green" (click)="newTaskPriority = 'A'">A</a></li><br>
                     <li class="drop-li"><a class="badge badge-blue" (click)="newTaskPriority = 'B'">B</a></li><br>
+                    <li class="drop-li"><a class="badge badge-yellow" (click)="newTaskPriority = 'T'">T</a></li><br>
                   </ul>
             </div>
+
+            <div *ngIf="newTaskPriority == 'T'" class="input-group">
+                Start time:
+                  <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="caret"></span>
+                      <span>{{ newTaskStartTime }}</span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right"> 
+                        <li *ngFor="let time of times" class="drop-li"><a (click)="newTaskStartTime = time">{{ time }}</a></li><br>
+                    </ul>
+              </div>
             
-            <div class="input-group-btn">
+            <div class="input-group">
+              Time to complete:
               <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span>{{ newTaskTime }}h</span>
