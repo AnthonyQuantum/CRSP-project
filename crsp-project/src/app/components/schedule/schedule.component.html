@@ -1,8 +1,13 @@
 <header>{{ now | date:'MMMM d, E' }}</header>
 
 <div class="container">
-  <div class="row" *ngFor="let timeRow of timeRows">
-    <div class="col-lg-1 tme">{{ timeRow }}</div>
-    <hr class="col-lg-10">
+  <div *ngFor="let timeRow of timeRows">
+      <div class="row">
+          <div class="col-lg-1 tme">{{ timeRow.title }}</div>
+          <div *ngIf="timeRow.task" class="test-block col-lg-11" [ngStyle]="{'height': timeRow.task.time*50 + 'px'}">{{ timeRow.task.title }}</div>
+      </div>
+      <div class="row">
+          <hr class="col-lg-12">
+      </div>
   </div>
 </div>

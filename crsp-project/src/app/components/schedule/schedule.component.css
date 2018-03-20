@@ -4,4 +4,19 @@
 
 hr {
     background: grey;
+    margin: 0px;
+    position: relative;
+    top: 25px;
+}
+
+.test-block {
+    background: #2cb5e8;
+    padding: 5px 10px;
+    position: absolute;
+    left: 25%;
+    width: 50%;
+}
+
+.row {
+    height: 25px;
 }
