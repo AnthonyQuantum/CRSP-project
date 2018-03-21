@@ -89,4 +89,33 @@ router.put('/tasksUpdate/:id', (req, res) => {
     });
 });
 
+// Add new user
+router.post('/addUser', (req, res) => {
+    connection((db) => {
+        db.collection('users').insert(req.body)
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
+// Check if user exists
+router.post('/loginUser', (req, res) => {
+    connection((db) => {
+        db.collection('users')
+            .find(req.body)
+            .toArray()
+            .then((users) => {
+                if (users === undefined || users.length == 0)
+                    response.isValid = false;
+                else
+                    response.isValid = true;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+});
+
 module.exports = router;

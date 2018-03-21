@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      Name:
+      <input class="form-control" [(ngModel)]="name">
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-lg-12">
+        Password:
+        <input class="form-control" type="password" [(ngModel)]="password">
+      </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+      <button type="button" class="btn btn-default inl" (click)="loginUser()">Login</button>
+      <div routerLink="/register" class="inl">Don't have an account?</div>
+    </div>
+  </div>
+</div>

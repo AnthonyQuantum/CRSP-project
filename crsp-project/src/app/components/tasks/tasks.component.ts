@@ -13,10 +13,14 @@ export class TasksComponent implements OnInit {
   tasks: Array<any>;
   searchPriority = "A/B";
   status: number;
+  times = [];
+  wakeUpTime: string;
 
   constructor(private _dataService: DataService, private dialogService:DialogService) {
     this._dataService.getTasks()
       .subscribe(res => this.tasks = res);
+    this.generateTimes();
+    this.wakeUpTime = "6am";
   }
 
   showDialog() {
@@ -49,6 +53,22 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  generateTimes() {
+    let iter = 1;
+    let title: string;
+    while(iter < 24)
+    {
+      if (iter < 12)
+        title = iter + "am";
+      else if (iter == 12)
+        title = "12pm";
+      else
+        title = (iter-12) + "pm";
+      this.times.push(title);
+      iter++;
+    }
   }
 
 }

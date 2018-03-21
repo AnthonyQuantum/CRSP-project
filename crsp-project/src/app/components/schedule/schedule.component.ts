@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../services/data/data.service';
-
-class TimeRow {
-  title: string;
-  task: any;
-
-  constructor(title: string, task: any) {
-    this.title = title;
-    this.task = task;
-  }
-}
+import { TimeRow } from '../../models/TimeRow'
+import { CurrentUserModel } from '../../models/CurrentUser';
 
 @Component({
   selector: 'schedule',
@@ -24,13 +16,15 @@ now: Date = new Date();
 timeRows: Array<TimeRow>;
 tasks: Array<any>;
 
-  constructor(private _dataService: DataService) {
+currentUserName: string;
+
+  constructor(private _dataService: DataService, private currentUser: CurrentUserModel) {
     this._dataService.getTasks()
       .subscribe(res => { 
         this.tasks = res; 
         this.generateTimeRows(); 
       });
-      
+      this.currentUserName = this.currentUser.getName();
    }
 
   ngOnInit() {

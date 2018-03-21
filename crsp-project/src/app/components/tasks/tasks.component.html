@@ -35,4 +35,16 @@
       <input *ngIf="task.status == 0" class="chkbox" type="checkbox" id="{{ task.id }}" (click)="toggleStatus($event)">
     <span class="close" (click)="deleteTask($event)" id="{{ task.id }}">&times;</span>
     </div>
+
+    <div class="input-group">
+      Wake up time:
+      <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+        <span>{{ wakeUpTime }}</span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right"> 
+        <li class="drop-li" *ngFor="let time of times"><a (click)="wakeUpTime = time">{{ time }}</a></li>
+      </ul>
+    </div>
 </div>

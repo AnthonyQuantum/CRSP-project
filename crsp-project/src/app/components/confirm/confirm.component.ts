@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { DataService } from '../../services/data/data.service';
-export interface ConfirmModel {
-  title:string;
-  message:string;
-}
+import { ConfirmModel } from '../../models/Confirm'
 
 @Component({  
     selector: 'confirm',
@@ -34,16 +31,16 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
 
   generateTimes() {
     let iter = 1;
-    while(iter < 12)
+    let title: string;
+    while(iter < 24)
     {
-      this.times.push(iter + "am");
-      iter++;
-    }
-    this.times.push("12pm");
-    iter = 1;
-    while(iter < 12)
-    {
-      this.times.push(iter + "pm");
+      if (iter < 12)
+        title = iter + "am";
+      else if (iter == 12)
+        title = "12pm";
+      else
+        title = (iter-12) + "pm";
+      this.times.push(title);
       iter++;
     }
   }

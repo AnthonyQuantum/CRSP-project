@@ -14,6 +14,9 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { RhythmsComponent } from './components/rhythms/rhythms.component';
 import { ChartsService } from './services/charts/charts.service';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { CurrentUserModel } from './models/CurrentUser';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { ChartsService } from './services/charts/charts.service';
     FilterPipe,
     ConfirmComponent,
     ScheduleComponent,
-    RhythmsComponent
+    RhythmsComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +39,7 @@ import { ChartsService } from './services/charts/charts.service';
   entryComponents: [
     ConfirmComponent
   ],
-  providers: [DataService, ChartsService],
+  providers: [DataService, ChartsService, CurrentUserModel],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
