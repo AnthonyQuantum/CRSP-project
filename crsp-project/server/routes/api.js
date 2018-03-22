@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
+const bodyParser = require('body-parser');
+const app = express();
+
+// Parsers
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect
 const connection = (closure) => {
@@ -28,14 +34,14 @@ let response = {
 
 // Get tasks
 router.get('/tasks/:usr', (req, res) => {
-    console.log("Got: " + req.params.usr);
     connection((db) => {
         db.collection('users')
             .find({ name: req.params.usr })
             .toArray()
             .then((tasks) => {
-                console.log(tasks);
-                response.data = tasks;
+                console.log("Got tasks");
+                console.log(tasks[0].tasks);
+                response.data = tasks[0].tasks;
                 res.json(response);
             })
             .catch((err) => {
@@ -44,34 +50,21 @@ router.get('/tasks/:usr', (req, res) => {
     });
 });
 
-// Get task by id
-function getTaskById(cId)
-{
-    connection((db) => {
-        db.collection('tasks')
-            .find()
-            .toArray()
-            .then((tasks) => {
-                return JSON.parse(tasks);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
-}
-
 // Add new task
 router.post('/tasksAdd/:usr', (req, res) => {
     connection((db) => {
         db.collection('users')
-            .find({ name: req.params.usr }).tasks.insert(req.body)
+            .update({ name: req.params.usr },
+            {
+                $push: { tasks: req.body } 
+            })
             .catch((err) => {
                 sendError(err, res);
             });
     });
 });
 
-// Delete task
+// Delete task //TODO
 router.delete('/tasksDelete/:id', (req, res) => {
     connection((db) => {
         db.collection('tasks').remove({ id: req.params.id })
@@ -81,6 +74,7 @@ router.delete('/tasksDelete/:id', (req, res) => {
     });
 });
 
+//TODO
 router.put('/tasksUpdate/:id', (req, res) => {
     connection((db) => {
         db.collection('tasks').update({ id: req.params.id },
