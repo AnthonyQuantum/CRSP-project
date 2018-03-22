@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
+import { CurrentUserModel } from '../../models/CurrentUser';
 
 @Component({
   selector: 'tasks',
@@ -15,9 +16,11 @@ export class TasksComponent implements OnInit {
   status: number;
   times = [];
   wakeUpTime: string;
+  currentUserName = null;
 
-  constructor(private _dataService: DataService, private dialogService:DialogService) {
-    this._dataService.getTasks()
+  constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel) {
+    this.currentUserName = this.currentUser.getName();
+    this._dataService.getTasks(this.currentUserName)
       .subscribe(res => this.tasks = res);
     this.generateTimes();
     this.wakeUpTime = "6am";
@@ -28,7 +31,7 @@ export class TasksComponent implements OnInit {
           message:'Confirm message'})
           .subscribe((isConfirmed)=>{
               if(isConfirmed) {
-                this._dataService.getTasks()
+                this._dataService.getTasks(this.currentUserName)
                   .subscribe(res => this.tasks = res);
               }
           });
@@ -37,7 +40,7 @@ export class TasksComponent implements OnInit {
   deleteTask(event: any)
   {
     this._dataService.deleteTask(event.target.id);
-    this._dataService.getTasks()
+    this._dataService.getTasks(this.currentUserName)
       .subscribe(res => this.tasks = res);
   }
 
@@ -48,8 +51,6 @@ export class TasksComponent implements OnInit {
     else
       this.status = 0;
     this._dataService.updateTask(event.target.id, this.status);
-    /*this._dataService.getTasks()
-      .subscribe(res => this.tasks = res);*/
   }
 
   ngOnInit() {

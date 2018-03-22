@@ -1,3 +1,7 @@
+.inl {
+    display: inline-block;
+}
+
 .tme {
     color: grey;
 }
@@ -19,4 +23,33 @@ hr {
 
 .row {
     height: 25px;
+}
+
+.hdr {
+    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    font-size: 4em;
+    color: white;
+    font-family: "Indie Flower";
+    margin-bottom: 10px;
+    border-radius: 20px;
+    cursor: default;
+    height: 90px;
+    line-height: 90px;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.greeting {
+    text-align: right;
+    font-size: 0.5em !important;
+}
+
+.now {
+    text-align: left;
 }

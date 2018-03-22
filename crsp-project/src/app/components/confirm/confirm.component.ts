@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { DataService } from '../../services/data/data.service';
 import { ConfirmModel } from '../../models/Confirm'
+import { CurrentUserModel } from '../../models/CurrentUser';
 
 @Component({  
     selector: 'confirm',
@@ -15,16 +16,17 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   newTaskPriority = "A";
   newTaskTime = 1;
   newTaskStartTime = "1am";
-
+  currentUserName = null;
   times = [];
 
-  constructor(dialogService: DialogService, private _dataService: DataService) {
+  constructor(dialogService: DialogService, private _dataService: DataService, private currentUser: CurrentUserModel) {
     super(dialogService);
+    this.currentUserName = this.currentUser.getName();
     this.generateTimes();
   }
 
   confirm() {
-    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime);
+    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.currentUserName);
     this.result = true;
     this.close();
   }

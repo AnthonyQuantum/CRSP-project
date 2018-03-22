@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { UUID } from 'angular2-uuid';
 
 import { User } from '../../models/User'
+import { CurrentUserModel } from '../../models/CurrentUser';
 
 @Injectable()
 export class DataService {
@@ -14,13 +15,14 @@ export class DataService {
 
   constructor(private _http: Http) { }
 
-  getTasks() {
-    return this._http.get("/api/tasks")
+  getTasks(username: string) {
+    console.log(username);
+    return this._http.get("/api/tasks/" + username)
       .map(result => this.result = result.json().data);
   }
 
-  addTask(title: string, priority: string, time: number, startTime: string) {
-    this._http.post("/api/tasksAdd", {
+  addTask(title: string, priority: string, time: number, startTime: string, username: string) {
+    this._http.post("/api/tasksAdd/" + username, {
       title: title,
       priority: priority,
       status: 0,
@@ -39,7 +41,7 @@ export class DataService {
   }
 
   deleteTask(id: string) {
-    this._http.delete("/api/tasksDelete/" + id)
+    this._http.delete("/api/tasksDelete/" +  + "/" + id)
     .subscribe(
       res => {
         console.log(res);
@@ -51,7 +53,7 @@ export class DataService {
   }
 
   updateTask(id: string, status: number) {
-    this._http.put("/api/tasksUpdate/" + id, { status: status })
+    this._http.put("/api/tasksUpdate/" +  + "/" + id, { status: status })
     .subscribe(
       res => {
         console.log(res);

@@ -27,12 +27,14 @@ let response = {
 };
 
 // Get tasks
-router.get('/tasks', (req, res) => {
+router.get('/tasks/:usr', (req, res) => {
+    console.log("Got: " + req.params.usr);
     connection((db) => {
-        db.collection('tasks')
-            .find()
+        db.collection('users')
+            .find({ name: req.params.usr })
             .toArray()
             .then((tasks) => {
+                console.log(tasks);
                 response.data = tasks;
                 res.json(response);
             })
@@ -59,9 +61,10 @@ function getTaskById(cId)
 }
 
 // Add new task
-router.post('/tasksAdd', (req, res) => {
+router.post('/tasksAdd/:usr', (req, res) => {
     connection((db) => {
-        db.collection('tasks').insert(req.body)
+        db.collection('users')
+            .find({ name: req.params.usr }).tasks.insert(req.body)
             .catch((err) => {
                 sendError(err, res);
             });

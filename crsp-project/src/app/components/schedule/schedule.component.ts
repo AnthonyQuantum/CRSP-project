@@ -16,15 +16,15 @@ now: Date = new Date();
 timeRows: Array<TimeRow>;
 tasks: Array<any>;
 
-currentUserName: string;
+currentUserName = null;
 
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel) {
-    this._dataService.getTasks()
+    this.currentUserName = this.currentUser.getName();
+    this._dataService.getTasks(this.currentUserName)
       .subscribe(res => { 
         this.tasks = res; 
         this.generateTimeRows(); 
       });
-      this.currentUserName = this.currentUser.getName();
    }
 
   ngOnInit() {
@@ -53,6 +53,11 @@ currentUserName: string;
       this.timeRows.push(timeRow);
       iter++;
     }
+  }
+
+  logout()
+  {
+    this.currentUserName = null;
   }
 
 }

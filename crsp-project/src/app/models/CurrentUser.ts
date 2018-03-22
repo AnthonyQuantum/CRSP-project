@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CurrentUserModel {
-private name: string;
+private name = "abc";
 
 constructor() {}
 
