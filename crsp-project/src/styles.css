@@ -1,1 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+.btn {
+    background: white;
+    color: black;
+}
+
+.inl {
+    display: inline-block;
+}
+
+.hdr {
+    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    font-size: 4em;
+    color: white;
+    font-family: "Indie Flower";
+    margin-bottom: 10px;
+    border-radius: 20px;
+    cursor: default;
+    height: 90px;
+    line-height: 90px;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.badge {
+    position: absolute;
+    top: 2.5px;
+    right: 45px;
+    color: black;
+    padding: 1px 7px !important;
+}
+.badge-green {
+    background: limegreen;
+}
+.badge-blue {
+    background: lightskyblue;
+}
+.badge-grey {
+    background: grey;
+}
+.badge-yellow {
+    background: yellow;
+}
+
+.drop-li {
+    position: relative;
+    left: 25px;
+    margin-bottom: 5px;
+}

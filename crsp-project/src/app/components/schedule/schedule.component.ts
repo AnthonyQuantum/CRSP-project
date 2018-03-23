@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+
 import { DataService } from '../../services/data/data.service';
 import { TimeRow } from '../../models/TimeRow'
 import { CurrentUserModel } from '../../models/CurrentUser';
@@ -7,16 +8,16 @@ import { CurrentUserModel } from '../../models/CurrentUser';
 @Component({
   selector: 'schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.css', '../tasks/tasks.component.css']
+  styleUrls: ['./schedule.component.css']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent {
 
 now: Date = new Date();
-
 timeRows: Array<TimeRow>;
 tasks: Array<any>;
 
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel) {
+    // Get all tasks
     this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => { 
         this.tasks = res; 
@@ -24,9 +25,7 @@ tasks: Array<any>;
       });
    }
 
-  ngOnInit() {
-  }
-
+  // Generate time rows (1am-11pm)
   generateTimeRows() {
     let iter = 1;
     let timeRow: TimeRow; 
@@ -52,6 +51,7 @@ tasks: Array<any>;
     }
   }
 
+  // Log out the user
   logout()
   {
     this.currentUser.setName(null);

@@ -1,17 +1,17 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { ChartsService } from '../../services/charts/charts.service';
 import { Chart } from 'chart.js';
 
 @Component({
   selector: 'rhythms',
   templateUrl: './rhythms.component.html',
-  styleUrls: ['./rhythms.component.css', '../tasks/tasks.component.css']
+  styleUrls: ['./rhythms.component.css']
 })
 export class RhythmsComponent implements AfterViewInit {
 
   canvas: any;
   ctx: any;
 
+  // Generate chart
   ngAfterViewInit() {
     this.canvas = document.getElementById('myChart');
     this.ctx = this.canvas.getContext('2d');
@@ -28,7 +28,7 @@ export class RhythmsComponent implements AfterViewInit {
                   '#1E90FF'
               ],
               borderWidth: 2,
-              borderColor: '#1E90FF',
+              borderColor: '#1E90FF', // light blue
               fill: false 
           }]
       },
@@ -39,8 +39,6 @@ export class RhythmsComponent implements AfterViewInit {
     });
   }
 
-  constructor() {
-
-   }
+  constructor() {}
 
 }

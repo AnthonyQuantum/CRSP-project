@@ -1,14 +1,18 @@
 <div class="hdr">
     <div class="container">
+
         <div class="row">
             <div class="now inl col-lg-8">{{ now | date:'MMMM d, E' }}</div>
+
                 <div *ngIf="currentUser.getName() != null" class="inl greeting col-lg-4">
                     <div class="inl">Hello, {{ currentUser.getName() }}</div> 
                     <div (click)="logout()" class="inl">[Logout]</div>
                 </div>
+
                 <div *ngIf="currentUser.getName() == null" class="inl greeting col-lg-4"> 
                     <div routerLink="/login">Login</div>
                 </div>
+
         </div>
     </div>
     
@@ -17,8 +21,8 @@
 <div class="container">
   <div *ngFor="let timeRow of timeRows">
       <div class="row">
-          <div class="col-lg-1 tme">{{ timeRow.title }}</div>
-          <div *ngIf="timeRow.task" class="test-block col-lg-11" [ngStyle]="{'height': timeRow.task.time*50 + 'px'}">{{ timeRow.task.title }}</div>
+          <div class="col-lg-1 text-grey">{{ timeRow.title }}</div>
+          <div *ngIf="timeRow.task" class="task-block col-lg-11" [ngStyle]="{'height': timeRow.task.time*50 + 'px'}">{{ timeRow.task.title }}</div>
       </div>
       <div class="row">
           <hr class="col-lg-12">

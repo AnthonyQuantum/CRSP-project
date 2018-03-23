@@ -1,27 +1,33 @@
 <div class="container">
+  
   <div class="row">
     <div class="col-lg-12">
       Name:
       <input class="form-control" [(ngModel)]="name">
     </div>
   </div>
+
   <div class="row">
       <div class="col-lg-12">
         Password:
         <input class="form-control" type="password" [(ngModel)]="password">
       </div>
   </div>
+
   <div class="row">
       <div class="col-lg-12">
         E-mail:
         <input class="form-control" [(ngModel)]="email">
       </div>
   </div>
+
   <br>
+
   <div class="row">
     <div class="col-lg-12">
       <button type="button" class="btn btn-default inl" (click)="registerUser()">Register</button>
       <div routerLink="/login" class="inl">Already have an account?</div>
     </div>
   </div>
+  
 </div>

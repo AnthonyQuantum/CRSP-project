@@ -1,3 +1,4 @@
+// Filter pipe for real-time search
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
@@ -6,7 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 
 export class FilterPipe implements PipeTransform {
-  transform(items: any[], searchText: string, searchPriority: string): any[] {
+
+transform(items: any[], searchText: string, searchPriority: string): any[] {
     if(!items) return [];
     if(!searchText) return items;
 
@@ -20,6 +22,6 @@ return items.filter(item => {
         else
             return false;
 });
-
 }
+
 }

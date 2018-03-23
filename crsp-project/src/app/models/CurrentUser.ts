@@ -1,3 +1,4 @@
+// Model for current user
 import { Injectable } from '@angular/core';
 
 @Injectable()

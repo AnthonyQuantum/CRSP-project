@@ -1,3 +1,4 @@
+// Model for a user
 export class User {
     name: string;
     password: string;

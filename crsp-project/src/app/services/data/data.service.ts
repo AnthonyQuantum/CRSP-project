@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { UUID } from 'angular2-uuid';
@@ -15,12 +14,13 @@ export class DataService {
 
   constructor(private _http: Http) { }
 
+  // Get tasks
   getTasks(username: string) {
-    console.log(username);
     return this._http.get("/api/tasks/" + username)
       .map(result => this.result = result.json().data);
   }
 
+  // Add task
   addTask(title: string, priority: string, time: number, startTime: string, username: string) {
     this._http.post("/api/tasksAdd/" + username, {
       title: title,
@@ -40,6 +40,7 @@ export class DataService {
     )
   }
 
+  // Delete task
   deleteTask(id: string, username: string) {
     this._http.delete("/api/tasksDelete/" + username  + "/" + id)
     .subscribe(
@@ -52,6 +53,7 @@ export class DataService {
     )
   }
 
+  //Update task status (checked/unchecked)
   updateTask(id: string, status: number, username: string) {
     this._http.put("/api/tasksUpdate/" + username + "/" + id, { status: status })
     .subscribe(
@@ -64,6 +66,7 @@ export class DataService {
     )
   }
 
+  // Add new user
   addUser(user: User) {
     this._http.post("/api/addUser", {
       name: user.name,
@@ -83,6 +86,7 @@ export class DataService {
     )
   }
 
+  // Login user (check if exists)
   loginUser(user: User) {
     return this._http.post("/api/loginUser", {
       name: user.name,

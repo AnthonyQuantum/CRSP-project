@@ -1,10 +1,11 @@
-<header >Tasks</header>
+<div class="hdr">Tasks</div>
+
 <div class="container">
 <div class="col-lg-12 srch-comp">
   <div class="input-group">
     <input class="form-control" [(ngModel)]="searchText" placeholder="Search...">
     <div class="input-group-btn">
-      <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
         <span>{{ searchPriority }}</span>
         <span class="sr-only">Toggle Dropdown</span>
@@ -24,7 +25,7 @@
   </div>
 </div>
 
-    <div class="list-item col-lg-12" *ngFor="let task of tasks | filter : searchText : searchPriority">
+    <div class="task-list col-lg-12" *ngFor="let task of tasks | filter : searchText : searchPriority">
       {{ task.title }}
       <span *ngIf="task.priority == 'T'" class="start-time">{{ task.startTime }}</span>
       <span class="task-time">{{ task.time }}h</span> 
@@ -38,7 +39,7 @@
 
     <div class="input-group">
       Wake up time:
-      <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
         <span>{{ wakeUpTime }}</span>
         <span class="sr-only">Toggle Dropdown</span>

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+
 import { DataService } from '../../services/data/data.service';
 import { User } from '../../models/User'
 import { CurrentUserModel } from '../../models/CurrentUser';
-import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   name: string;
   password: string;
   email: string;
@@ -18,9 +19,7 @@ export class RegisterComponent implements OnInit {
   constructor(private _dataService: DataService,private router: Router, private currentUser: CurrentUserModel) {
    }
 
-  ngOnInit() {
-  }
-
+  // Register new user, check if successfully, login user
   registerUser() {
     let user = new User(this.name, this.password, this.email);
     this._dataService.addUser(user);
@@ -28,7 +27,6 @@ export class RegisterComponent implements OnInit {
       .subscribe(res => { 
         this.isValid = res; 
         if (res) {
-          console.log("Logged in");
           this.currentUser.setName(user.name);
           this.router.navigate(['/']);
         }

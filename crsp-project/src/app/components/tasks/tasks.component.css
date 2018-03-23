@@ -1,75 +1,17 @@
-header {
-    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
-    font-size: 4em;
-    color: white;
+.hdr {
     text-align: center;
-    font-family: "Indie Flower";
-    margin-bottom: 10px;
-    border-radius: 20px;
-    cursor: default;
-    height: 90px;
-    line-height: 90px;
-
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
 }
 
-.list-item {
+.task-list {
     text-align: left;
     border: 1px solid lightgray;
     margin-bottom: 5px;
-}
-
-.badge-green {
-    background: limegreen;
-}
-.badge-blue {
-    background: lightskyblue;
-}
-.badge-grey {
-    background: grey;
-}
-.badge-yellow {
-    background: yellow;
 }
 
 .chkbox {
     position: absolute;
     right: 25px;
     top: -2px;
-}
-
-.badge {
-    position: absolute;
-    top: 2.5px;
-    right: 45px;
-    color: black;
-    padding: 1px 7px !important;
-}
-
-.search-button {
-    background: white;
-    color: black;
-}
-
-.srch {
-    margin-bottom: 50px;
-}
-
-.drop-li {
-    position: relative;
-    left: 25px;
-    margin-bottom: 5px;
-}
-
-.btn {
-    background: white;
-    color: black;
 }
 
 .close {
