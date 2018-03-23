@@ -64,23 +64,29 @@ router.post('/tasksAdd/:usr', (req, res) => {
     });
 });
 
-// Delete task //TODO
-router.delete('/tasksDelete/:id', (req, res) => {
+// Delete task
+router.delete('/tasksDelete/:usr/:id', (req, res) => {
     connection((db) => {
-        db.collection('tasks').remove({ id: req.params.id })
+        db.collection('users')
+            .update({ name: req.params.usr },
+            {
+                $pull: { tasks: { id: req.params.id } } 
+            })
             .catch((err) => {
                 sendError(err, res);
             });
     });
 });
 
-//TODO
-router.put('/tasksUpdate/:id', (req, res) => {
+// Change task status
+router.put('/tasksUpdate/:usr/:id', (req, res) => {
     connection((db) => {
-        db.collection('tasks').update({ id: req.params.id },
-            { $set:
+        db.collection('users')
+            .update({ name: req.params.usr, "tasks.id": req.params.id },
+            { 
+                $set:
                 {
-                    status: req.body.status
+                    "tasks.$.status": req.body.status
                 }
             })
     });

@@ -40,8 +40,8 @@ export class DataService {
     )
   }
 
-  deleteTask(id: string) {
-    this._http.delete("/api/tasksDelete/" +  + "/" + id)
+  deleteTask(id: string, username: string) {
+    this._http.delete("/api/tasksDelete/" + username  + "/" + id)
     .subscribe(
       res => {
         console.log(res);
@@ -52,8 +52,8 @@ export class DataService {
     )
   }
 
-  updateTask(id: string, status: number) {
-    this._http.put("/api/tasksUpdate/" +  + "/" + id, { status: status })
+  updateTask(id: string, status: number, username: string) {
+    this._http.put("/api/tasksUpdate/" + username + "/" + id, { status: status })
     .subscribe(
       res => {
         console.log(res);

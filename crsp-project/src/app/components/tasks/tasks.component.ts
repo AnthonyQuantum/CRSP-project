@@ -39,7 +39,7 @@ export class TasksComponent implements OnInit {
 
   deleteTask(event: any)
   {
-    this._dataService.deleteTask(event.target.id);
+    this._dataService.deleteTask(event.target.id, this.currentUserName);
     this._dataService.getTasks(this.currentUserName)
       .subscribe(res => this.tasks = res);
   }
@@ -50,7 +50,7 @@ export class TasksComponent implements OnInit {
       this.status = 1;
     else
       this.status = 0;
-    this._dataService.updateTask(event.target.id, this.status);
+    this._dataService.updateTask(event.target.id, this.status, this.currentUserName);
   }
 
   ngOnInit() {
