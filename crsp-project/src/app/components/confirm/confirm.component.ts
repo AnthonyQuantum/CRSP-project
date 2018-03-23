@@ -16,17 +16,15 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   newTaskPriority = "A";
   newTaskTime = 1;
   newTaskStartTime = "1am";
-  currentUserName = null;
   times = [];
 
   constructor(dialogService: DialogService, private _dataService: DataService, private currentUser: CurrentUserModel) {
     super(dialogService);
-    this.currentUserName = this.currentUser.getName();
     this.generateTimes();
   }
 
   confirm() {
-    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.currentUserName);
+    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.currentUser.getName());
     this.result = true;
     this.close();
   }

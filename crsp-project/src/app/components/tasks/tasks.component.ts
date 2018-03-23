@@ -16,11 +16,9 @@ export class TasksComponent implements OnInit {
   status: number;
   times = [];
   wakeUpTime: string;
-  currentUserName = null;
 
   constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel) {
-    this.currentUserName = this.currentUser.getName();
-    this._dataService.getTasks(this.currentUserName)
+    this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => this.tasks = res);
     this.generateTimes();
     this.wakeUpTime = "6am";
@@ -31,7 +29,7 @@ export class TasksComponent implements OnInit {
           message:'Confirm message'})
           .subscribe((isConfirmed)=>{
               if(isConfirmed) {
-                this._dataService.getTasks(this.currentUserName)
+                this._dataService.getTasks(this.currentUser.getName())
                   .subscribe(res => this.tasks = res);
               }
           });
@@ -39,8 +37,8 @@ export class TasksComponent implements OnInit {
 
   deleteTask(event: any)
   {
-    this._dataService.deleteTask(event.target.id, this.currentUserName);
-    this._dataService.getTasks(this.currentUserName)
+    this._dataService.deleteTask(event.target.id, this.currentUser.getName());
+    this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => this.tasks = res);
   }
 
@@ -50,7 +48,7 @@ export class TasksComponent implements OnInit {
       this.status = 1;
     else
       this.status = 0;
-    this._dataService.updateTask(event.target.id, this.status, this.currentUserName);
+    this._dataService.updateTask(event.target.id, this.status, this.currentUser.getName());
   }
 
   ngOnInit() {

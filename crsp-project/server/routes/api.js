@@ -39,8 +39,6 @@ router.get('/tasks/:usr', (req, res) => {
             .find({ name: req.params.usr })
             .toArray()
             .then((tasks) => {
-                console.log("Got tasks");
-                console.log(tasks[0].tasks);
                 response.data = tasks[0].tasks;
                 res.json(response);
             })

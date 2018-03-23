@@ -16,11 +16,8 @@ now: Date = new Date();
 timeRows: Array<TimeRow>;
 tasks: Array<any>;
 
-currentUserName = null;
-
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel) {
-    this.currentUserName = this.currentUser.getName();
-    this._dataService.getTasks(this.currentUserName)
+    this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => { 
         this.tasks = res; 
         this.generateTimeRows(); 
@@ -57,7 +54,7 @@ currentUserName = null;
 
   logout()
   {
-    this.currentUserName = null;
+    this.currentUser.setName(null);
   }
 
 }
