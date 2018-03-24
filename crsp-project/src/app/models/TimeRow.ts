@@ -2,9 +2,11 @@
 export class TimeRow {
     title: string;
     task: any;
+    sleep: number;
   
-    constructor(title: string, task: any) {
+    constructor(title: string, task: any, sleep: number) {
       this.title = title;
       this.task = task;
+      this.sleep = sleep;
     }
   }

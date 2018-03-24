@@ -22,7 +22,8 @@
   <div *ngFor="let timeRow of timeRows">
       <div class="row">
           <div class="col-lg-1 text-grey">{{ timeRow.title }}</div>
-          <div *ngIf="timeRow.task" class="task-block col-lg-11" [ngStyle]="{'height': timeRow.task.time*50 + 'px'}">{{ timeRow.task.title }}</div>
+          <div *ngIf="timeRow.sleep == null && timeRow.task != undefined" class="task-block col-lg-11" [ngStyle]="{'height': timeRow.task.time*50 + 'px'}">{{ timeRow.task.title }}</div>
+          <div *ngIf="timeRow.sleep != null" class="task-block sleep-task-block col-lg-11" [ngStyle]="{'height': timeRow.sleep*50 + 'px'}">Sleep</div>
       </div>
       <div class="row">
           <hr class="col-lg-12">

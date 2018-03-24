@@ -15,6 +15,11 @@ hr {
     position: absolute;
     left: 25%;
     width: 50%;
+    color: white;
+}
+
+.sleep-task-block {
+    background: #2E3192 !important;
 }
 
 .row {

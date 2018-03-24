@@ -32,9 +32,13 @@ tasks: Array<any>;
     let title: string;
     this.timeRows = [];
     let Task: any;
+    let wu = this.toNormalTime(this.currentUser.getWuTime());
+    let gtb = this.toNormalTime(this.currentUser.getGtbTime());
+    let sleep = null;
 
     while(iter < 24)
     {
+      sleep = null;
       if (iter < 12)
         title = iter + "am";
       else if (iter == 12)
@@ -44,17 +48,40 @@ tasks: Array<any>;
       else
         title = (iter-12) + "pm";
 
-      Task = this.tasks.find(t => t.priority == 'T' && t.startTime == title);
-      timeRow = new TimeRow(title, Task);
+      if (iter == 1)
+      {
+        sleep = wu;
+      }
+      else if (iter == gtb)
+      {
+        sleep = 24 - gtb;
+      }
+      else
+      {
+        Task = this.tasks.find(t => t.priority == 'T' && t.startTime == title);
+      }
+
+      timeRow = new TimeRow(title, Task, sleep);
       this.timeRows.push(timeRow);
       iter++;
     }
+    console.log(this.timeRows);
   }
 
   // Log out the user
   logout()
   {
     this.currentUser.setName(null);
+  }
+
+  toNormalTime(timeStr: string)
+  {
+    let lastIndex = timeStr.length;
+    let type = timeStr.substring(lastIndex-2);
+    let num = parseInt(timeStr.substring(0, lastIndex-2));
+    if (type == "pm")
+      num += 12;
+    return num;
   }
 
 }
