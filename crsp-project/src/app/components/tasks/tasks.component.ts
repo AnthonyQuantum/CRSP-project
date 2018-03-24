@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from "ng2-bootstrap-modal";
+
 import { DataService } from '../../services/data/data.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
-import { DialogService } from "ng2-bootstrap-modal";
 import { CurrentUserModel } from '../../models/CurrentUser';
 
 @Component({
@@ -9,19 +10,23 @@ import { CurrentUserModel } from '../../models/CurrentUser';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent {
 
   tasks: Array<any>;
   searchPriority = "A/B";
   status: number;
   times = [];
-  wakeUpTime: string;
+
+  sTimesFlag = false;
+  wuTime: string;
+  gtbTime: string;
 
   constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel) {
     this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => this.tasks = res);
     this.generateTimes();
-    this.wakeUpTime = "6am";
+    this.wuTime = currentUser.getWuTime();
+    this.gtbTime = currentUser.getGtbTime();
   }
 
   showDialog() {
@@ -51,9 +56,6 @@ export class TasksComponent implements OnInit {
     this._dataService.updateTask(event.target.id, this.status, this.currentUser.getName());
   }
 
-  ngOnInit() {
-  }
-
   generateTimes() {
     let iter = 1;
     let title: string;
@@ -68,6 +70,15 @@ export class TasksComponent implements OnInit {
       this.times.push(title);
       iter++;
     }
+  }
+
+  saveTimes()
+  {
+    console.log("Saved");
+    console.log(this.wuTime)
+    console.log(this.gtbTime);
+    this.sTimesFlag = false;
+    this._dataService.saveTimes(this.wuTime, this.gtbTime, this.currentUser.getName());
   }
 
 }

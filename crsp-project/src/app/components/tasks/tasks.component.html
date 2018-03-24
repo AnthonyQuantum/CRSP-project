@@ -39,13 +39,27 @@
 
     <div class="input-group">
       Wake up time:
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
-        <span>{{ wakeUpTime }}</span>
+        <span>{{ wuTime }}</span>
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <ul class="dropdown-menu dropdown-menu-right"> 
-        <li class="drop-li" *ngFor="let time of times"><a (click)="wakeUpTime = time">{{ time }}</a></li>
+        <li class="drop-li" *ngFor="let time of times"><a (click)="wuTime = time">{{ time }}</a></li>
       </ul>
     </div>
+
+    <div class="input-group">
+      Go to bed time:
+      <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+        <span>{{ gtbTime }}</span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-right"> 
+        <li class="drop-li" *ngFor="let time of times"><a (click)="gtbTime = time">{{ time }}</a></li>
+      </ul>
+    </div>
+
+    <button *ngIf="sTimesFlag" (click)="saveTimes()" type="button" class="btn btn-default" aria-haspopup="true" aria-expanded="false">Save</button>
 </div>

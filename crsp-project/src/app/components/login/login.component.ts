@@ -22,12 +22,12 @@ export class LoginComponent {
     let user = new User(this.name, this.password, "");
     this._dataService.loginUser(user)
       .subscribe(res => { 
-        this.isValid = res; 
-        if (res) {
+        this.isValid = this.currentUser.isValid; 
+        if (this.isValid) {
           this.currentUser.setName(user.name);
           this.router.navigate(['/']);
         }
-      });;
+      });
   }
 
 }

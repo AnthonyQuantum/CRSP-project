@@ -12,7 +12,7 @@ export class DataService {
   result: any;
   isValid = false;
 
-  constructor(private _http: Http) { }
+  constructor(private _http: Http, private currentUser: CurrentUserModel) { }
 
   // Get tasks
   getTasks(username: string) {
@@ -92,8 +92,23 @@ export class DataService {
       name: user.name,
       password: user.password
     })
-    .map(result => this.isValid = result.json().isValid)
+    .map(result =>  {
+      this.currentUser.setWuTime(result.json().wuTime);
+      this.currentUser.setGtbTime(result.json().gtbTime);
+      this.currentUser.isValid = result.json().isValid;
+      })
   }
 
-
+  saveTimes(wuTime: string, gtbTime: string, username: string)
+  {
+    this._http.put("/api/wsTime/" + username + "/" + wuTime + "/" + gtbTime, { })
+    .subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log("Error occured");
+      }
+    )
+  }
 }

@@ -25,12 +25,12 @@ export class RegisterComponent {
     this._dataService.addUser(user);
     this._dataService.loginUser(user)
       .subscribe(res => { 
-        this.isValid = res; 
-        if (res) {
+        this.isValid = this.currentUser.isValid; 
+        if (this.isValid) {
           this.currentUser.setName(user.name);
           this.router.navigate(['/']);
         }
-      });;
+      });
   }
 
 }

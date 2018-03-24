@@ -110,12 +110,31 @@ router.post('/loginUser', (req, res) => {
                 if (users === undefined || users.length == 0)
                     response.isValid = false;
                 else
+                {
                     response.isValid = true;
+                    response.wuTime = users[0].wakeUpTime;
+                    response.gtbTime = users[0].goToBedTime;
+                }
                 res.json(response);
             })
             .catch((err) => {
                 sendError(err, res);
             });
+    });
+});
+
+// Save wake up and go to bed time
+router.put('/wsTime/:usr/:wu/:gtb', (req, res) => {
+    connection((db) => {
+        db.collection('users')
+            .update({ name: req.params.usr },
+            { 
+                $set:
+                {
+                    wakeUpTime: req.params.wu,
+                    goToBedTime: req.params.gtb
+                }
+            })
     });
 });
 
