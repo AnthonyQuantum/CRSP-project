@@ -4,6 +4,7 @@ import { DialogService } from "ng2-bootstrap-modal";
 import { DataService } from '../../services/data/data.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { CurrentUserModel } from '../../models/CurrentUser';
+import { TimeService } from '../../services/time/time.service';
 
 @Component({
   selector: 'tasks',
@@ -18,13 +19,13 @@ export class TasksComponent {
   times = [];
 
   sTimesFlag = false;
-  wuTime: string;
-  gtbTime: string;
+  wuTime: number;
+  gtbTime: number;
 
-  constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel) {
+  constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel, private _time: TimeService) {
     this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => this.tasks = res);
-    this.generateTimes();
+    this.times = this._time.generateTimes();
     this.wuTime = currentUser.getWuTime();
     this.gtbTime = currentUser.getGtbTime();
   }
@@ -56,29 +57,15 @@ export class TasksComponent {
     this._dataService.updateTask(event.target.id, this.status, this.currentUser.getName());
   }
 
-  generateTimes() {
-    let iter = 1;
-    let title: string;
-    while(iter < 24)
-    {
-      if (iter < 12)
-        title = iter + "am";
-      else if (iter == 12)
-        title = "12pm";
-      else
-        title = (iter-12) + "pm";
-      this.times.push(title);
-      iter++;
-    }
-  }
-
   saveTimes()
   {
-    console.log("Saved");
-    console.log(this.wuTime)
-    console.log(this.gtbTime);
     this.sTimesFlag = false;
     this._dataService.saveTimes(this.wuTime, this.gtbTime, this.currentUser.getName());
+  }
+
+  timeToTitle(time: number)
+  {
+    return this._time.timeToTitle(time);
   }
 
 }

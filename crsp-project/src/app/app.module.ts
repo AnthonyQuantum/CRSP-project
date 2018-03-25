@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 
 import { DataService } from './services/data/data.service';
+import { TimeService } from './services/time/time.service';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { FilterPipe }from './pipes/filter.pipe';
 import { ConfirmComponent } from './components/confirm/confirm.component';
@@ -37,7 +38,7 @@ import { CurrentUserModel } from './models/CurrentUser';
   entryComponents: [
     ConfirmComponent
   ],
-  providers: [DataService, CurrentUserModel],
+  providers: [DataService, TimeService, CurrentUserModel],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

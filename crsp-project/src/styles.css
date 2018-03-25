@@ -51,4 +51,11 @@
     position: relative;
     left: 25px;
     margin-bottom: 5px;
+    width: 20px;
+}
+
+.dropdown-menu {
+    height: 150px;
+    overflow: scroll;
+    width: 100px;
 }

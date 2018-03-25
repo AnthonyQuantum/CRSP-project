@@ -27,7 +27,7 @@
 
     <div class="task-list col-lg-12" *ngFor="let task of tasks | filter : searchText : searchPriority">
       {{ task.title }}
-      <span *ngIf="task.priority == 'T'" class="start-time">{{ task.startTime }}</span>
+      <span *ngIf="task.priority == 'T'" class="start-time">{{ timeToTitle(task.startTime) }}</span>
       <span class="task-time">{{ task.time }}h</span> 
       <span *ngIf="task.priority == 'A'" class="badge badge-green">{{ task.priority }}</span>
       <span *ngIf="task.priority == 'B'" class="badge badge-blue">{{ task.priority }}</span>
@@ -41,11 +41,11 @@
       Wake up time:
       <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
-        <span>{{ wuTime }}</span>
+        <span>{{ timeToTitle(wuTime) }}</span>
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <ul class="dropdown-menu dropdown-menu-right"> 
-        <li class="drop-li" *ngFor="let time of times"><a (click)="wuTime = time">{{ time }}</a></li>
+        <li class="drop-li" *ngFor="let time of times"><a (click)="wuTime = time">{{ timeToTitle(time) }}</a></li>
       </ul>
     </div>
 
@@ -53,11 +53,11 @@
       Go to bed time:
       <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
-        <span>{{ gtbTime }}</span>
+        <span>{{ timeToTitle(gtbTime) }}</span>
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <ul class="dropdown-menu dropdown-menu-right"> 
-        <li class="drop-li" *ngFor="let time of times"><a (click)="gtbTime = time">{{ time }}</a></li>
+        <li class="drop-li" *ngFor="let time of times"><a (click)="gtbTime = time">{{ timeToTitle(time) }}</a></li>
       </ul>
     </div>
 

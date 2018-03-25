@@ -21,7 +21,7 @@ export class DataService {
   }
 
   // Add task
-  addTask(title: string, priority: string, time: number, startTime: string, username: string) {
+  addTask(title: string, priority: string, time: number, startTime: number, username: string) {
     this._http.post("/api/tasksAdd/" + username, {
       title: title,
       priority: priority,
@@ -99,7 +99,7 @@ export class DataService {
       })
   }
 
-  saveTimes(wuTime: string, gtbTime: string, username: string)
+  saveTimes(wuTime: number, gtbTime: number, username: string)
   {
     this._http.put("/api/wsTime/" + username + "/" + wuTime + "/" + gtbTime, { })
     .subscribe(

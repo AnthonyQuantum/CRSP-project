@@ -1,3 +1,8 @@
 .input-group-btn {
     margin-bottom: 25px;
 }
+
+.badge {
+    position: unset;
+    width: 25px;
+}

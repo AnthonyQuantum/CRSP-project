@@ -4,6 +4,7 @@ import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 import { DataService } from '../../services/data/data.service';
 import { ConfirmModel } from '../../models/Confirm'
 import { CurrentUserModel } from '../../models/CurrentUser';
+import { TimeService } from '../../services/time/time.service';
 
 @Component({  
     selector: 'confirm',
@@ -16,12 +17,12 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   newTaskTitle: string;
   newTaskPriority = "A";
   newTaskTime = 1;
-  newTaskStartTime = "1am";
+  newTaskStartTime = 1;
   times = [];
 
-  constructor(dialogService: DialogService, private _dataService: DataService, private currentUser: CurrentUserModel) {
+  constructor(dialogService: DialogService, private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
     super(dialogService);
-    this.generateTimes();
+    this.times = this._time.generateTimes();
   }
 
   // Add new task and close modal window
@@ -31,20 +32,8 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
     this.close();
   }
 
-  // Generate time strings (1am-11pm)
-  generateTimes() {
-    let iter = 1;
-    let title: string;
-    while(iter < 24)
-    {
-      if (iter < 12)
-        title = iter + "am";
-      else if (iter == 12)
-        title = "12pm";
-      else
-        title = (iter-12) + "pm";
-      this.times.push(title);
-      iter++;
-    }
+  timeToTitle(time: number)
+  {
+    return this._time.timeToTitle(time);
   }
 }

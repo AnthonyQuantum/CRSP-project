@@ -2,11 +2,16 @@
     color: grey;
 }
 
-hr {
+.hr-one {
     background: grey;
     margin: 0px;
     position: relative;
     top: 25px;
+}
+
+.hr-half {
+    background: lightgray;
+    margin: 0px;
 }
 
 .task-block {
@@ -16,10 +21,12 @@ hr {
     left: 25%;
     width: 50%;
     color: white;
+    z-index: 1;
 }
 
 .sleep-task-block {
     background: #2E3192 !important;
+    z-index: 1;
 }
 
 .row {
@@ -33,4 +40,13 @@ hr {
 
 .now {
     text-align: left;
+}
+
+.time-title {
+    position: relative;
+    top: 35px;
+}
+
+.task-margin {
+    margin-top: 25px;
 }
