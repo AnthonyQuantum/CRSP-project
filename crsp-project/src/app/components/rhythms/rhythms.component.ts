@@ -1,6 +1,9 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { Chart } from 'chart.js';
+
 import { TimeService } from '../../services/time/time.service';
+import { CurrentUserModel } from '../../models/CurrentUser';
+import { DataService } from '../../services/data/data.service';
 
 @Component({
   selector: 'rhythms',
@@ -57,11 +60,15 @@ export class RhythmsComponent implements AfterViewInit {
     });
   }
 
-  constructor(private _time: TimeService) {}
+  constructor(private _time: TimeService, private currentUser: CurrentUserModel, private _dataService: DataService) {}
 
   timeToTitle(time: number)
   {
     return this._time.timeToTitle(time);
+  }
+
+  generate() {
+    this._dataService.generateSchedule(this.currentUser);
   }
 
 }

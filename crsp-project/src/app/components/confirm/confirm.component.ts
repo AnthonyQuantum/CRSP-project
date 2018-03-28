@@ -18,6 +18,7 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   newTaskPriority = "A";
   newTaskTime = 1;
   newTaskStartTime = 1;
+  newTaskDivisible = true;
   times = [];
 
   constructor(dialogService: DialogService, private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
@@ -27,7 +28,7 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
 
   // Add new task and close modal window
   confirm() {
-    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.currentUser.getName());
+    this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.newTaskDivisible, this.currentUser.getName());
     this.result = true;
     this.close();
   }
@@ -35,5 +36,13 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   timeToTitle(time: number)
   {
     return this._time.timeToTitle(time);
+  }
+
+  boolToWord(v: boolean)
+  {
+    if (v)
+      return "Yes";
+    else
+      return "No";
   }
 }

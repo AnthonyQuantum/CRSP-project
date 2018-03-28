@@ -49,6 +49,19 @@
               </ul>
             </div>
 
+            <div class="input-group">
+              Divisible?
+              <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span>{{ boolToWord(newTaskDivisible) }}</span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right"> 
+                <li class="drop-li"><a (click)="newTaskDivisible = true">Yes</a></li>
+                <li class="drop-li"><a (click)="newTaskDivisible = false">No</a></li>
+              </ul>
+            </div>
+
           </div>
 
      </div>

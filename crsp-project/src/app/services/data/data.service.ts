@@ -5,6 +5,7 @@ import { UUID } from 'angular2-uuid';
 
 import { User } from '../../models/User'
 import { CurrentUserModel } from '../../models/CurrentUser';
+import { Task } from '../../models/Task';
 
 @Injectable()
 export class DataService {
@@ -21,14 +22,15 @@ export class DataService {
   }
 
   // Add task
-  addTask(title: string, priority: string, time: number, startTime: number, username: string) {
+  addTask(title: string, priority: string, time: number, startTime: number, divisible: boolean, username: string) {
     this._http.post("/api/tasksAdd/" + username, {
       title: title,
       priority: priority,
       status: 0,
       id: UUID.UUID(),
       time: time,
-      startTime: startTime
+      startTime: startTime,
+      divisible: divisible
     })
     .subscribe(
       res => {
@@ -110,5 +112,10 @@ export class DataService {
         console.log("Error occured");
       }
     )
+  }
+
+  generateSchedule(user: User)
+  {
+
   }
 }
