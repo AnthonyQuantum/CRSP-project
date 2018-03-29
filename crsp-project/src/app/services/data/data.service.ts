@@ -114,8 +114,16 @@ export class DataService {
     )
   }
 
-  generateSchedule(user: User)
+  generateSchedule(name: string)
   {
-
+    this._http.post("/api/generateSchedule/" + name, {})
+    .subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.log("Error occured");
+      }
+    )
   }
 }

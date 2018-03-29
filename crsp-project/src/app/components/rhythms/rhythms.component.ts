@@ -68,7 +68,7 @@ export class RhythmsComponent implements AfterViewInit {
   }
 
   generate() {
-    this._dataService.generateSchedule(this.currentUser);
+    this._dataService.generateSchedule(this.currentUser.getName());
   }
 
 }

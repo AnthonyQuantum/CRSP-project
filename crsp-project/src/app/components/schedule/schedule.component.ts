@@ -78,12 +78,11 @@ isGtb: boolean;
     for (let timeRow of this.timeRows)
     {
       
-        Task1 = this.tasks.find(t => t.priority == 'T' && this.timeToTitle(t.startTime+1) == timeRow.title);
-        Task2 = this.tasks.find(t => t.priority == 'T' && this.timeToTitle(t.startTime+0.5) == timeRow.title);
+        Task1 = this.tasks.find(t => /*t.priority == 'T' &&*/ this.timeToTitle(t.startTime+1) == timeRow.title);
+        Task2 = this.tasks.find(t => /*t.priority == 'T' &&*/ this.timeToTitle(t.startTime+0.5) == timeRow.title);
         timeRow.task1 = Task1;
         timeRow.task2 = Task2;
     }
-    console.log(this.timeRows);
   }
 
   // Log out the user
