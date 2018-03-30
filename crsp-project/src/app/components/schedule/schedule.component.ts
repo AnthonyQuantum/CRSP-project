@@ -74,22 +74,18 @@ isGtb: boolean;
         timeRow.sleep = 24-gtb;
     }
 
-    /*for (let task of this.tasks)
-    {
-      let partsNum = task.startTime.length;
-      if (partsNum == undefined)
-        continue;
-      for (let time of task.startTime)
-      {
-        console.log(this.timeRows.find(t => t.title == this.timeToTitle(time+1)));
-        if (this.timeRows.find(t => t.title == this.timeToTitle(time+1)) != undefined)
-          this.timeRows[this.timeRows.indexOf(this.timeRows.find(t => t.title == this.timeToTitle(time+1)))].task1 = task;
-        //this.timeRows.find(t => t.title == this.timeToTitle(time+0.5)).task2 = task;
-      }
-    }*/
     // Add tasks
     for (let timeRow of this.timeRows)
     {
+      // Add time-bound tasks
+      Task1 = this.tasks.find(t => t.priority == 'T' && this.timeToTitle(t.startTime+1) == timeRow.title);
+      timeRow.task1 = Task1;
+      Task2 = this.tasks.find(t => t.priority == 'T' && this.timeToTitle(t.startTime+0.5) == timeRow.title);
+      timeRow.task2 = Task2;
+
+      // If Task1 slot is free then
+      if (timeRow.task1 == null || timeRow.task1 == undefined)
+      {
         Task1 = this.tasks.find(t => this.timeToTitle(t.startTime+1) == timeRow.title || t.startTime.length != undefined);
         if (Task1.startTime.length != undefined)
         {
@@ -101,7 +97,11 @@ isGtb: boolean;
         }
         else
           timeRow.task1 = Task1;
-        
+      }
+
+      // If Task2 slot is free then
+      if (timeRow.task2 == null || timeRow.task2 == undefined)
+      {
         Task2 = this.tasks.find(t => this.timeToTitle(t.startTime+0.5) == timeRow.title || t.startTime.length != undefined);
         if (Task2.startTime.length != undefined)
         {
@@ -113,6 +113,7 @@ isGtb: boolean;
         }
         else
           timeRow.task2 = Task2;
+      }
     }
   }
 
@@ -122,6 +123,7 @@ isGtb: boolean;
     this.currentUser.setName(null);
   }
 
+  // Calculate task height (25px per slot)
   calculateHeight(task: any)
   {
     if (task.startTime.length != undefined)
@@ -130,6 +132,7 @@ isGtb: boolean;
       return task.time * 50;
   }
 
+  // 19.5 -> "7:30pm"
   timeToTitle(time: number)
   {
     return this._time.timeToTitle(time);
