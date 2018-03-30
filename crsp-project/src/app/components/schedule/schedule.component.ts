@@ -74,14 +74,45 @@ isGtb: boolean;
         timeRow.sleep = 24-gtb;
     }
 
+    /*for (let task of this.tasks)
+    {
+      let partsNum = task.startTime.length;
+      if (partsNum == undefined)
+        continue;
+      for (let time of task.startTime)
+      {
+        console.log(this.timeRows.find(t => t.title == this.timeToTitle(time+1)));
+        if (this.timeRows.find(t => t.title == this.timeToTitle(time+1)) != undefined)
+          this.timeRows[this.timeRows.indexOf(this.timeRows.find(t => t.title == this.timeToTitle(time+1)))].task1 = task;
+        //this.timeRows.find(t => t.title == this.timeToTitle(time+0.5)).task2 = task;
+      }
+    }*/
     // Add tasks
     for (let timeRow of this.timeRows)
     {
-      
-        Task1 = this.tasks.find(t => /*t.priority == 'T' &&*/ this.timeToTitle(t.startTime+1) == timeRow.title);
-        Task2 = this.tasks.find(t => /*t.priority == 'T' &&*/ this.timeToTitle(t.startTime+0.5) == timeRow.title);
-        timeRow.task1 = Task1;
-        timeRow.task2 = Task2;
+        Task1 = this.tasks.find(t => this.timeToTitle(t.startTime+1) == timeRow.title || t.startTime.length != undefined);
+        if (Task1.startTime.length != undefined)
+        {
+          for (let time of Task1.startTime)
+          {
+            if (this.timeToTitle(time+1) == timeRow.title)
+              timeRow.task1 = Task1;
+          }
+        }
+        else
+          timeRow.task1 = Task1;
+        
+        Task2 = this.tasks.find(t => this.timeToTitle(t.startTime+0.5) == timeRow.title || t.startTime.length != undefined);
+        if (Task2.startTime.length != undefined)
+        {
+          for (let time of Task2.startTime)
+          {
+             if (this.timeToTitle(time+0.5) == timeRow.title)
+              timeRow.task2 = Task2;
+          }
+        }
+        else
+          timeRow.task2 = Task2;
     }
   }
 
@@ -89,6 +120,14 @@ isGtb: boolean;
   logout()
   {
     this.currentUser.setName(null);
+  }
+
+  calculateHeight(task: any)
+  {
+    if (task.startTime.length != undefined)
+      return 25;
+    else
+      return task.time * 50;
   }
 
   timeToTitle(time: number)

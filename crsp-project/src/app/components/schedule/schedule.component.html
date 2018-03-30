@@ -22,8 +22,8 @@
   <div *ngFor="let timeRow of timeRows">
       <div class="row">
           <div class="time-title col-lg-1 text-grey">{{ timeRow.title }}</div>
-          <div *ngIf="timeRow.task1 != undefined" class="task-block col-lg-11" [ngStyle]="{'height': timeRow.task1.time*50 + 'px'}">{{ timeRow.task1.title }}</div>
-          <div *ngIf="timeRow.task2 != undefined" class="task-block task-margin col-lg-11" [ngStyle]="{'height': timeRow.task2.time*50 + 'px'}">{{ timeRow.task2.title }}</div>
+          <div *ngIf="timeRow.task1 != undefined" class="task-block col-lg-11" [ngStyle]="{'height': calculateHeight(timeRow.task1) + 'px'}">{{ timeRow.task1.title }}</div>
+          <div *ngIf="timeRow.task2 != undefined" class="task-block task-margin col-lg-11" [ngStyle]="{'height': calculateHeight(timeRow.task2) + 'px'}">{{ timeRow.task2.title }}</div>
           <div *ngIf="timeRow.sleep != null && !isGtb" class="task-block sleep-task-block col-lg-11" [ngStyle]="{'height': timeRow.sleep*50 + 'px'}">Sleep</div>
           <div *ngIf="timeRow.sleep != null && isGtb" class="task-block task-margin sleep-task-block col-lg-11" [ngStyle]="{'height': timeRow.sleep*50 + 'px'}">Sleep</div>
       </div>

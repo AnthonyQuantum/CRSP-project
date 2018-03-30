@@ -241,24 +241,39 @@ function generateSchedule(username, tasks, wu, gtb)
     });*/
 
     // Assign AD tasks
+    console.log("Started--------------------------------------------------------------------------------");
     tasksAD.forEach(task => {
         duration = task.time * 2;
         taskId = task.id;
+        indexes = [];
         for (i = 0; i < duration; ++i)
         {
-            index = indexOfMax(slots);;
+            index = indexOfMax(slots);
+            indexes.push(index);
             slots[index] = -1;
+            console.log("pushed");
+        }
+        console.log("indexes: " + indexes);
+        for (i = 0; i < duration; ++i)
+        {
+            if (i == 0)
+            {
+                connection((db) => {
+                    db.collection('users')
+                        .update({ name: username, "tasks.id": taskId },
+                        {
+                            $set: { "tasks.$.startTime": [] }
+                        })
+                        .then(console.log(tasks))
+                });
+            }
+
             connection((db) => {
                 db.collection('users')
                     .update({ name: username, "tasks.id": taskId },
-                    { 
-                        $set:
-                        {
-                            "tasks.$.startTime": index/2,
-                            "tasks.$.time": 0.5
-                        }
+                    {
+                        $push: { "tasks.$.startTime": indexes.pop()/2}
                     })
-                    .then(console.log(tasks))
             });
         }
     })
