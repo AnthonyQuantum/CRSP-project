@@ -10,11 +10,11 @@
         <span>{{ searchPriority }}</span>
         <span class="sr-only">Toggle Dropdown</span>
       </button>
-      <ul class="dropdown-menu dropdown-menu-right"> 
-        <li class="drop-li"><a href="#" class="badge badge-green" (click)="searchPriority = 'A'">A</a></li><br>
-        <li class="drop-li"><a href="#" class="badge badge-blue" (click)="searchPriority = 'B'">B</a></li><br>
-        <li class="drop-li"><a href="#" class="badge badge-yellow" (click)="searchPriority = 'T'">T</a></li><br>
-        <li class="drop-li"><a href="#" class="badge badge-grey" (click)="searchPriority = 'A/B'">A/B</a></li>
+      <ul class="dropdown-menu dropdown-menu-right badge-dropdown-menu"> 
+        <li class="drop-li"><a href="#" class="badge badge-green badge-dropdown" (click)="searchPriority = 'A'">A</a></li><br>
+        <li class="drop-li"><a href="#" class="badge badge-blue badge-dropdown" (click)="searchPriority = 'B'">B</a></li><br>
+        <li class="drop-li"><a href="#" class="badge badge-yellow badge-dropdown" (click)="searchPriority = 'T'">T</a></li><br>
+        <li class="drop-li"><a href="#" class="badge badge-grey badge-dropdown" (click)="searchPriority = 'A/B'">A/B</a></li>
       </ul>
 
       <button type="button" class="btn btn-default" (click)="showDialog()">

@@ -15,10 +15,10 @@
                     <span>{{ newTaskPriority }}</span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
-                  <ul class="dropdown-menu dropdown-menu-right"> 
-                    <li class="drop-li"><a class="badge badge-green" (click)="newTaskPriority = 'A'">A</a></li>
-                    <li class="drop-li"><a class="badge badge-blue" (click)="newTaskPriority = 'B'">B</a></li>
-                    <li class="drop-li"><a class="badge badge-yellow" (click)="newTaskPriority = 'T'">T</a></li>
+                  <ul class="dropdown-menu dropdown-menu-right badge-dropdown-menu"> 
+                    <li class="drop-li"><a class="badge badge-green badge-dropdown" (click)="newTaskPriority = 'A'">A</a></li>
+                    <li class="drop-li"><a class="badge badge-blue badge-dropdown" (click)="newTaskPriority = 'B'">B</a></li>
+                    <li class="drop-li"><a class="badge badge-yellow badge-dropdown" (click)="newTaskPriority = 'T'">T</a></li>
                   </ul>
             </div>
 

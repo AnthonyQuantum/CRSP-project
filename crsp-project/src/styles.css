@@ -33,6 +33,7 @@
     right: 45px;
     color: black;
     padding: 1px 7px !important;
+    width: 25px;
 }
 .badge-green {
     background: limegreen;
@@ -49,13 +50,21 @@
 
 .drop-li {
     position: relative;
-    left: 25px;
     margin-bottom: 5px;
-    width: 20px;
 }
 
 .dropdown-menu {
-    height: 150px;
+    max-height: 150px;
     overflow: scroll;
-    width: 100px;
+    max-width: 100px;
+}
+
+.badge-dropdown {
+    width: 35px !important;
+    left: 5px !important;
+}
+
+.badge-dropdown-menu {
+    width: 60px;
+    min-width: 0px !important;
 }

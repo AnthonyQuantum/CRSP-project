@@ -2,14 +2,14 @@
     <div class="container">
 
         <div class="row">
-            <div class="now inl col-lg-8">{{ now | date:'MMMM d, E' }}</div>
+            <div class="now inl col-lg-8 col-md-8 col-sm-8 col-xs-8">{{ now | date:'MMMM d, E' }}</div>
 
-                <div *ngIf="currentUser.getName() != null" class="inl greeting col-lg-4">
+                <div *ngIf="currentUser.getName() != null" class="inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="inl">Hello, {{ currentUser.getName() }}</div> 
                     <div (click)="logout()" class="inl">[Logout]</div>
                 </div>
 
-                <div *ngIf="currentUser.getName() == null" class="inl greeting col-lg-4"> 
+                <div *ngIf="currentUser.getName() == null" class="inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4"> 
                     <div routerLink="/login">Login</div>
                 </div>
 
@@ -24,8 +24,9 @@
           <div class="time-title col-lg-1 text-grey">{{ timeRow.title }}</div>
           <div *ngIf="timeRow.task1 != undefined" class="task-block col-lg-11" [ngStyle]="{'height': calculateHeight(timeRow.task1) + 'px'}">{{ timeRow.task1.title }}</div>
           <div *ngIf="timeRow.task2 != undefined" class="task-block task-margin col-lg-11" [ngStyle]="{'height': calculateHeight(timeRow.task2) + 'px'}">{{ timeRow.task2.title }}</div>
+          <div *ngIf="timeRow.sleep != null && timeRow.title == '1am'" class="task-block sleep-task-block col-lg-11" [ngStyle]="{'height': timeRow.sleep*50 + 'px'}">Sleep</div>
           <div *ngIf="timeRow.sleep != null && !isGtb" class="task-block sleep-task-block col-lg-11" [ngStyle]="{'height': timeRow.sleep*50 + 'px'}">Sleep</div>
-          <div *ngIf="timeRow.sleep != null && isGtb" class="task-block task-margin sleep-task-block col-lg-11" [ngStyle]="{'height': timeRow.sleep*50 + 'px'}">Sleep</div>
+          <div *ngIf="timeRow.sleep != null && isGtb && timeRow.title != '1am'" class="task-block task-margin sleep-task-block col-lg-11" [ngStyle]="{'height': timeRow.sleep*50 + 'px'}">Sleep</div>
       </div>
       <div class="row">
         <hr class="hr-half col-lg-12">

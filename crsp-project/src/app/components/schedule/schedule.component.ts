@@ -77,18 +77,23 @@ isGtb: boolean;
     // Add tasks
     for (let timeRow of this.timeRows)
     {
+      console.log("isBefore");
       // Add time-bound tasks
       Task1 = this.tasks.find(t => t.priority == 'T' && this.timeToTitle(t.startTime+1) == timeRow.title);
       timeRow.task1 = Task1;
       Task2 = this.tasks.find(t => t.priority == 'T' && this.timeToTitle(t.startTime+0.5) == timeRow.title);
       timeRow.task2 = Task2;
+      console.log("isBefore");
 
       // If Task1 slot is free then
       if (timeRow.task1 == null || timeRow.task1 == undefined)
       {
+        console.log("isBefore");
         Task1 = this.tasks.find(t => this.timeToTitle(t.startTime+1) == timeRow.title || t.startTime.length != undefined);
-        if (Task1.startTime.length != undefined)
+        console.log("isBefore");
+        if (Task1 != undefined && Task1.startTime.length != undefined)
         {
+          console.log("isBefore");
           for (let time of Task1.startTime)
           {
             if (this.timeToTitle(time+1) == timeRow.title)
@@ -103,7 +108,7 @@ isGtb: boolean;
       if (timeRow.task2 == null || timeRow.task2 == undefined)
       {
         Task2 = this.tasks.find(t => this.timeToTitle(t.startTime+0.5) == timeRow.title || t.startTime.length != undefined);
-        if (Task2.startTime.length != undefined)
+        if (Task2 != undefined && Task2.startTime.length != undefined)
         {
           for (let time of Task2.startTime)
           {
@@ -115,6 +120,7 @@ isGtb: boolean;
           timeRow.task2 = Task2;
       }
     }
+    console.log(this.timeRows);
   }
 
   // Log out the user

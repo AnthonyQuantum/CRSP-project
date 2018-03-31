@@ -221,28 +221,22 @@ function generateSchedule(username, tasks, wu, gtb)
             slots[i] = -1;
     });
 
-    /*// Assign AND tasks
-    tasksAND.forEach(task => {
-        duration = task.time * 2;
-        maxSum = 0;
-        startPos = 0;
-        for (i = wu; i < gtb-duration; ++i)
-        {
-            sum = 0;
-            for (j = 0; j < duration; ++j)
-                sum += slots[i+j];
-            if (sum > maxSum)
-            {
-                maxSum = sum;
-                startPos = i;
-            }
-        }
-        for (i = startPos; i < duration)
-    });*/
+    // Assign AND tasks
+    assignND(tasksAND, username);
 
     // Assign AD tasks
-    console.log("Started--------------------------------------------------------------------------------");
-    tasksAD.forEach(task => {
+    assignD(tasksAD, username);
+
+    // Assign BND tasks
+    assignND(tasksBND, username);
+
+    // Assign BD tasks
+    assignD(tasksBD, username);
+}
+
+function assignD(taskArr, username)
+{
+    taskArr.forEach(task => {
         duration = task.time * 2;
         taskId = task.id;
         indexes = [];
@@ -251,9 +245,7 @@ function generateSchedule(username, tasks, wu, gtb)
             index = indexOfMax(slots);
             indexes.push(index);
             slots[index] = -1;
-            console.log("pushed");
         }
-        console.log("indexes: " + indexes);
         for (i = 0; i < duration; ++i)
         {
             if (i == 0)
@@ -264,7 +256,6 @@ function generateSchedule(username, tasks, wu, gtb)
                         {
                             $set: { "tasks.$.startTime": [] }
                         })
-                        .then(console.log(tasks))
                 });
             }
 
@@ -277,6 +268,38 @@ function generateSchedule(username, tasks, wu, gtb)
             });
         }
     })
+}
+
+function assignND(taskArr, username)
+{
+    taskArr.forEach(task => {
+        duration = task.time * 2;
+        maxSum = 0;
+        startPos = 0;
+        for (i = wu; i < gtb-duration; ++i)
+        {
+            sum = 0;
+            for (j = 0; j < duration; ++j)
+            {
+                if (slots[i+j] == -1) break;
+                sum += slots[i+j];
+            }
+            if (sum > maxSum)
+            {
+                maxSum = sum;
+                startPos = i;
+            }
+        }
+        for (i = 0; i < duration; ++i)
+            slots[startPos+i] = -1;
+        connection((db) => {
+            db.collection('users')
+                .update({ name: username, "tasks.id": task.id },
+                {
+                    $set: { "tasks.$.startTime": startPos/2 }
+                })
+        });
+    });
 }
 
 function indexOfMax(arr) {
