@@ -24,12 +24,11 @@ app.get('*', (req, res) => {
 
 //Set Port
 const server_port = process.env.PORT || '5000';
-const server_host = '0.0.0.0';
 
 app.set('port', server_port);
 
 const server = http.createServer(app);
 
-server.listen(server_port, server_host, function() {
+server.listen(server_port, function() {
     console.log(`Listening on port: ${server_port}`)
 });
