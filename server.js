@@ -23,7 +23,7 @@ app.get('*', (req, res) => {
 });
 
 //Set Port
-const server_port = process.env.PORT || '5000';
+const server_port = process.env.PORT || '3000';
 
 app.set('port', server_port);
 
