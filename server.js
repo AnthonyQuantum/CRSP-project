@@ -23,15 +23,13 @@ app.get('*', (req, res) => {
 });
 
 //Set Port
-const server_port = process.env.PORT || '3000';
+const server_port = process.env.PORT || '5000';
 const server_host = '0.0.0.0';
 
-app.set('port', process.env.PORT);
-app.set('host', server_host);
+app.set('port', server_port);
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT, '0.0.0.0', function() {
-    console.log(`Listening on port: ${process.env.PORT}`)
+server.listen(server_port, server_host, function() {
+    console.log(`Listening on port: ${server_port}`)
 });
-//
