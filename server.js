@@ -23,9 +23,17 @@ app.get('*', (req, res) => {
 });
 
 //Set Port
-const port = process.env.PORT || '8080';
+/*const port = process.env.PORT || '8080';
 app.set('port', port);
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT, () => console.log(`Running on localhost:${port}`));
+server.listen(process.env.PORT, () => console.log(`Running on localhost:${port}`));*/
+
+var server_port = process.env.YOUR_PORT || process.env.PORT || 80;
+app.set('port', server_port);
+const server = http.createServer(app);
+var server_host = process.env.YOUR_HOST || '0.0.0.0';
+server.listen(server_port, server_host, function() {
+    console.log('Listening on port %d', server_port);
+});
