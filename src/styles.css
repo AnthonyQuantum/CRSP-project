@@ -13,10 +13,9 @@
     color: white;
     font-family: "Indie Flower";
     margin-bottom: 10px;
-    border-radius: 20px;
     cursor: default;
-    height: 90px;
-    line-height: 90px;
+    height: 70px;
+    line-height: 70px;
 
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
