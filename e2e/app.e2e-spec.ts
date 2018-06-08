@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('crsp-project App', () => {
+describe('Rhythm App', () => {
   let page: AppPage;
 
   beforeEach(() => {
