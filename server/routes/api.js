@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect
 const connection = (closure) => {
-    return MongoClient.connect('mongodb://usr:abc123@ds247410.mlab.com:47410/rhythm', (err, db) => {
+    return MongoClient.connect('mongodb://localhost:27017/crsp-project', (err, db) => {
         if (err) return console.log(err);
 
         closure(db);
