@@ -1,5 +1,7 @@
 .hdr {
     text-align: center;
+    height: 80px;
+    line-height: 90px;
 }
 
 .task-list {

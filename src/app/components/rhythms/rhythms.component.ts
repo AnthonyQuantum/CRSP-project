@@ -26,6 +26,9 @@ export class RhythmsComponent implements AfterViewInit {
 
   // Generate chart
   ngAfterViewInit() {
+
+    this.currentUser.setName(localStorage.getItem('CurrentUserName'));
+
     this.times = this._time.generateTimes();
     for (let time of this.times)
     {

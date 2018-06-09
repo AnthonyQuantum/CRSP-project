@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DialogService } from "ng2-bootstrap-modal";
 
 import { DataService } from '../../services/data/data.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { CurrentUserModel } from '../../models/CurrentUser';
 import { TimeService } from '../../services/time/time.service';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'tasks',
@@ -22,7 +23,12 @@ export class TasksComponent {
   wuTime: number;
   gtbTime: number;
 
+  isValid = false;
+
   constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel, private _time: TimeService) {
+    
+    this.currentUser.setName(localStorage.getItem('CurrentUserName'));
+    
     this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => this.tasks = res);
     this.times = this._time.generateTimes();

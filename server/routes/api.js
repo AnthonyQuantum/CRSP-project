@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
 const bodyParser = require('body-parser');
 const app = express();
 
-// Parsers
+// Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Connect
+// Connect to DB
 const connection = (closure) => {
-    return MongoClient.connect('mongodb://localhost:27017/crsp-project', (err, db) => {
+    return MongoClient.connect('mongodb://localhost:27017/rhythm', (err, db) => {
         if (err) return console.log(err);
 
         closure(db);

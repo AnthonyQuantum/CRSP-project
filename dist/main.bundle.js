@@ -593,6 +593,7 @@ var LoginComponent = /** @class */ (function () {
             _this.isValid = _this.currentUser.isValid;
             if (_this.isValid) {
                 _this.currentUser.setName(user.name);
+                localStorage.setItem('CurrentUserName', user.name);
                 _this.router.navigate(['/']);
             }
         });
@@ -741,6 +742,7 @@ var RhythmsComponent = /** @class */ (function () {
     }
     // Generate chart
     RhythmsComponent.prototype.ngAfterViewInit = function () {
+        this.currentUser.setName(localStorage.getItem('CurrentUserName'));
         this.times = this._time.generateTimes();
         for (var _i = 0, _a = this.times; _i < _a.length; _i++) {
             var time = _a[_i];
@@ -804,7 +806,7 @@ module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background
 /***/ "./src/app/components/schedule/schedule.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">\n    <div class=\"container\">\n\n        <div class=\"row\">\n            <div class=\"now inl col-lg-8 col-md-8 col-sm-8 col-xs-8\">{{ now | date:'MMMM d, E' }}</div>\n\n                <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4\">\n                    <div class=\"inl\">Hello, {{ currentUser.getName() }}</div> \n                    <div (click)=\"logout()\" class=\"inl\">[Logout]</div>\n                </div>\n\n                <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4\"> \n                    <div routerLink=\"/login\">Login</div>\n                </div>\n\n        </div>\n    </div>\n    \n</div>\n\n<div class=\"container\">\n  <div *ngFor=\"let timeRow of timeRows\">\n      <div class=\"row\">\n          <div class=\"time-title col-lg-1 text-grey\">{{ timeRow.title }}</div>\n          <div *ngIf=\"timeRow.task1 != undefined\" class=\"task-block col-lg-11\" [ngStyle]=\"{'height': calculateHeight(timeRow.task1) + 'px'}\">{{ timeRow.task1.title }}</div>\n          <div *ngIf=\"timeRow.task2 != undefined\" class=\"task-block task-margin col-lg-11\" [ngStyle]=\"{'height': calculateHeight(timeRow.task2) + 'px'}\">{{ timeRow.task2.title }}</div>\n          <div *ngIf=\"timeRow.sleep != null && timeRow.title == '1am'\" class=\"task-block sleep-task-block col-lg-11\" [ngStyle]=\"{'height': timeRow.sleep*50 + 'px'}\">Sleep</div>\n          <div *ngIf=\"timeRow.sleep != null && !isGtb\" class=\"task-block sleep-task-block col-lg-11\" [ngStyle]=\"{'height': timeRow.sleep*50 + 'px'}\">Sleep</div>\n          <div *ngIf=\"timeRow.sleep != null && isGtb && timeRow.title != '1am'\" class=\"task-block task-margin sleep-task-block col-lg-11\" [ngStyle]=\"{'height': timeRow.sleep*50 + 'px'}\">Sleep</div>\n      </div>\n      <div class=\"row\">\n        <hr class=\"hr-half col-lg-12\">\n        <hr class=\"hr-one col-lg-12\">\n      </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"hdr\">\n    <div class=\"container\">\n\n        <div class=\"row\">\n            <div class=\"now inl col-lg-8 col-md-8 col-sm-8 col-xs-8\">{{ now | date:'MMMM d, E' }}</div>\n\n                <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4\">\n                    <div class=\"inl\">Hello, {{ currentUser.getName() }}</div> \n                    <div (click)=\"logout()\" class=\"inl\">[Logout]</div>\n                </div>\n\n                <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4\"> \n                    <div routerLink=\"/login\">Login</div>\n                </div>\n\n        </div>\n    </div>\n    \n</div>"
 
 /***/ }),
 
@@ -815,9 +817,8 @@ module.exports = "<div class=\"hdr\">\n    <div class=\"container\">\n\n        
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ScheduleComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_data_data_service__ = __webpack_require__("./src/app/services/data/data.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_TimeRow__ = __webpack_require__("./src/app/models/TimeRow.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_time_time_service__ = __webpack_require__("./src/app/services/time/time.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_time_time_service__ = __webpack_require__("./src/app/services/time/time.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -831,118 +832,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var ScheduleComponent = /** @class */ (function () {
     function ScheduleComponent(_dataService, currentUser, _time) {
-        var _this = this;
         this._dataService = _dataService;
         this.currentUser = currentUser;
         this._time = _time;
         this.now = new Date();
-        this.gtb = parseFloat(this.currentUser.getGtbTime());
-        if (this.gtb != Math.floor(this.gtb))
-            this.isGtb = true;
-        else
-            this.isGtb = false;
-        // Get all tasks
-        this._dataService.getTasks(this.currentUser.getName())
-            .subscribe(function (res) {
-            _this.tasks = res;
-            _this.generateTimeRows();
-        });
+        this.currentUser.setName(localStorage.getItem('CurrentUserName'));
     }
-    // Generate time rows (1am-11pm)
-    ScheduleComponent.prototype.generateTimeRows = function () {
-        var _this = this;
-        var iter = 1;
-        var timeRow;
-        var title;
-        this.timeRows = [];
-        var Task1;
-        var Task2;
-        var wu;
-        var gtb;
-        var sleep = null;
-        wu = this.currentUser.getWuTime();
-        gtb = parseFloat(this.currentUser.getGtbTime());
-        // Creating empty TimeRows
-        while (iter < 25) {
-            if (iter < 12)
-                title = iter + "am";
-            else if (iter == 12)
-                title = "12pm";
-            else
-                title = (iter - 12) + "pm";
-            if (iter == 24)
-                title = "";
-            timeRow = new __WEBPACK_IMPORTED_MODULE_2__models_TimeRow__["a" /* TimeRow */](title);
-            this.timeRows.push(timeRow);
-            iter += 1;
-        }
-        // Add Sleep fields
-        for (var _i = 0, _a = this.timeRows; _i < _a.length; _i++) {
-            var timeRow_1 = _a[_i];
-            if (timeRow_1.title == "1am")
-                timeRow_1.sleep = wu;
-            if (timeRow_1.title == this.timeToTitle(gtb + 0.5) || timeRow_1.title == this.timeToTitle(gtb + 1))
-                timeRow_1.sleep = 24 - gtb;
-        }
-        var _loop_1 = function (timeRow_2) {
-            console.log("isBefore");
-            // Add time-bound tasks
-            Task1 = this_1.tasks.find(function (t) { return t.priority == 'T' && _this.timeToTitle(t.startTime + 1) == timeRow_2.title; });
-            timeRow_2.task1 = Task1;
-            Task2 = this_1.tasks.find(function (t) { return t.priority == 'T' && _this.timeToTitle(t.startTime + 0.5) == timeRow_2.title; });
-            timeRow_2.task2 = Task2;
-            console.log("isBefore");
-            // If Task1 slot is free then
-            if (timeRow_2.task1 == null || timeRow_2.task1 == undefined) {
-                console.log("isBefore");
-                Task1 = this_1.tasks.find(function (t) { return _this.timeToTitle(t.startTime + 1) == timeRow_2.title || t.startTime.length != undefined; });
-                console.log("isBefore");
-                if (Task1 != undefined && Task1.startTime.length != undefined) {
-                    console.log("isBefore");
-                    for (var _i = 0, _a = Task1.startTime; _i < _a.length; _i++) {
-                        var time = _a[_i];
-                        if (this_1.timeToTitle(time + 1) == timeRow_2.title)
-                            timeRow_2.task1 = Task1;
-                    }
-                }
-                else
-                    timeRow_2.task1 = Task1;
-            }
-            // If Task2 slot is free then
-            if (timeRow_2.task2 == null || timeRow_2.task2 == undefined) {
-                Task2 = this_1.tasks.find(function (t) { return _this.timeToTitle(t.startTime + 0.5) == timeRow_2.title || t.startTime.length != undefined; });
-                if (Task2 != undefined && Task2.startTime.length != undefined) {
-                    for (var _b = 0, _c = Task2.startTime; _b < _c.length; _b++) {
-                        var time = _c[_b];
-                        if (this_1.timeToTitle(time + 0.5) == timeRow_2.title)
-                            timeRow_2.task2 = Task2;
-                    }
-                }
-                else
-                    timeRow_2.task2 = Task2;
-            }
-        };
-        var this_1 = this;
-        // Add tasks
-        for (var _b = 0, _c = this.timeRows; _b < _c.length; _b++) {
-            var timeRow_2 = _c[_b];
-            _loop_1(timeRow_2);
-        }
-        console.log(this.timeRows);
-    };
     // Log out the user
     ScheduleComponent.prototype.logout = function () {
         this.currentUser.setName(null);
-    };
-    // Calculate task height (25px per slot)
-    ScheduleComponent.prototype.calculateHeight = function (task) {
-        if (task.startTime.length != undefined)
-            return 25;
-        else
-            return task.time * 50;
     };
     // 19.5 -> "7:30pm"
     ScheduleComponent.prototype.timeToTitle = function (time) {
@@ -954,7 +854,7 @@ var ScheduleComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/components/schedule/schedule.component.html"),
             styles: [__webpack_require__("./src/app/components/schedule/schedule.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_data_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_3__models_CurrentUser__["a" /* CurrentUserModel */], __WEBPACK_IMPORTED_MODULE_4__services_time_time_service__["a" /* TimeService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_data_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_2__models_CurrentUser__["a" /* CurrentUserModel */], __WEBPACK_IMPORTED_MODULE_3__services_time_time_service__["a" /* TimeService */]])
     ], ScheduleComponent);
     return ScheduleComponent;
 }());
@@ -966,7 +866,7 @@ var ScheduleComponent = /** @class */ (function () {
 /***/ "./src/app/components/tasks/tasks.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".hdr {\n    text-align: center;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    margin-bottom: 5px;\n}\n\n.chkbox {\n    position: absolute;\n    right: 25px;\n    top: -2px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 1px;\n    color: red;\n}\n\n.srch-comp {\n    margin-bottom: 30px;\n}\n\n.task-time {\n    position: absolute;\n    right: 75px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}"
+module.exports = ".hdr {\n    text-align: center;\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    margin-bottom: 5px;\n}\n\n.chkbox {\n    position: absolute;\n    right: 25px;\n    top: -2px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 1px;\n    color: red;\n}\n\n.srch-comp {\n    margin-bottom: 30px;\n}\n\n.task-time {\n    position: absolute;\n    right: 75px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}"
 
 /***/ }),
 
@@ -1014,6 +914,8 @@ var TasksComponent = /** @class */ (function () {
         this.searchPriority = "A/B";
         this.times = [];
         this.sTimesFlag = false;
+        this.isValid = false;
+        this.currentUser.setName(localStorage.getItem('CurrentUserName'));
         this._dataService.getTasks(this.currentUser.getName())
             .subscribe(function (res) { return _this.tasks = res; });
         this.times = this._time.generateTimes();
@@ -1114,26 +1016,6 @@ var CurrentUserModel = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], CurrentUserModel);
     return CurrentUserModel;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/models/TimeRow.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeRow; });
-// Model for a single row on schedule page (time, task)
-var TimeRow = /** @class */ (function () {
-    function TimeRow(title) {
-        this.sleep = null;
-        this.title = title;
-        this.task1 = null;
-        this.task2 = null;
-    }
-    return TimeRow;
 }());
 
 

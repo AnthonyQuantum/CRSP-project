@@ -5,7 +5,6 @@ import { UUID } from 'angular2-uuid';
 
 import { User } from '../../models/User'
 import { CurrentUserModel } from '../../models/CurrentUser';
-import { Task } from '../../models/Task';
 
 @Injectable()
 export class DataService {
