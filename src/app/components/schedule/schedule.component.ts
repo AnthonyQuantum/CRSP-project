@@ -20,7 +20,6 @@ gtb: number;
 isGtb: boolean;
 
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
-    this.currentUser.setName(localStorage.getItem('CurrentUserName'));
    }
 
   

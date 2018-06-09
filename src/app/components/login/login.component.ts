@@ -25,7 +25,6 @@ export class LoginComponent {
         this.isValid = this.currentUser.isValid; 
         if (this.isValid) {
           this.currentUser.setName(user.name);
-          localStorage.setItem('CurrentUserName', user.name);
           this.router.navigate(['/']);
         }
       });

@@ -26,9 +26,6 @@ export class TasksComponent {
   isValid = false;
 
   constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel, private _time: TimeService) {
-    
-    this.currentUser.setName(localStorage.getItem('CurrentUserName'));
-    
     this._dataService.getTasks(this.currentUser.getName())
       .subscribe(res => this.tasks = res);
     this.times = this._time.generateTimes();

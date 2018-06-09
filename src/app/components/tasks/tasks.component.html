@@ -1,6 +1,5 @@
 <div class="hdr">Tasks</div>
 
-<div class="container">
 <div class="col-lg-12 srch-comp">
   <div class="input-group">
     <input class="form-control" [(ngModel)]="searchText" placeholder="Search...">
@@ -26,22 +25,27 @@
 </div>
 
     <div class="task-list col-lg-12" *ngFor="let task of tasks | filter : searchText : searchPriority">
+        <span *ngIf="task.priority == 'A'" class="badg badge-green">{{ task.priority }}</span>
+        <span *ngIf="task.priority == 'B'" class="badg badge-blue">{{ task.priority }}</span>
+        <span *ngIf="task.priority == 'T'" class="badg badge-yellow">{{ timeToTitle(task.startTime) }}</span> 
       {{ task.title }}
-      <span *ngIf="task.priority == 'T'" class="start-time">{{ timeToTitle(task.startTime) }}</span>
       <span class="task-time">{{ task.time }}h</span> 
-      <span *ngIf="task.priority == 'A'" class="badge badge-green">{{ task.priority }}</span>
-      <span *ngIf="task.priority == 'B'" class="badge badge-blue">{{ task.priority }}</span>
-      <span *ngIf="task.priority == 'T'" class="badge badge-yellow">{{ task.priority }}</span>  
+       
       <input *ngIf="task.status == 1" class="chkbox" type="checkbox" checked="checked" id="{{ task.id }}" (click)="toggleStatus($event)">
       <input *ngIf="task.status == 0" class="chkbox" type="checkbox" id="{{ task.id }}" (click)="toggleStatus($event)">
     <span class="close" (click)="deleteTask($event)" id="{{ task.id }}">&times;</span>
+    </div>
+
+    <div class="task-list col-lg-12">
+        <span class="badg badge-purple">{{ timeToTitle(wuTime) }}</span>
+        Sleep
+        <span class="badg badge-purple">{{ timeToTitle(gtbTime) }}</span>
     </div>
 
     <div class="input-group">
       Wake up time:
       <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
-        <span>{{ timeToTitle(wuTime) }}</span>
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <ul class="dropdown-menu dropdown-menu-right"> 
@@ -53,7 +57,6 @@
       Go to bed time:
       <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="caret"></span>
-        <span>{{ timeToTitle(gtbTime) }}</span>
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <ul class="dropdown-menu dropdown-menu-right"> 
@@ -62,4 +65,3 @@
     </div>
 
     <button *ngIf="sTimesFlag" (click)="saveTimes()" type="button" class="btn btn-default" aria-haspopup="true" aria-expanded="false">Save</button>
-</div>

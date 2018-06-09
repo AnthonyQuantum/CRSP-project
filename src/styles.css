@@ -12,7 +12,6 @@
     font-size: 4em;
     color: white;
     font-family: "Indie Flower";
-    margin-bottom: 10px;
     cursor: default;
     height: 70px;
     line-height: 70px;
@@ -26,13 +25,13 @@
                                   supported by Chrome and Opera */
 }
 
-.badge {
-    position: absolute;
+.badg {
     top: 2.5px;
     right: 45px;
     color: black;
-    padding: 1px 7px !important;
     width: 25px;
+    padding: 17px 5px 15px 5px;
+    color: white;
 }
 .badge-green {
     background: limegreen;
@@ -45,6 +44,9 @@
 }
 .badge-yellow {
     background: yellow;
+}
+.badge-purple {
+    background: purple;
 }
 
 .drop-li {

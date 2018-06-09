@@ -7,7 +7,10 @@
 .task-list {
     text-align: left;
     border: 1px solid lightgray;
-    margin-bottom: 5px;
+    height: 50px;
+    line-height: 50px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .chkbox {
@@ -24,7 +27,8 @@
 }
 
 .srch-comp {
-    margin-bottom: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .task-time {
@@ -35,4 +39,9 @@
 .start-time {
     position: absolute;
     right: 120px;
+}
+
+.form-control, .btn
+{
+    height: 50px;
 }
