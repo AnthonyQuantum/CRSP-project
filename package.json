@@ -27,6 +27,7 @@
     "chart.js": "^2.7.2",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
+    "googleapis": "^27.0.0",
     "mongodb": "^2.2.35",
     "mongojs": "^2.5.0",
     "ng2-bootstrap-modal": "^1.0.1",
