@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
 
 import { DataService } from '../../services/data/data.service';
-import { ConfirmModel } from '../../models/Confirm'
+import { NewTaskDialogModel } from '../../models/NewTaskDialog'
 import { CurrentUserModel } from '../../models/CurrentUser';
 import { TimeService } from '../../services/time/time.service';
 
 @Component({  
     selector: 'confirm',
-    templateUrl: './confirm.component.html',
-    styleUrls: ['./confirm.component.css']
+    templateUrl: './newTaskDialog.component.html',
+    styleUrls: ['./newTaskDialog.component.css']
 })
-export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> implements ConfirmModel {
+export class NewTaskDialogComponent extends DialogComponent<NewTaskDialogModel, boolean> implements NewTaskDialogModel {
   title: string;
   message: string;
   newTaskTitle: string;

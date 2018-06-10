@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DialogService } from "ng2-bootstrap-modal";
 
 import { DataService } from '../../services/data/data.service';
-import { ConfirmComponent } from '../confirm/confirm.component';
+import { NewTaskDialogComponent } from '../newTaskDialog/newTaskDialog.component';
 import { CurrentUserModel } from '../../models/CurrentUser';
 import { TimeService } from '../../services/time/time.service';
 import { User } from '../../models/User';
@@ -15,7 +15,6 @@ import { User } from '../../models/User';
 export class TasksComponent {
 
   tasks: Array<any>;
-  searchPriority = "A/B";
   status: number;
   times = [];
 
@@ -33,7 +32,7 @@ export class TasksComponent {
   }
 
   showDialog() {
-      let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      let disposable = this.dialogService.addDialog(NewTaskDialogComponent, {
           message:'Confirm message'})
           .subscribe((isConfirmed)=>{
               if(isConfirmed) {

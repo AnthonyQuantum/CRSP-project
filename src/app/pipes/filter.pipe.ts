@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class FilterPipe implements PipeTransform {
 
-transform(items: any[], searchText: string, searchPriority: string): any[] {
+transform(items: any[], searchText: string): any[] {
     if(!items) return [];
     if(!searchText) return items;
 
@@ -17,7 +17,7 @@ let LCTitle: string;
 
 return items.filter(item => {
     LCTitle = item.title.toLowerCase();
-        if (LCTitle.indexOf(searchText) !== -1 && searchPriority.indexOf(item.priority) !== -1)
+        if (LCTitle.indexOf(searchText) !== -1)
             return true;
         else
             return false;

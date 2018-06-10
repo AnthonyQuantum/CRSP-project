@@ -4,18 +4,6 @@
   <div class="input-group">
     <input class="form-control" [(ngModel)]="searchText" placeholder="Search...">
     <div class="input-group-btn">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="caret"></span>
-        <span>{{ searchPriority }}</span>
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-right badge-dropdown-menu"> 
-        <li class="drop-li"><a href="#" class="badge badge-green badge-dropdown" (click)="searchPriority = 'A'">A</a></li><br>
-        <li class="drop-li"><a href="#" class="badge badge-blue badge-dropdown" (click)="searchPriority = 'B'">B</a></li><br>
-        <li class="drop-li"><a href="#" class="badge badge-yellow badge-dropdown" (click)="searchPriority = 'T'">T</a></li><br>
-        <li class="drop-li"><a href="#" class="badge badge-grey badge-dropdown" (click)="searchPriority = 'A/B'">A/B</a></li>
-      </ul>
-
       <button type="button" class="btn btn-default" (click)="showDialog()">
           <span>New</span>
       </button>
@@ -24,7 +12,7 @@
   </div>
 </div>
 
-    <div class="task-list col-lg-12" *ngFor="let task of tasks | filter : searchText : searchPriority">
+    <div class="task-list col-lg-12" *ngFor="let task of tasks | filter : searchText">
         <span *ngIf="task.priority == 'A'" class="badg badge-green">{{ task.priority }}</span>
         <span *ngIf="task.priority == 'B'" class="badg badge-blue">{{ task.priority }}</span>
         <span *ngIf="task.priority == 'T'" class="badg badge-yellow">{{ timeToTitle(task.startTime) }}</span> 

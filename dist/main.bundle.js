@@ -345,7 +345,7 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_time_time_service__ = __webpack_require__("./src/app/services/time/time.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_tasks_tasks_component__ = __webpack_require__("./src/app/components/tasks/tasks.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pipes_filter_pipe__ = __webpack_require__("./src/app/pipes/filter.pipe.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_confirm_confirm_component__ = __webpack_require__("./src/app/components/confirm/confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_newTaskDialog_newTaskDialog_component__ = __webpack_require__("./src/app/components/newTaskDialog/newTaskDialog.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_schedule_schedule_component__ = __webpack_require__("./src/app/components/schedule/schedule.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_rhythms_rhythms_component__ = __webpack_require__("./src/app/components/rhythms/rhythms.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_register_register_component__ = __webpack_require__("./src/app/components/register/register.component.ts");
@@ -383,7 +383,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__components_tasks_tasks_component__["a" /* TasksComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__pipes_filter_pipe__["a" /* FilterPipe */],
-                __WEBPACK_IMPORTED_MODULE_11__components_confirm_confirm_component__["a" /* ConfirmComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__components_newTaskDialog_newTaskDialog_component__["a" /* NewTaskDialogComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__components_schedule_schedule_component__["a" /* ScheduleComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__components_rhythms_rhythms_component__["a" /* RhythmsComponent */],
                 __WEBPACK_IMPORTED_MODULE_14__components_register_register_component__["a" /* RegisterComponent */],
@@ -397,7 +397,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4__app_routing__["a" /* routing */]
             ],
             entryComponents: [
-                __WEBPACK_IMPORTED_MODULE_11__components_confirm_confirm_component__["a" /* ConfirmComponent */]
+                __WEBPACK_IMPORTED_MODULE_11__components_newTaskDialog_newTaskDialog_component__["a" /* NewTaskDialogComponent */]
             ],
             providers: [__WEBPACK_IMPORTED_MODULE_7__services_data_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_8__services_time_time_service__["a" /* TimeService */], __WEBPACK_IMPORTED_MODULE_16__models_CurrentUser__["a" /* CurrentUserModel */]],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]]
@@ -438,103 +438,6 @@ var appRoutes = [
     { path: '**', redirectTo: '' }
 ];
 var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* RouterModule */].forRoot(appRoutes);
-
-
-/***/ }),
-
-/***/ "./src/app/components/confirm/confirm.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ".input-group-btn {\n    margin-bottom: 25px;\n}\n\n.badge {\n    position: unset;\n    width: 25px;\n}"
-
-/***/ }),
-
-/***/ "./src/app/components/confirm/confirm.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"modal-dialog\">\n  <div class=\"modal-content\">\n     <div class=\"modal-header\">\n        <span>New task</span>\n     </div>\n\n     <div class=\"modal-body\">\n        <div class=\"input-group\">\n            <input class=\"form-control\" [(ngModel)]=\"newTaskTitle\" placeholder=\"Title...\">\n            \n            <div class=\"input-group\">\n              Priority:\n                <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <span class=\"caret\"></span>\n                    <span>{{ newTaskPriority }}</span>\n                    <span class=\"sr-only\">Toggle Dropdown</span>\n                  </button>\n                  <ul class=\"dropdown-menu dropdown-menu-right badge-dropdown-menu\"> \n                    <li class=\"drop-li\"><a class=\"badge badge-green badge-dropdown\" (click)=\"newTaskPriority = 'A'\">A</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-blue badge-dropdown\" (click)=\"newTaskPriority = 'B'\">B</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-yellow badge-dropdown\" (click)=\"newTaskPriority = 'T'\">T</a></li>\n                  </ul>\n            </div>\n\n            <div *ngIf=\"newTaskPriority == 'T'\" class=\"input-group\">\n                Start time:\n                  <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      <span class=\"caret\"></span>\n                      <span>{{ timeToTitle(newTaskStartTime) }}</span>\n                      <span class=\"sr-only\">Toggle Dropdown</span>\n                    </button>\n                    <ul class=\"dropdown-menu dropdown-menu-right\"> \n                        <li *ngFor=\"let time of times\" class=\"drop-li\"><a (click)=\"newTaskStartTime = time\">{{ timeToTitle(time) }}</a></li><br>\n                    </ul>\n              </div>\n            \n            <div class=\"input-group\">\n              Time to complete:\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ newTaskTime }}h</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 0.5\">0.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1\">1h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1.5\">1.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 2\">2h</a></li>\n              </ul>\n            </div>\n\n            <div class=\"input-group\">\n              Divisible?\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ boolToWord(newTaskDivisible) }}</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = true\">Yes</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = false\">No</a></li>\n              </ul>\n            </div>\n\n          </div>\n\n     </div>\n     <div class=\"modal-footer\">\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\">Create</button>\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n     </div>\n   </div>\n</div>"
-
-/***/ }),
-
-/***/ "./src/app/components/confirm/confirm.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__ = __webpack_require__("./node_modules/ng2-bootstrap-modal/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__ = __webpack_require__("./src/app/services/data/data.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_time_time_service__ = __webpack_require__("./src/app/services/time/time.service.ts");
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var ConfirmComponent = /** @class */ (function (_super) {
-    __extends(ConfirmComponent, _super);
-    function ConfirmComponent(dialogService, _dataService, currentUser, _time) {
-        var _this = _super.call(this, dialogService) || this;
-        _this._dataService = _dataService;
-        _this.currentUser = currentUser;
-        _this._time = _time;
-        _this.newTaskPriority = "A";
-        _this.newTaskTime = 1;
-        _this.newTaskStartTime = 1;
-        _this.newTaskDivisible = true;
-        _this.times = [];
-        _this.times = _this._time.generateTimes();
-        return _this;
-    }
-    // Add new task and close modal window
-    ConfirmComponent.prototype.confirm = function () {
-        if (this.newTaskPriority == "T")
-            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.newTaskDivisible, this.currentUser.getName());
-        else
-            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, -1, this.newTaskDivisible, this.currentUser.getName());
-        this.result = true;
-        this.close();
-    };
-    ConfirmComponent.prototype.timeToTitle = function (time) {
-        return this._time.timeToTitle(time);
-    };
-    ConfirmComponent.prototype.boolToWord = function (v) {
-        if (v)
-            return "Yes";
-        else
-            return "No";
-    };
-    ConfirmComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'confirm',
-            template: __webpack_require__("./src/app/components/confirm/confirm.component.html"),
-            styles: [__webpack_require__("./src/app/components/confirm/confirm.component.css")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogService"], __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_3__models_CurrentUser__["a" /* CurrentUserModel */], __WEBPACK_IMPORTED_MODULE_4__services_time_time_service__["a" /* TimeService */]])
-    ], ConfirmComponent);
-    return ConfirmComponent;
-}(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogComponent"]));
-
 
 
 /***/ }),
@@ -607,6 +510,103 @@ var LoginComponent = /** @class */ (function () {
     ], LoginComponent);
     return LoginComponent;
 }());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/newTaskDialog/newTaskDialog.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ".input-group-btn {\n    margin-bottom: 25px;\n}\n\n.badge {\n    position: unset;\n    width: 25px;\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/newTaskDialog/newTaskDialog.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-dialog\">\n  <div class=\"modal-content\">\n     <div class=\"modal-body\">\n        <div class=\"input-group\">\n            <input class=\"form-control\" [(ngModel)]=\"newTaskTitle\" placeholder=\"Title...\">\n            \n            <div class=\"input-group\">\n              Priority:\n                <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <span class=\"caret\"></span>\n                    <span>{{ newTaskPriority }}</span>\n                    <span class=\"sr-only\">Toggle Dropdown</span>\n                  </button>\n                  <ul class=\"dropdown-menu dropdown-menu-right badge-dropdown-menu\"> \n                    <li class=\"drop-li\"><a class=\"badge badge-green badge-dropdown\" (click)=\"newTaskPriority = 'A'\">A</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-blue badge-dropdown\" (click)=\"newTaskPriority = 'B'\">B</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-yellow badge-dropdown\" (click)=\"newTaskPriority = 'T'\">T</a></li>\n                  </ul>\n            </div>\n\n            <div *ngIf=\"newTaskPriority == 'T'\" class=\"input-group\">\n                Start time:\n                  <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      <span class=\"caret\"></span>\n                      <span>{{ timeToTitle(newTaskStartTime) }}</span>\n                      <span class=\"sr-only\">Toggle Dropdown</span>\n                    </button>\n                    <ul class=\"dropdown-menu dropdown-menu-right\"> \n                        <li *ngFor=\"let time of times\" class=\"drop-li\"><a (click)=\"newTaskStartTime = time\">{{ timeToTitle(time) }}</a></li><br>\n                    </ul>\n              </div>\n            \n            <div class=\"input-group\">\n              Time to complete:\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ newTaskTime }}h</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 0.5\">0.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1\">1h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1.5\">1.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 2\">2h</a></li>\n              </ul>\n            </div>\n\n            <div class=\"input-group\">\n              Divisible?\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ boolToWord(newTaskDivisible) }}</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = true\">Yes</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = false\">No</a></li>\n              </ul>\n            </div>\n\n          </div>\n\n     </div>\n     <div class=\"modal-footer\">\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\">Create</button>\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n     </div>\n   </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/newTaskDialog/newTaskDialog.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewTaskDialogComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__ = __webpack_require__("./node_modules/ng2-bootstrap-modal/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__ = __webpack_require__("./src/app/services/data/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_time_time_service__ = __webpack_require__("./src/app/services/time/time.service.ts");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var NewTaskDialogComponent = /** @class */ (function (_super) {
+    __extends(NewTaskDialogComponent, _super);
+    function NewTaskDialogComponent(dialogService, _dataService, currentUser, _time) {
+        var _this = _super.call(this, dialogService) || this;
+        _this._dataService = _dataService;
+        _this.currentUser = currentUser;
+        _this._time = _time;
+        _this.newTaskPriority = "A";
+        _this.newTaskTime = 1;
+        _this.newTaskStartTime = 1;
+        _this.newTaskDivisible = true;
+        _this.times = [];
+        _this.times = _this._time.generateTimes();
+        return _this;
+    }
+    // Add new task and close modal window
+    NewTaskDialogComponent.prototype.confirm = function () {
+        if (this.newTaskPriority == "T")
+            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.newTaskDivisible, this.currentUser.getName());
+        else
+            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, -1, this.newTaskDivisible, this.currentUser.getName());
+        this.result = true;
+        this.close();
+    };
+    NewTaskDialogComponent.prototype.timeToTitle = function (time) {
+        return this._time.timeToTitle(time);
+    };
+    NewTaskDialogComponent.prototype.boolToWord = function (v) {
+        if (v)
+            return "Yes";
+        else
+            return "No";
+    };
+    NewTaskDialogComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'confirm',
+            template: __webpack_require__("./src/app/components/newTaskDialog/newTaskDialog.component.html"),
+            styles: [__webpack_require__("./src/app/components/newTaskDialog/newTaskDialog.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogService"], __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_3__models_CurrentUser__["a" /* CurrentUserModel */], __WEBPACK_IMPORTED_MODULE_4__services_time_time_service__["a" /* TimeService */]])
+    ], NewTaskDialogComponent);
+    return NewTaskDialogComponent;
+}(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogComponent"]));
 
 
 
@@ -870,7 +870,7 @@ module.exports = ".hdr {\n    text-align: center;\n    height: 80px;\n    line-h
 /***/ "./src/app/components/tasks/tasks.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n        <span class=\"caret\"></span>\n        <span>{{ searchPriority }}</span>\n        <span class=\"sr-only\">Toggle Dropdown</span>\n      </button>\n      <ul class=\"dropdown-menu dropdown-menu-right badge-dropdown-menu\"> \n        <li class=\"drop-li\"><a href=\"#\" class=\"badge badge-green badge-dropdown\" (click)=\"searchPriority = 'A'\">A</a></li><br>\n        <li class=\"drop-li\"><a href=\"#\" class=\"badge badge-blue badge-dropdown\" (click)=\"searchPriority = 'B'\">B</a></li><br>\n        <li class=\"drop-li\"><a href=\"#\" class=\"badge badge-yellow badge-dropdown\" (click)=\"searchPriority = 'T'\">T</a></li><br>\n        <li class=\"drop-li\"><a href=\"#\" class=\"badge badge-grey badge-dropdown\" (click)=\"searchPriority = 'A/B'\">A/B</a></li>\n      </ul>\n\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of tasks | filter : searchText : searchPriority\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ task.time }}h</span> \n       \n      <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n      <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n              </ul>\n            </div>\n    </div>"
+module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of tasks | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ task.time }}h</span> \n       \n      <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n      <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n              </ul>\n            </div>\n    </div>"
 
 /***/ }),
 
@@ -883,7 +883,7 @@ module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__ = __webpack_require__("./node_modules/ng2-bootstrap-modal/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__ = __webpack_require__("./src/app/services/data/data.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__confirm_confirm_component__ = __webpack_require__("./src/app/components/confirm/confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__newTaskDialog_newTaskDialog_component__ = __webpack_require__("./src/app/components/newTaskDialog/newTaskDialog.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_time_time_service__ = __webpack_require__("./src/app/services/time/time.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -908,7 +908,6 @@ var TasksComponent = /** @class */ (function () {
         this.dialogService = dialogService;
         this.currentUser = currentUser;
         this._time = _time;
-        this.searchPriority = "A/B";
         this.times = [];
         this.isValid = false;
         this._dataService.getTasks(this.currentUser.getName())
@@ -919,7 +918,7 @@ var TasksComponent = /** @class */ (function () {
     }
     TasksComponent.prototype.showDialog = function () {
         var _this = this;
-        var disposable = this.dialogService.addDialog(__WEBPACK_IMPORTED_MODULE_3__confirm_confirm_component__["a" /* ConfirmComponent */], {
+        var disposable = this.dialogService.addDialog(__WEBPACK_IMPORTED_MODULE_3__newTaskDialog_newTaskDialog_component__["a" /* NewTaskDialogComponent */], {
             message: 'Confirm message'
         })
             .subscribe(function (isConfirmed) {
@@ -1055,7 +1054,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var FilterPipe = /** @class */ (function () {
     function FilterPipe() {
     }
-    FilterPipe.prototype.transform = function (items, searchText, searchPriority) {
+    FilterPipe.prototype.transform = function (items, searchText) {
         if (!items)
             return [];
         if (!searchText)
@@ -1064,7 +1063,7 @@ var FilterPipe = /** @class */ (function () {
         var LCTitle;
         return items.filter(function (item) {
             LCTitle = item.title.toLowerCase();
-            if (LCTitle.indexOf(searchText) !== -1 && searchPriority.indexOf(item.priority) !== -1)
+            if (LCTitle.indexOf(searchText) !== -1)
                 return true;
             else
                 return false;

@@ -62,10 +62,11 @@
 .badge-dropdown {
     width: 35px !important;
     left: 5px !important;
+    padding: 3px 7px !important;
 }
 
 .badge-dropdown-menu {
-    width: 60px;
+    width: 37px;
     min-width: 0px !important;
 }
 

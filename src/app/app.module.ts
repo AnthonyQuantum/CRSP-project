@@ -10,7 +10,7 @@ import { DataService } from './services/data/data.service';
 import { TimeService } from './services/time/time.service';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { FilterPipe }from './pipes/filter.pipe';
-import { ConfirmComponent } from './components/confirm/confirm.component';
+import { NewTaskDialogComponent } from './components/newTaskDialog/newTaskDialog.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { RhythmsComponent } from './components/rhythms/rhythms.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -22,7 +22,7 @@ import { CurrentUserModel } from './models/CurrentUser';
     AppComponent,
     TasksComponent,
     FilterPipe,
-    ConfirmComponent,
+    NewTaskDialogComponent,
     ScheduleComponent,
     RhythmsComponent,
     RegisterComponent,
@@ -36,7 +36,7 @@ import { CurrentUserModel } from './models/CurrentUser';
     routing
   ],
   entryComponents: [
-    ConfirmComponent
+    NewTaskDialogComponent
   ],
   providers: [DataService, TimeService, CurrentUserModel],
   bootstrap: [AppComponent]
