@@ -31,22 +31,21 @@
     color: black;
     width: 25px;
     padding: 17px 5px 15px 5px;
-    color: white;
 }
 .badge-green {
-    background: limegreen;
+    background: #baffc9;
 }
 .badge-blue {
-    background: lightskyblue;
+    background: #bae1ff;
 }
 .badge-grey {
     background: grey;
 }
 .badge-yellow {
-    background: yellow;
+    background: #ffffba;
 }
 .badge-purple {
-    background: purple;
+    background: #b19cd9;
 }
 
 .drop-li {
@@ -68,4 +67,8 @@
 .badge-dropdown-menu {
     width: 60px;
     min-width: 0px !important;
+}
+
+.glyphicon {
+    top: 4px;
 }

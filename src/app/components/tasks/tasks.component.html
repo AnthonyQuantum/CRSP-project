@@ -36,32 +36,28 @@
     <span class="close" (click)="deleteTask($event)" id="{{ task.id }}">&times;</span>
     </div>
 
-    <div class="task-list col-lg-12">
-        <span class="badg badge-purple">{{ timeToTitle(wuTime) }}</span>
-        Sleep
-        <span class="badg badge-purple">{{ timeToTitle(gtbTime) }}</span>
-    </div>
+    <div class="task-list col-lg-12 slLi">
+        <div class="input-group inl">
+            <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle badge-purple slButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ timeToTitle(wuTime) }}
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right"> 
+              <li class="drop-li" *ngFor="let time of times"><a (click)="wuTime = time; saveTimes();">{{ timeToTitle(time) }}</a></li>
+            </ul>
+          </div>
 
-    <div class="input-group">
-      Wake up time:
-      <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-right"> 
-        <li class="drop-li" *ngFor="let time of times"><a (click)="wuTime = time">{{ timeToTitle(time) }}</a></li>
-      </ul>
-    </div>
+          <span class="slTitle">Sleep</span>
 
-    <div class="input-group">
-      Go to bed time:
-      <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-right"> 
-        <li class="drop-li" *ngFor="let time of times"><a (click)="gtbTime = time">{{ timeToTitle(time) }}</a></li>
-      </ul>
+          <div class="input-group inl">
+              <button (click)="sTimesFlag = true" type="button" class="btn btn-default dropdown-toggle badge-purple slButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ timeToTitle(gtbTime) }}
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right"> 
+                <li class="drop-li" *ngFor="let time of times"><a (click)="gtbTime = time; saveTimes();">{{ timeToTitle(time) }}</a></li>
+              </ul>
+            </div>
     </div>
-
-    <button *ngIf="sTimesFlag" (click)="saveTimes()" type="button" class="btn btn-default" aria-haspopup="true" aria-expanded="false">Save</button>

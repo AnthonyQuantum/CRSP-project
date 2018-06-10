@@ -19,7 +19,6 @@ export class TasksComponent {
   status: number;
   times = [];
 
-  sTimesFlag = false;
   wuTime: number;
   gtbTime: number;
 
@@ -62,7 +61,6 @@ export class TasksComponent {
 
   saveTimes()
   {
-    this.sTimesFlag = false;
     this._dataService.saveTimes(this.wuTime, this.gtbTime, this.currentUser.getName());
   }
 

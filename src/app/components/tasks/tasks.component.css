@@ -16,13 +16,13 @@
 .chkbox {
     position: absolute;
     right: 25px;
-    top: -2px;
+    top: 16px;
 }
 
 .close {
     position: absolute;
     right: 5px;
-    bottom: 1px;
+    bottom: 12.5px;
     color: red;
 }
 
@@ -33,7 +33,7 @@
 
 .task-time {
     position: absolute;
-    right: 75px;
+    right: 50px;
 }
 
 .start-time {
@@ -44,4 +44,22 @@
 .form-control, .btn
 {
     height: 50px;
+}
+
+.slButton {
+    position: relative;
+    bottom: 2px;
+}
+
+.slLi {
+    text-align: center;
+}
+
+.slTitle {
+    margin: 50px;
+}
+
+.show
+{
+    display: inline-block !important;
 }
