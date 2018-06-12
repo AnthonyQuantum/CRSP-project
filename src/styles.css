@@ -35,16 +35,16 @@
     padding: 17px 5px 15px 5px;
 }
 .badge-green {
-    background: #baffc9;
+    background: #9aff9a;
 }
 .badge-blue {
-    background: #bae1ff;
+    background: #9ac1ff;
 }
 .badge-grey {
     background: grey;
 }
 .badge-yellow {
-    background: #ffffba;
+    background: #ffff9a;
 }
 .badge-purple {
     background: #b19cd9;
@@ -74,4 +74,15 @@
 
 .glyphicon {
     top: 4px;
+}
+
+.flexCenter {
+    display: flex;
+    justify-content: center;
+}
+
+button, .linkButton {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
+    outline: none !important;
 }

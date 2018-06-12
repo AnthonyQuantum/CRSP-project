@@ -28,4 +28,8 @@ isGtb: boolean;
     return this._time.timeToTitle(time);
   }
 
+  generate() {
+    this._dataService.generateSchedule(this.currentUser.getName());
+  }
+
 }

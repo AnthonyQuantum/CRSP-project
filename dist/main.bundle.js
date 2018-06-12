@@ -287,7 +287,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /***/ "./src/app/app.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);\n    width: 50px;\n    height: 50px;\n    color: white;\n    border-radius: 10px;\n    text-align: center;\n    line-height: 50px;\n    font-size: 2em;\n    cursor: default;\n\n    -webkit-touch-callout: none; /* iOS Safari */\n    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */\n       -moz-user-select: none; /* Firefox */\n        -ms-user-select: none; /* Internet Explorer/Edge */\n            user-select: none; /* Non-prefixed version, currently\n                                  supported by Chrome and Opera */\n    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; \n    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; \n    outline: none !important;\n}\n\n.login {\n    bottom: 170px;\n}\n\n.tasks {\n    bottom: 115px;\n}\n\n.schedule {\n    bottom: 60px;\n}\n\n.rhythms {\n    bottom: 5px;\n}\n\na {\n    color: black;\n}\n\n.cpFooter {\n    position: absolute;\n    bottom: 0px;\n    left: 50%;\n    -webkit-transform: translate(-50%, 0);\n            transform: translate(-50%, 0);\n}"
+module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);\n    width: 50px;\n    height: 50px;\n    color: white;\n    border-radius: 10px;\n    text-align: center;\n    line-height: 50px;\n    font-size: 2em;\n    cursor: default;\n\n    -webkit-touch-callout: none; /* iOS Safari */\n    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */\n       -moz-user-select: none; /* Firefox */\n        -ms-user-select: none; /* Internet Explorer/Edge */\n            user-select: none; /* Non-prefixed version, currently\n                                  supported by Chrome and Opera */\n}\n\n.login {\n    bottom: 170px;\n}\n\n.tasks {\n    bottom: 115px;\n}\n\n.schedule {\n    bottom: 60px;\n}\n\n.rhythms {\n    bottom: 5px;\n}\n\na {\n    color: black;\n}\n\n.cpFooter {\n    position: absolute;\n    bottom: 0px;\n    left: 50%;\n    -webkit-transform: translate(-50%, 0);\n            transform: translate(-50%, 0);\n}"
 
 /***/ }),
 
@@ -458,7 +458,7 @@ module.exports = ".auth-text {\n    font-size: 2em;\n    margin-top: 20px;\n    
 /***/ "./src/app/components/auth/auth.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n</div>"
+module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.token == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"allowCalendarAccess()\">\n      <span>Allow calendar access</span>\n    </button> \n  </div>\n  <div *ngIf=\"currentUser.token != null\" class=\"inl greeting\">\n    <span>Access allowed</span>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -469,6 +469,7 @@ module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-te
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__ = __webpack_require__("./src/app/services/data/data.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -480,11 +481,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var AuthComponent = /** @class */ (function () {
-    function AuthComponent(currentUser) {
+    function AuthComponent(currentUser, _dataService) {
         this.currentUser = currentUser;
+        this._dataService = _dataService;
+        this.getToken();
     }
-    AuthComponent.prototype.ngOnInit = function () {
+    AuthComponent.prototype.getToken = function () {
+        this._dataService.getToken(this.currentUser.getName());
+    };
+    AuthComponent.prototype.allowCalendarAccess = function () {
+        console.log('OK in component');
+        this._dataService.allowCalendarAccess(this.currentUser.getName());
+        ;
     };
     AuthComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -492,7 +502,7 @@ var AuthComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/components/auth/auth.component.html"),
             styles: [__webpack_require__("./src/app/components/auth/auth.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__["a" /* CurrentUserModel */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__["a" /* CurrentUserModel */], __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__["a" /* DataService */]])
     ], AuthComponent);
     return AuthComponent;
 }());
@@ -584,7 +594,7 @@ module.exports = ".input-group-btn {\n    margin-bottom: 25px;\n}\n\n.badge {\n 
 /***/ "./src/app/components/newTaskDialog/newTaskDialog.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-dialog\">\n  <div class=\"modal-content\">\n     <div class=\"modal-body\">\n        <div class=\"input-group\">\n            <input class=\"form-control\" [(ngModel)]=\"newTaskTitle\" placeholder=\"Title...\">\n            \n            <div class=\"input-group\">\n              Priority:\n                <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <span class=\"caret\"></span>\n                    <span>{{ newTaskPriority }}</span>\n                    <span class=\"sr-only\">Toggle Dropdown</span>\n                  </button>\n                  <ul class=\"dropdown-menu dropdown-menu-right badge-dropdown-menu\"> \n                    <li class=\"drop-li\"><a class=\"badge badge-green badge-dropdown\" (click)=\"newTaskPriority = 'A'\">A</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-blue badge-dropdown\" (click)=\"newTaskPriority = 'B'\">B</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-yellow badge-dropdown\" (click)=\"newTaskPriority = 'T'\">T</a></li>\n                  </ul>\n            </div>\n\n            <div *ngIf=\"newTaskPriority == 'T'\" class=\"input-group\">\n                Start time:\n                  <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      <span class=\"caret\"></span>\n                      <span>{{ timeToTitle(newTaskStartTime) }}</span>\n                      <span class=\"sr-only\">Toggle Dropdown</span>\n                    </button>\n                    <ul class=\"dropdown-menu dropdown-menu-right\"> \n                        <li *ngFor=\"let time of times\" class=\"drop-li\"><a (click)=\"newTaskStartTime = time\">{{ timeToTitle(time) }}</a></li><br>\n                    </ul>\n              </div>\n            \n            <div class=\"input-group\">\n              Time to complete:\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ newTaskTime }}h</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 0.5\">0.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1\">1h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1.5\">1.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 2\">2h</a></li>\n              </ul>\n            </div>\n\n            <div class=\"input-group\">\n              Divisible?\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ boolToWord(newTaskDivisible) }}</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = true\">Yes</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = false\">No</a></li>\n              </ul>\n            </div>\n\n          </div>\n\n     </div>\n     <div class=\"modal-footer\">\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\">Create</button>\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n     </div>\n   </div>\n</div>"
+module.exports = "<div class=\"modal-dialog\">\n  <div class=\"modal-content\">\n     <div class=\"modal-body\">\n        <div class=\"input-group\">\n            <input class=\"form-control\" [(ngModel)]=\"newTaskTitle\" placeholder=\"Title...\">\n            \n            <div class=\"input-group\">\n              Type:\n                <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <span class=\"caret\"></span>\n                    <span>{{ newTaskPriority }}</span>\n                    <span class=\"sr-only\">Toggle Dropdown</span>\n                  </button>\n                  <ul class=\"dropdown-menu dropdown-menu-right badge-dropdown-menu\"> \n                    <li class=\"drop-li\"><a class=\"badge badge-green badge-dropdown\" (click)=\"newTaskPriority = 'A'\">A</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-blue badge-dropdown\" (click)=\"newTaskPriority = 'B'\">B</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-yellow badge-dropdown\" (click)=\"newTaskPriority = 'T'\">T</a></li>\n                  </ul>\n            </div>\n\n            <div *ngIf=\"newTaskPriority == 'T'\" class=\"input-group\">\n                Start time:\n                  <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      <span class=\"caret\"></span>\n                      <span>{{ timeToTitle(newTaskStartTime) }}</span>\n                      <span class=\"sr-only\">Toggle Dropdown</span>\n                    </button>\n                    <ul class=\"dropdown-menu dropdown-menu-right\"> \n                        <li *ngFor=\"let time of times\" class=\"drop-li\"><a (click)=\"newTaskStartTime = time\">{{ timeToTitle(time) }}</a></li><br>\n                    </ul>\n              </div>\n            \n            <div class=\"input-group\">\n              Time to complete:\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ newTaskTime }}h</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 0.5\">0.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1\">1h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1.5\">1.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 2\">2h</a></li>\n              </ul>\n            </div>\n\n            <div class=\"input-group\">\n              Can be divided?\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ boolToWord(newTaskDivisible) }}</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = true\">Yes</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = false\">No</a></li>\n              </ul>\n            </div>\n\n          </div>\n\n     </div>\n     <div class=\"modal-footer\">\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\">Create</button>\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n     </div>\n   </div>\n</div>"
 
 /***/ }),
 
@@ -755,7 +765,7 @@ module.exports = "canvas {\n    width: 100%;\n}\n\n.btn {\n    margin-top: 50px;
 /***/ "./src/app/components/rhythms/rhythms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Rhythms</div>\n\n<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-lg-12\">\n            <canvas id=\"myChart\"></canvas>\n        </div>\n    </div>\n</div>\n\n<div class=\"container\">\n    <div class=\"row\">\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Make a schedule</button>\n    </div>\n</div>\n\n"
+module.exports = "<div class=\"hdr\">Rhythms</div>\n\n<div class=\"container\">\n    <div class=\"row\">\n        <div class=\"col-lg-12\">\n            <canvas id=\"myChart\"></canvas>\n        </div>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -835,9 +845,6 @@ var RhythmsComponent = /** @class */ (function () {
     RhythmsComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
     };
-    RhythmsComponent.prototype.generate = function () {
-        this._dataService.generateSchedule(this.currentUser.getName());
-    };
     RhythmsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'rhythms',
@@ -863,7 +870,7 @@ module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background
 /***/ "./src/app/components/schedule/schedule.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n"
+module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n\n\n<div class=\"flexCenter\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Update my calendar</button>\n</div>"
 
 /***/ }),
 
@@ -900,6 +907,9 @@ var ScheduleComponent = /** @class */ (function () {
     ScheduleComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
     };
+    ScheduleComponent.prototype.generate = function () {
+        this._dataService.generateSchedule(this.currentUser.getName());
+    };
     ScheduleComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'schedule',
@@ -918,14 +928,14 @@ var ScheduleComponent = /** @class */ (function () {
 /***/ "./src/app/components/tasks/tasks.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".hdr {\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    height: 50px;\n    line-height: 50px;\n    padding-right: 0px;\n    padding-left: 0px;\n}\n\n.chkbox {\n    position: absolute;\n    right: 25px;\n    top: 16px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 12.5px;\n    color: red;\n}\n\n.srch-comp {\n    padding-left: 0px;\n    padding-right: 0px;\n}\n\n.task-time {\n    position: absolute;\n    right: 50px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}\n\n.form-control, .btn\n{\n    height: 50px;\n}\n\n.slButton {\n    position: relative;\n    bottom: 2px;\n}\n\n.slLi {\n    text-align: center;\n}\n\n.slTitle {\n    margin: 50px;\n}\n\n.show\n{\n    display: inline-block !important;\n}"
+module.exports = ".hdr {\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    height: 50px;\n    line-height: 50px;\n    padding-right: 0px;\n    padding-left: 0px;\n}\n\n.chkbox {\n    position: absolute;\n    right: 25px;\n    top: 16px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 12.5px;\n    color: red;\n}\n\n.srch-comp {\n    padding-left: 0px;\n    padding-right: 0px;\n}\n\n.task-time {\n    position: absolute;\n    right: 50px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}\n\n.form-control, .btn\n{\n    height: 50px;\n}\n\n.slButton {\n    position: relative;\n    bottom: 2px;\n}\n\n.slLi {\n    text-align: center;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.show\n{\n    display: inline-block !important;\n}\n\n.btn-left {\n    position: absolute;\n    left: 0px;\n}\n\n.btn-right {\n    position: absolute;\n    right: 0px;\n}"
 
 /***/ }),
 
 /***/ "./src/app/components/tasks/tasks.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of tasks | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ task.time }}h</span> \n       \n      <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n      <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n              </ul>\n            </div>\n    </div>"
+module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of tasks | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ task.time }}h</span> \n       \n      <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n      <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl btn-left\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl btn-right\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n              </ul>\n            </div>\n    </div>"
 
 /***/ }),
 
@@ -1044,6 +1054,7 @@ var CurrentUserModel = /** @class */ (function () {
         this.wuTime = null;
         this.gtbTime = null;
         this.isValid = false;
+        this.token = null;
     }
     CurrentUserModel.prototype.setName = function (name) {
         this.name = name;
@@ -1259,6 +1270,20 @@ var DataService = /** @class */ (function () {
             console.log(res);
         }, function (err) {
             console.log("Error occured");
+        });
+    };
+    DataService.prototype.getToken = function (name) {
+        var _this = this;
+        return this._http.post("/api/getToken/" + name, {})
+            .map(function (result) {
+            _this.currentUser.token = result.json().token;
+        });
+    };
+    DataService.prototype.allowCalendarAccess = function (name) {
+        console.log('OK in service');
+        return this._http.post("/api/allowCalendarAccess/" + name, {})
+            .map(function (result) {
+            //this.currentUser.token = result.json().token;
         });
     };
     DataService = __decorate([

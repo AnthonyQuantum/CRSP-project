@@ -125,4 +125,21 @@ export class DataService {
       }
     )
   }
+
+  getToken(name: string)
+  {
+    return this._http.post("/api/getToken/" + name, {})
+    .map(result =>  {
+      this.currentUser.token = result.json().token;
+      })
+  }
+
+  allowCalendarAccess(name: string)
+  {
+    console.log('OK in service');
+    return this._http.post("/api/allowCalendarAccess/" + name, {})
+    .map(result =>  {
+      //this.currentUser.token = result.json().token;
+      })
+  }
 }

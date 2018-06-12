@@ -7,6 +7,7 @@ private name = null;
 private wuTime = null;
 private gtbTime = null;
 public isValid = false;
+public token = null;
 
 constructor() {}
 

@@ -5,7 +5,7 @@
             <input class="form-control" [(ngModel)]="newTaskTitle" placeholder="Title...">
             
             <div class="input-group">
-              Priority:
+              Type:
                 <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span>{{ newTaskPriority }}</span>
@@ -46,7 +46,7 @@
             </div>
 
             <div class="input-group">
-              Divisible?
+              Can be divided?
               <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span>{{ boolToWord(newTaskDivisible) }}</span>

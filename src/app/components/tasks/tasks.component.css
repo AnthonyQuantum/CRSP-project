@@ -52,13 +52,20 @@
 
 .slLi {
     text-align: center;
-}
-
-.slTitle {
-    margin: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .show
 {
     display: inline-block !important;
+}
+
+.btn-left {
+    position: absolute;
+    left: 0px;
+}
+.btn-right {
+    position: absolute;
+    right: 0px;
 }
