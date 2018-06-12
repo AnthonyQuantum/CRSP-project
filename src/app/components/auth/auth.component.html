@@ -1,0 +1,17 @@
+<div class="hdr">Authorization</div>
+
+<div class="auth-text">
+  <div *ngIf="currentUser.getName() != null" class="inl greeting">
+    <div class="inl">Logged as: {{ currentUser.getName() }}</div>
+    <br>
+    <button type="button" class="btn btn-default" (click)="currentUser.logout()">
+      <span>Logout</span>
+    </button> 
+  </div>
+  <br>
+  <div *ngIf="currentUser.getName() == null" class="inl greeting">
+    <button type="button" class="btn btn-default" routerLink="/login">
+      <span>Login</span>
+    </button> 
+  </div>
+</div>

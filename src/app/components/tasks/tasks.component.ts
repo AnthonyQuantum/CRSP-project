@@ -68,4 +68,10 @@ export class TasksComponent {
     return this._time.timeToTitle(time);
   }
 
+  // Log out the user
+   logout()
+   {
+     this.currentUser.setName(null);
+   }
+
 }

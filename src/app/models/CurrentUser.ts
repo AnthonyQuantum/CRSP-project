@@ -40,4 +40,9 @@ public setGtbTime(time: string)
     this.gtbTime = time;
 }
 
+public logout()
+{
+    this.name = null;
+}
+
 }

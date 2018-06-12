@@ -16,6 +16,7 @@ import { RhythmsComponent } from './components/rhythms/rhythms.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { CurrentUserModel } from './models/CurrentUser';
+import { AuthComponent } from './components/auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CurrentUserModel } from './models/CurrentUser';
     ScheduleComponent,
     RhythmsComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,

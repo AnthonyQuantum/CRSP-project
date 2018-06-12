@@ -1,11 +1,12 @@
-.hdr {
-    text-align: center;
-}
-
 canvas {
     width: 100%;
 }
 
 .btn {
     margin-top: 50px;
+}
+
+.hdr {
+    line-height: 70px;
+    font-size: 3em;
 }

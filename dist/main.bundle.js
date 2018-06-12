@@ -287,14 +287,14 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /***/ "./src/app/app.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);\n    width: 50px;\n    height: 50px;\n    color: white;\n    border-radius: 10px;\n    text-align: center;\n    line-height: 50px;\n    font-size: 2em;\n    cursor: default;\n\n    -webkit-touch-callout: none; /* iOS Safari */\n    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */\n       -moz-user-select: none; /* Firefox */\n        -ms-user-select: none; /* Internet Explorer/Edge */\n            user-select: none; /* Non-prefixed version, currently\n                                  supported by Chrome and Opera */\n}\n\n.tasks {\n    bottom: 115px;\n}\n\n.schedule {\n    bottom: 60px;\n}\n\n.rhythms {\n    bottom: 5px;\n}"
+module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);\n    width: 50px;\n    height: 50px;\n    color: white;\n    border-radius: 10px;\n    text-align: center;\n    line-height: 50px;\n    font-size: 2em;\n    cursor: default;\n\n    -webkit-touch-callout: none; /* iOS Safari */\n    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */\n       -moz-user-select: none; /* Firefox */\n        -ms-user-select: none; /* Internet Explorer/Edge */\n            user-select: none; /* Non-prefixed version, currently\n                                  supported by Chrome and Opera */\n}\n\n.login {\n    bottom: 170px;\n}\n\n.tasks {\n    bottom: 115px;\n}\n\n.schedule {\n    bottom: 60px;\n}\n\n.rhythms {\n    bottom: 5px;\n}"
 
 /***/ }),
 
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n  \n"
+module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton login\" routerLink=\"/auth\"><span class=\"glyphicon glyphicon-user\"></span></div>\n<div class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n  \n"
 
 /***/ }),
 
@@ -351,12 +351,14 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_register_register_component__ = __webpack_require__("./src/app/components/register/register.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_login_login_component__ = __webpack_require__("./src/app/components/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_auth_auth_component__ = __webpack_require__("./src/app/components/auth/auth.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -387,7 +389,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_12__components_schedule_schedule_component__["a" /* ScheduleComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__components_rhythms_rhythms_component__["a" /* RhythmsComponent */],
                 __WEBPACK_IMPORTED_MODULE_14__components_register_register_component__["a" /* RegisterComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_login_login_component__["a" /* LoginComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__components_login_login_component__["a" /* LoginComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__components_auth_auth_component__["a" /* AuthComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -421,6 +424,8 @@ var AppModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tasks_tasks_component__ = __webpack_require__("./src/app/components/tasks/tasks.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_register_register_component__ = __webpack_require__("./src/app/components/register/register.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_login_login_component__ = __webpack_require__("./src/app/components/login/login.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_auth_auth_component__ = __webpack_require__("./src/app/components/auth/auth.component.ts");
+
 
 
 
@@ -434,10 +439,64 @@ var appRoutes = [
     { path: 'rhythms', component: __WEBPACK_IMPORTED_MODULE_1__components_rhythms_rhythms_component__["a" /* RhythmsComponent */] },
     { path: 'register', component: __WEBPACK_IMPORTED_MODULE_4__components_register_register_component__["a" /* RegisterComponent */] },
     { path: 'login', component: __WEBPACK_IMPORTED_MODULE_5__components_login_login_component__["a" /* LoginComponent */] },
+    { path: 'auth', component: __WEBPACK_IMPORTED_MODULE_6__components_auth_auth_component__["a" /* AuthComponent */] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
 var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* RouterModule */].forRoot(appRoutes);
+
+
+/***/ }),
+
+/***/ "./src/app/components/auth/auth.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ".auth-text {\n    font-size: 2em;\n    margin-top: 20px;\n    margin-left: 20px;\n}"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/auth.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/auth/auth.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var AuthComponent = /** @class */ (function () {
+    function AuthComponent(currentUser) {
+        this.currentUser = currentUser;
+    }
+    AuthComponent.prototype.ngOnInit = function () {
+    };
+    AuthComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-auth',
+            template: __webpack_require__("./src/app/components/auth/auth.component.html"),
+            styles: [__webpack_require__("./src/app/components/auth/auth.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__["a" /* CurrentUserModel */]])
+    ], AuthComponent);
+    return AuthComponent;
+}());
+
 
 
 /***/ }),
@@ -496,7 +555,7 @@ var LoginComponent = /** @class */ (function () {
             _this.isValid = _this.currentUser.isValid;
             if (_this.isValid) {
                 _this.currentUser.setName(user.name);
-                _this.router.navigate(['/']);
+                _this.router.navigate(['/auth']);
             }
         });
     };
@@ -667,7 +726,7 @@ var RegisterComponent = /** @class */ (function () {
             _this.isValid = _this.currentUser.isValid;
             if (_this.isValid) {
                 _this.currentUser.setName(user.name);
-                _this.router.navigate(['/']);
+                _this.router.navigate(['/auth']);
             }
         });
     };
@@ -689,7 +748,7 @@ var RegisterComponent = /** @class */ (function () {
 /***/ "./src/app/components/rhythms/rhythms.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".hdr {\n    text-align: center;\n}\n\ncanvas {\n    width: 100%;\n}\n\n.btn {\n    margin-top: 50px;\n}"
+module.exports = "canvas {\n    width: 100%;\n}\n\n.btn {\n    margin-top: 50px;\n}\n\n.hdr {\n    line-height: 70px;\n    font-size: 3em;\n}"
 
 /***/ }),
 
@@ -804,7 +863,7 @@ module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background
 /***/ "./src/app/components/schedule/schedule.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">\n    <div class=\"container\">\n\n        <div class=\"row\">\n            <div class=\"now inl col-lg-8 col-md-8 col-sm-8 col-xs-8\">{{ now | date:'MMMM d, E' }}</div>\n\n                <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4\">\n                    <div class=\"inl\">Hello, {{ currentUser.getName() }}</div> \n                    <div (click)=\"logout()\" class=\"inl\">[Logout]</div>\n                </div>\n\n                <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting col-lg-4 col-md-4 col-sm-4 col-xs-4\"> \n                    <div routerLink=\"/login\">Login</div>\n                </div>\n\n        </div>\n    </div>\n    \n</div>"
+module.exports = "<div class=\"hdr\">Calendar</div>"
 
 /***/ }),
 
@@ -837,10 +896,6 @@ var ScheduleComponent = /** @class */ (function () {
         this._time = _time;
         this.now = new Date();
     }
-    // Log out the user
-    ScheduleComponent.prototype.logout = function () {
-        this.currentUser.setName(null);
-    };
     // 19.5 -> "7:30pm"
     ScheduleComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
@@ -863,7 +918,7 @@ var ScheduleComponent = /** @class */ (function () {
 /***/ "./src/app/components/tasks/tasks.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".hdr {\n    text-align: center;\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    height: 50px;\n    line-height: 50px;\n    padding-right: 0px;\n    padding-left: 0px;\n}\n\n.chkbox {\n    position: absolute;\n    right: 25px;\n    top: 16px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 12.5px;\n    color: red;\n}\n\n.srch-comp {\n    padding-left: 0px;\n    padding-right: 0px;\n}\n\n.task-time {\n    position: absolute;\n    right: 50px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}\n\n.form-control, .btn\n{\n    height: 50px;\n}\n\n.slButton {\n    position: relative;\n    bottom: 2px;\n}\n\n.slLi {\n    text-align: center;\n}\n\n.slTitle {\n    margin: 50px;\n}\n\n.show\n{\n    display: inline-block !important;\n}"
+module.exports = ".hdr {\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    height: 50px;\n    line-height: 50px;\n    padding-right: 0px;\n    padding-left: 0px;\n}\n\n.chkbox {\n    position: absolute;\n    right: 25px;\n    top: 16px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 12.5px;\n    color: red;\n}\n\n.srch-comp {\n    padding-left: 0px;\n    padding-right: 0px;\n}\n\n.task-time {\n    position: absolute;\n    right: 50px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}\n\n.form-control, .btn\n{\n    height: 50px;\n}\n\n.slButton {\n    position: relative;\n    bottom: 2px;\n}\n\n.slLi {\n    text-align: center;\n}\n\n.slTitle {\n    margin: 50px;\n}\n\n.show\n{\n    display: inline-block !important;\n}"
 
 /***/ }),
 
@@ -947,6 +1002,10 @@ var TasksComponent = /** @class */ (function () {
     TasksComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
     };
+    // Log out the user
+    TasksComponent.prototype.logout = function () {
+        this.currentUser.setName(null);
+    };
     TasksComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'tasks',
@@ -1003,6 +1062,9 @@ var CurrentUserModel = /** @class */ (function () {
     };
     CurrentUserModel.prototype.setGtbTime = function (time) {
         this.gtbTime = time;
+    };
+    CurrentUserModel.prototype.logout = function () {
+        this.name = null;
     };
     CurrentUserModel = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),

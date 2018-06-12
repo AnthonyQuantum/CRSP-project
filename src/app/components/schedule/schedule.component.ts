@@ -22,13 +22,6 @@ isGtb: boolean;
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
    }
 
-  
-  // Log out the user
-  logout()
-  {
-    this.currentUser.setName(null);
-  }
-
   // 19.5 -> "7:30pm"
   timeToTitle(time: number)
   {

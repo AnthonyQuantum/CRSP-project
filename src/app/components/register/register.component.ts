@@ -28,7 +28,7 @@ export class RegisterComponent {
         this.isValid = this.currentUser.isValid; 
         if (this.isValid) {
           this.currentUser.setName(user.name);
-          this.router.navigate(['/']);
+          this.router.navigate(['/auth']);
         }
       });
   }
