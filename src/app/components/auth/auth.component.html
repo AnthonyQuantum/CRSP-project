@@ -6,9 +6,9 @@
     <br>
     <button type="button" class="btn btn-default" (click)="currentUser.logout()">
       <span>Logout</span>
-    </button> 
+    </button>
+    <br> 
   </div>
-  <br>
   <div *ngIf="currentUser.getName() == null" class="inl greeting">
     <button type="button" class="btn btn-default" routerLink="/login">
       <span>Login</span>

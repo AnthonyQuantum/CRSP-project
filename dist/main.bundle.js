@@ -287,14 +287,14 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /***/ "./src/app/app.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);\n    width: 50px;\n    height: 50px;\n    color: white;\n    border-radius: 10px;\n    text-align: center;\n    line-height: 50px;\n    font-size: 2em;\n    cursor: default;\n\n    -webkit-touch-callout: none; /* iOS Safari */\n    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */\n       -moz-user-select: none; /* Firefox */\n        -ms-user-select: none; /* Internet Explorer/Edge */\n            user-select: none; /* Non-prefixed version, currently\n                                  supported by Chrome and Opera */\n}\n\n.login {\n    bottom: 170px;\n}\n\n.tasks {\n    bottom: 115px;\n}\n\n.schedule {\n    bottom: 60px;\n}\n\n.rhythms {\n    bottom: 5px;\n}"
+module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);\n    width: 50px;\n    height: 50px;\n    color: white;\n    border-radius: 10px;\n    text-align: center;\n    line-height: 50px;\n    font-size: 2em;\n    cursor: default;\n\n    -webkit-touch-callout: none; /* iOS Safari */\n    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */\n       -moz-user-select: none; /* Firefox */\n        -ms-user-select: none; /* Internet Explorer/Edge */\n            user-select: none; /* Non-prefixed version, currently\n                                  supported by Chrome and Opera */\n    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; \n    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; \n    outline: none !important;\n}\n\n.login {\n    bottom: 170px;\n}\n\n.tasks {\n    bottom: 115px;\n}\n\n.schedule {\n    bottom: 60px;\n}\n\n.rhythms {\n    bottom: 5px;\n}\n\na {\n    color: black;\n}\n\n.cpFooter {\n    position: absolute;\n    bottom: 0px;\n    left: 50%;\n    -webkit-transform: translate(-50%, 0);\n            transform: translate(-50%, 0);\n}"
 
 /***/ }),
 
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton login\" routerLink=\"/auth\"><span class=\"glyphicon glyphicon-user\"></span></div>\n<div class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n  \n"
+module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton login\" routerLink=\"/auth\"><span class=\"glyphicon glyphicon-user\"></span></div>\n<div class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n\n<div class=\"cpFooter\">\n    &copy; 2018 &nbsp; <a href=\"http://anthonyquantum.com\">Anthony Quantum</a>\n</div>\n  \n"
 
 /***/ }),
 
@@ -458,7 +458,7 @@ module.exports = ".auth-text {\n    font-size: 2em;\n    margin-top: 20px;\n    
 /***/ "./src/app/components/auth/auth.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n</div>"
+module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n</div>"
 
 /***/ }),
 
@@ -856,14 +856,14 @@ var RhythmsComponent = /** @class */ (function () {
 /***/ "./src/app/components/schedule/schedule.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}"
+module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}\n\n.flexContainer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.calendar {\n    max-width: 300px;\n    max-height: 300px;\n}"
 
 /***/ }),
 
 /***/ "./src/app/components/schedule/schedule.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Calendar</div>"
+module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n"
 
 /***/ }),
 

@@ -50,3 +50,13 @@
 .task-margin {
     margin-top: 25px;
 }
+
+.flexContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.calendar {
+    max-width: 300px;
+    max-height: 300px;
+}

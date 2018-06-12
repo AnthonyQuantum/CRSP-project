@@ -9,14 +9,14 @@
 
 .hdr {
     background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
-    font-size: 4em;
+    font-size: 3em;
     color: white;
     font-family: "Indie Flower";
     cursor: default;
     height: 80px;
     line-height: 90px;
     text-align: left;
-    padding-left: 10px;
+    padding-left: 20px;
 
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
