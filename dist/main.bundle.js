@@ -352,12 +352,14 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_login_login_component__ = __webpack_require__("./src/app/components/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_auth_auth_component__ = __webpack_require__("./src/app/components/auth/auth.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_oauthcallback_oauthcallback_component__ = __webpack_require__("./src/app/components/oauthcallback/oauthcallback.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -390,7 +392,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_13__components_rhythms_rhythms_component__["a" /* RhythmsComponent */],
                 __WEBPACK_IMPORTED_MODULE_14__components_register_register_component__["a" /* RegisterComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__components_login_login_component__["a" /* LoginComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__components_auth_auth_component__["a" /* AuthComponent */]
+                __WEBPACK_IMPORTED_MODULE_17__components_auth_auth_component__["a" /* AuthComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__components_oauthcallback_oauthcallback_component__["a" /* OauthcallbackComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -425,6 +428,8 @@ var AppModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_register_register_component__ = __webpack_require__("./src/app/components/register/register.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_login_login_component__ = __webpack_require__("./src/app/components/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_auth_auth_component__ = __webpack_require__("./src/app/components/auth/auth.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_oauthcallback_oauthcallback_component__ = __webpack_require__("./src/app/components/oauthcallback/oauthcallback.component.ts");
+
 
 
 
@@ -440,6 +445,7 @@ var appRoutes = [
     { path: 'register', component: __WEBPACK_IMPORTED_MODULE_4__components_register_register_component__["a" /* RegisterComponent */] },
     { path: 'login', component: __WEBPACK_IMPORTED_MODULE_5__components_login_login_component__["a" /* LoginComponent */] },
     { path: 'auth', component: __WEBPACK_IMPORTED_MODULE_6__components_auth_auth_component__["a" /* AuthComponent */] },
+    { path: 'oauthcallback', component: __WEBPACK_IMPORTED_MODULE_7__components_oauthcallback_oauthcallback_component__["a" /* OauthcallbackComponent */] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
@@ -458,7 +464,7 @@ module.exports = ".auth-text {\n    font-size: 2em;\n    margin-top: 20px;\n    
 /***/ "./src/app/components/auth/auth.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.token == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"allowCalendarAccess()\">\n      <span>Allow calendar access</span>\n    </button> \n  </div>\n  <div *ngIf=\"currentUser.token != null\" class=\"inl greeting\">\n    <span>Access allowed</span>\n  </div>\n</div>"
+module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.token == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getCode()\">\n      <span>Allow calendar access</span>\n    </button>\n  </div>\n  <div *ngIf=\"currentUser.token != null\" class=\"inl greeting\">\n    <span>Access allowed</span>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -468,8 +474,9 @@ module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-te
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__ = __webpack_require__("./src/app/services/data/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_data_data_service__ = __webpack_require__("./src/app/services/data/data.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -482,19 +489,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AuthComponent = /** @class */ (function () {
-    function AuthComponent(currentUser, _dataService) {
+    function AuthComponent(currentUser, _dataService, _http) {
         this.currentUser = currentUser;
         this._dataService = _dataService;
-        this.getToken();
+        this._http = _http;
+        this.getOAuthURL();
+        window['ds'] = _dataService;
     }
-    AuthComponent.prototype.getToken = function () {
-        this._dataService.getToken(this.currentUser.getName());
+    AuthComponent.prototype.getCode = function () {
+        this.OAuthWindow = window.open(this.OAuthURL, "Please sign in with Google", "width=300px,height=500px");
+        window.onmessage = function (e) {
+            var urlWithCode = e.data;
+            var idx = urlWithCode.lastIndexOf("code=");
+            var code = urlWithCode.substring(idx + 5).replace("#", "");
+            console.log(code);
+            //var __dataService: DataService; // ERROR: Cannot read property 'getToken' of undefined
+            window['ds'].getToken(code)
+                .subscribe(function (res) { return console.log("Token: " + res); });
+        };
     };
-    AuthComponent.prototype.allowCalendarAccess = function () {
-        console.log('OK in component');
-        this._dataService.allowCalendarAccess(this.currentUser.getName());
-        ;
+    AuthComponent.prototype.getOAuthURL = function () {
+        var _this = this;
+        this._dataService.getOAuthURL()
+            .subscribe(function (res) { return _this.OAuthURL = res; });
     };
     AuthComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -502,7 +521,7 @@ var AuthComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/components/auth/auth.component.html"),
             styles: [__webpack_require__("./src/app/components/auth/auth.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__["a" /* CurrentUserModel */], __WEBPACK_IMPORTED_MODULE_2__services_data_data_service__["a" /* DataService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__models_CurrentUser__["a" /* CurrentUserModel */], __WEBPACK_IMPORTED_MODULE_3__services_data_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]])
     ], AuthComponent);
     return AuthComponent;
 }());
@@ -676,6 +695,56 @@ var NewTaskDialogComponent = /** @class */ (function (_super) {
     ], NewTaskDialogComponent);
     return NewTaskDialogComponent;
 }(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__["DialogComponent"]));
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/oauthcallback/oauthcallback.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/components/oauthcallback/oauthcallback.component.html":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/components/oauthcallback/oauthcallback.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OauthcallbackComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var OauthcallbackComponent = /** @class */ (function () {
+    function OauthcallbackComponent() {
+        window.opener.postMessage(location.href, "*");
+        window.close();
+    }
+    OauthcallbackComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-oauthcallback',
+            template: __webpack_require__("./src/app/components/oauthcallback/oauthcallback.component.html"),
+            styles: [__webpack_require__("./src/app/components/oauthcallback/oauthcallback.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], OauthcallbackComponent);
+    return OauthcallbackComponent;
+}());
 
 
 
@@ -1272,19 +1341,15 @@ var DataService = /** @class */ (function () {
             console.log("Error occured");
         });
     };
-    DataService.prototype.getToken = function (name) {
+    DataService.prototype.getToken = function (code) {
         var _this = this;
-        return this._http.post("/api/getToken/" + name, {})
-            .map(function (result) {
-            _this.currentUser.token = result.json().token;
-        });
+        return this._http.get("/api/getToken?code=" + code)
+            .map(function (result) { return _this.result = result.json().data; });
     };
-    DataService.prototype.allowCalendarAccess = function (name) {
-        console.log('OK in service');
-        return this._http.post("/api/allowCalendarAccess/" + name, {})
-            .map(function (result) {
-            //this.currentUser.token = result.json().token;
-        });
+    DataService.prototype.getOAuthURL = function () {
+        var _this = this;
+        return this._http.get("/api/getOAuthURL")
+            .map(function (result) { return _this.result = result.json().data; });
     };
     DataService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),

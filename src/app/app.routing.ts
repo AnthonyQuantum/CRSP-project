@@ -6,6 +6,7 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthComponent } from './components/auth/auth.component';
+import { OauthcallbackComponent } from './components/oauthcallback/oauthcallback.component';
 
 const appRoutes: Routes = [
     { path: '', component: ScheduleComponent },
@@ -15,8 +16,9 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'auth', component: AuthComponent },
+    { path: 'oauthcallback',  component: OauthcallbackComponent },
     // otherwise redirect to home
-    { path: '**', redirectTo: '' }
+    { path: '**',  redirectTo: '' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

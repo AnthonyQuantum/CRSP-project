@@ -16,9 +16,9 @@
   </div>
   <br>
   <div *ngIf="currentUser.token == null" class="inl greeting">
-    <button type="button" class="btn btn-default" (click)="allowCalendarAccess()">
+    <button type="button" class="btn btn-default" (click)="getCode()">
       <span>Allow calendar access</span>
-    </button> 
+    </button>
   </div>
   <div *ngIf="currentUser.token != null" class="inl greeting">
     <span>Access allowed</span>

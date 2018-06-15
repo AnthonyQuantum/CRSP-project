@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { CurrentUserModel } from './models/CurrentUser';
 import { AuthComponent } from './components/auth/auth.component';
+import { OauthcallbackComponent } from './components/oauthcallback/oauthcallback.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AuthComponent } from './components/auth/auth.component';
     RhythmsComponent,
     RegisterComponent,
     LoginComponent,
-    AuthComponent
+    AuthComponent,
+    OauthcallbackComponent
   ],
   imports: [
     BrowserModule,

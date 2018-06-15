@@ -11,6 +11,7 @@ export class DataService {
 
   result: any;
   isValid = false;
+  code: any;
 
   constructor(private _http: Http, private currentUser: CurrentUserModel) { }
 
@@ -126,20 +127,15 @@ export class DataService {
     )
   }
 
-  getToken(name: string)
+  getToken(code: string)
   {
-    return this._http.post("/api/getToken/" + name, {})
-    .map(result =>  {
-      this.currentUser.token = result.json().token;
-      })
+    return this._http.get("/api/getToken?code=" + code)
+      .map(result => this.result = result.json().data);
   }
 
-  allowCalendarAccess(name: string)
+  getOAuthURL()
   {
-    console.log('OK in service');
-    return this._http.post("/api/allowCalendarAccess/" + name, {})
-    .map(result =>  {
-      //this.currentUser.token = result.json().token;
-      })
+    return this._http.get("/api/getOAuthURL")
+      .map(result => this.result = result.json().data);
   }
 }

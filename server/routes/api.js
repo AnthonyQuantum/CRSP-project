@@ -143,93 +143,40 @@ router.put('/wsTime/:usr/:wu/:gtb', (req, res) => {
     });
 });
 
+var OAuth2 = google.auth.OAuth2;
+var oAuth2Client = new google.auth.OAuth2("376770685318-59uhlg6rfsu1fbs8du6h5qh5bh57po2m.apps.googleusercontent.com",
+                                            "dfOmWhgKaoaVaRvef-ut0yPS", 
+                                            "http://localhost:3000/oauthcallback");
+var url = oAuth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES,
+});
+
+router.get('/getOAuthURL', (req, res) => {
+    response.data = url;
+    res.json(response);
+});
+
 // Get OAuth token
-router.post('/getToken', (req, res) => {
-    connection((db) => {
-        db.collection('users')
-            .find(req.body)
-            .toArray()
-            .then((users) => {
-                if (users[0].token == null)
-                    response.token = null;
-                else
-                {
-                    response.token = users[0].token;
-                }
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
-    });
-});
+router.get('/getToken', (req, res) => {
+    var code = req.query.code;
 
-// Create OAuth token
-router.post('/allowCalendarAccess', (req, res) => {
-    console.log('Got request');
-    try {
-        const content = fs.readFileSync('../../client_secret.json');
-        authorize(JSON.parse(content), listEvents);
-      } catch (err) {
-        return console.log('Error loading client secret file:', err);
-      }
-});
-
-/**
-   * Create an OAuth2 client with the given credentials, and then execute the
-   * given callback function.
-   * @param {Object} credentials The authorization client credentials.
-   * @param {function} callback The callback to call with the authorized client.
-   * @return {function} if error in reading credentials.json asks for a new one.
-   */
-  function authorize(credentials, callback) {
-    const {client_secret, client_id, redirect_uris} = credentials.installed;
-    let token = {};
-    const oAuth2Client = new google.auth.OAuth2(
-        client_id, client_secret, redirect_uris[0]);
-  
-    // Check if we have previously stored a token.
-    try {
-      token = fs.readFileSync(TOKEN_PATH);
-    } catch (err) {
-      return getAccessToken(oAuth2Client, callback);
-    }
-    oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
-  }
-  
-  /**
-   * Get and store new token after prompting for user authorization, and then
-   * execute the given callback with the authorized OAuth2 client.
-   * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
-   * @param {getEventsCallback} callback The callback for the authorized client.
-   */
-  function getAccessToken(oAuth2Client, callback) {
-    const authUrl = oAuth2Client.generateAuthUrl({
-      access_type: 'offline',
-      scope: SCOPES,
-    });
-    console.log('Authorize this app by visiting this url:', authUrl);
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-    rl.question('Enter the code from that page here: ', (code) => {
-      rl.close();
-      oAuth2Client.getToken(code, (err, token) => {
-        if (err) return callback(err);
-        oAuth2Client.setCredentials(token);
-        // Store the token to disk for later program executions
-        try {
-          fs.writeFileSync(TOKEN_PATH, JSON.stringify(token));
-          console.log('Token stored to', TOKEN_PATH);
-        } catch (err) {
-          console.error(err);
+    oAuth2Client.getToken(code, function(err, tokens) {
+        if (err) {
+          console.log(err);
+          res.send(err);
+          return;
         }
-        callback(oAuth2Client);
-      });
+
+        console.log("Token generated!");
+        console.log(tokens);
+
+        oAuth2Client.setCredentials(tokens);
+        listEvents(oAuth2Client);
+        response.data = tokens;
+        res.json(response);
     });
-  }
+});
   
   /**
    * Lists the next 10 events on the user's primary calendar.
