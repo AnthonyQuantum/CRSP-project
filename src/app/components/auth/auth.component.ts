@@ -13,12 +13,10 @@ export class AuthComponent {
 
   OAuthURL: any;
   OAuthWindow: Window;
-  Token: any;
-  result: any;
 
   constructor(private currentUser: CurrentUserModel, private _dataService: DataService, private _http: Http) {
-    this.getOAuthURL();
     window['ds'] = _dataService;
+    window['usr'] = currentUser;
    }
 
   getCode()
@@ -30,17 +28,19 @@ export class AuthComponent {
       var idx = urlWithCode.lastIndexOf("code=");
       var code = urlWithCode.substring(idx + 5).replace("#","");
 
-      console.log(code);
-
-      //var __dataService: DataService; // ERROR: Cannot read property 'getToken' of undefined
-      window['ds'].getToken(code)
-        .subscribe(res => console.log("Token: " + res));
+      window['ds'].getToken(code, window['usr'].getName())
+        .subscribe(res => { 
+          window['usr'].gotToken = true;
+        });
     };
   }
 
   getOAuthURL() {
     this._dataService.getOAuthURL()
-      .subscribe(res => this.OAuthURL = res);
+      .subscribe(res => { 
+        this.OAuthURL = res;
+        this.getCode();
+      });
   }
 
 }

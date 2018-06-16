@@ -119,6 +119,7 @@ router.post('/loginUser', (req, res) => {
                     response.isValid = true;
                     response.wuTime = users[0].wakeUpTime;
                     response.gtbTime = users[0].goToBedTime;
+                    response.token = users[0].token;
                 }
                 res.json(response);
             })
@@ -160,6 +161,7 @@ router.get('/getOAuthURL', (req, res) => {
 // Get OAuth token
 router.get('/getToken', (req, res) => {
     var code = req.query.code;
+    var username = req.query.user;
 
     oAuth2Client.getToken(code, function(err, tokens) {
         if (err) {
@@ -168,41 +170,56 @@ router.get('/getToken', (req, res) => {
           return;
         }
 
-        console.log("Token generated!");
-        console.log(tokens);
-
         oAuth2Client.setCredentials(tokens);
-        listEvents(oAuth2Client);
+        addEvent(oAuth2Client);
         response.data = tokens;
         res.json(response);
+
+        // Save token to DB
+        connection((db) => {
+            db.collection('users')
+                .update({ name: req.query.user },
+                { 
+                    $set:
+                    {
+                        token: tokens
+                    }
+                })
+        });
     });
 });
-  
-  /**
-   * Lists the next 10 events on the user's primary calendar.
-   * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
-   */
-  function listEvents(auth) {
-    const calendar = google.calendar({version: 'v3', auth});
-    calendar.events.list({
+
+var startDate = new Date();
+startDate.setHours(7);
+startDate.setMinutes(0);
+
+var endDate = new Date();
+endDate.setHours(8);
+endDate.setMinutes(0)
+
+var event = {
+    'summary': 'Hello world',
+    'start': {
+      'dateTime': startDate.toISOString()
+    },
+    'end': {
+      'dateTime': endDate.toISOString()
+    }
+};
+
+function addEvent(auth) {
+  const calendar = google.calendar({version: 'v3', auth});
+  calendar.events.insert({
+      auth: auth,
       calendarId: 'primary',
-      timeMin: (new Date()).toISOString(),
-      maxResults: 10,
-      singleEvents: true,
-      orderBy: 'startTime',
-    }, (err, {data}) => {
-      if (err) return console.log('The API returned an error: ' + err);
-      const events = data.items;
-      if (events.length) {
-        console.log('Upcoming 10 events:');
-        events.map((event, i) => {
-          const start = event.start.dateTime || event.start.date;
-          console.log(`${start} - ${event.summary}`);
-        });
-      } else {
-        console.log('No upcoming events found.');
+      resource: event,
+    }, function(err, event) {
+      if (err) {
+        console.log('There was an error contacting the Calendar service: ' + err);
+        return;
       }
+      console.log('Event created successfully');
     });
-  }
+}
 
 module.exports = router;

@@ -457,14 +457,14 @@ var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* RouterModule 
 /***/ "./src/app/components/auth/auth.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".auth-text {\n    font-size: 2em;\n    margin-top: 20px;\n    margin-left: 20px;\n}"
+module.exports = ".auth-text {\n    font-size: 2em;\n    margin-top: 20px;\n    margin-left: 20px;\n}\n\n.okay {\n    color: green;\n}"
 
 /***/ }),
 
 /***/ "./src/app/components/auth/auth.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }}</div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.token == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getCode()\">\n      <span>Allow calendar access</span>\n    </button>\n  </div>\n  <div *ngIf=\"currentUser.token != null\" class=\"inl greeting\">\n    <span>Access allowed</span>\n  </div>\n</div>"
+module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }} <span class=\"glyphicon glyphicon-ok okay\"></span> </div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.getName() != null && currentUser.token == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getOAuthURL()\">\n      <span>Allow calendar access</span>\n    </button>\n  </div>\n\n  <br>\n\n  <div *ngIf=\"currentUser.token != null || currentUser.gotToken\" class=\"inl greeting\">\n    <span>Calendar access allowed <span class=\"glyphicon glyphicon-ok okay\"></span> </span>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getOAuthURL()\">\n      <span>Refresh</span>\n    </button>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -495,8 +495,8 @@ var AuthComponent = /** @class */ (function () {
         this.currentUser = currentUser;
         this._dataService = _dataService;
         this._http = _http;
-        this.getOAuthURL();
         window['ds'] = _dataService;
+        window['usr'] = currentUser;
     }
     AuthComponent.prototype.getCode = function () {
         this.OAuthWindow = window.open(this.OAuthURL, "Please sign in with Google", "width=300px,height=500px");
@@ -504,16 +504,19 @@ var AuthComponent = /** @class */ (function () {
             var urlWithCode = e.data;
             var idx = urlWithCode.lastIndexOf("code=");
             var code = urlWithCode.substring(idx + 5).replace("#", "");
-            console.log(code);
-            //var __dataService: DataService; // ERROR: Cannot read property 'getToken' of undefined
-            window['ds'].getToken(code)
-                .subscribe(function (res) { return console.log("Token: " + res); });
+            window['ds'].getToken(code, window['usr'].getName())
+                .subscribe(function (res) {
+                window['usr'].gotToken = true;
+            });
         };
     };
     AuthComponent.prototype.getOAuthURL = function () {
         var _this = this;
         this._dataService.getOAuthURL()
-            .subscribe(function (res) { return _this.OAuthURL = res; });
+            .subscribe(function (res) {
+            _this.OAuthURL = res;
+            _this.getCode();
+        });
     };
     AuthComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -932,14 +935,14 @@ var RhythmsComponent = /** @class */ (function () {
 /***/ "./src/app/components/schedule/schedule.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}\n\n.flexContainer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.calendar {\n    max-width: 300px;\n    max-height: 300px;\n}"
+module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}\n\n.flexContainer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.calendar {\n    max-width: 300px;\n    max-height: 300px;\n}\n\n.flexCenter {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n\nlabel {\n    font-size: 2em;\n    margin-left: 10px;\n}"
 
 /***/ }),
 
 /***/ "./src/app/components/schedule/schedule.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n\n\n<div class=\"flexCenter\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Update my calendar</button>\n</div>"
+module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n\n<div class=\"flexCenter\">\n    <button *ngIf=\"!update\" type=\"button\" class=\"btn btn-default\" (click)=\"update = true\">Update my calendar</button>\n\n    <label *ngIf=\"update\" for=\"cb1\">Replace all current events?\n        <input *ngIf=\"cb1 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <input *ngIf=\"!cb1 && update\" type=\"checkbox\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n    </label>\n\n    <label *ngIf=\"update\" for=\"cb2\">From now?\n        <input *ngIf=\"cb2 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <input *ngIf=\"!cb2 && update\" type=\"checkbox\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n    </label>\n\n    <button *ngIf=\"update\" type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Generate my schedule</button>\n</div>"
 
 /***/ }),
 
@@ -970,13 +973,16 @@ var ScheduleComponent = /** @class */ (function () {
         this._dataService = _dataService;
         this.currentUser = currentUser;
         this._time = _time;
-        this.now = new Date();
+        this.update = false;
+        this.cb1 = true;
+        this.cb2 = false;
     }
     // 19.5 -> "7:30pm"
     ScheduleComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
     };
     ScheduleComponent.prototype.generate = function () {
+        this.update = false;
         this._dataService.generateSchedule(this.currentUser.getName());
     };
     ScheduleComponent = __decorate([
@@ -1124,6 +1130,7 @@ var CurrentUserModel = /** @class */ (function () {
         this.gtbTime = null;
         this.isValid = false;
         this.token = null;
+        this.gotToken = false;
     }
     CurrentUserModel.prototype.setName = function (name) {
         this.name = name;
@@ -1144,7 +1151,12 @@ var CurrentUserModel = /** @class */ (function () {
         this.gtbTime = time;
     };
     CurrentUserModel.prototype.logout = function () {
-        this.name = null;
+        this.setName(null);
+        this.setWuTime(null);
+        this.setGtbTime(null);
+        this.isValid = false;
+        this.token = null;
+        this.gotToken = false;
     };
     CurrentUserModel = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -1304,7 +1316,8 @@ var DataService = /** @class */ (function () {
             email: user.email,
             wakeUpTime: user.wakeUpTime,
             goToBedTime: user.goToBedTime,
-            tasks: user.tasks
+            tasks: user.tasks,
+            token: null
         })
             .subscribe(function (res) {
             console.log(res);
@@ -1323,6 +1336,7 @@ var DataService = /** @class */ (function () {
             _this.currentUser.setWuTime(result.json().wuTime);
             _this.currentUser.setGtbTime(result.json().gtbTime);
             _this.currentUser.isValid = result.json().isValid;
+            _this.currentUser.token = result.json().token;
         });
     };
     DataService.prototype.saveTimes = function (wuTime, gtbTime, username) {
@@ -1341,9 +1355,9 @@ var DataService = /** @class */ (function () {
             console.log("Error occured");
         });
     };
-    DataService.prototype.getToken = function (code) {
+    DataService.prototype.getToken = function (code, user) {
         var _this = this;
-        return this._http.get("/api/getToken?code=" + code)
+        return this._http.get("/api/getToken?code=" + code + "&user=" + user)
             .map(function (result) { return _this.result = result.json().data; });
     };
     DataService.prototype.getOAuthURL = function () {

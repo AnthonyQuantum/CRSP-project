@@ -8,6 +8,7 @@ private wuTime = null;
 private gtbTime = null;
 public isValid = false;
 public token = null;
+public gotToken = false;
 
 constructor() {}
 
@@ -43,7 +44,12 @@ public setGtbTime(time: string)
 
 public logout()
 {
-    this.name = null;
+    this.setName(null);
+    this.setWuTime(null);
+    this.setGtbTime(null);
+    this.isValid = false;
+    this.token = null;
+    this.gotToken = false;
 }
 
 }

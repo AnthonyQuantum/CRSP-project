@@ -4,7 +4,18 @@
     <img src="../../../assets/calendar.svg" class="calendar">
 </div>
 
-
 <div class="flexCenter">
-    <button type="button" class="btn btn-default" (click)="generate()">Update my calendar</button>
+    <button *ngIf="!update" type="button" class="btn btn-default" (click)="update = true">Update my calendar</button>
+
+    <label *ngIf="update" for="cb1">Replace all current events?
+        <input *ngIf="cb1 && update" type="checkbox" checked="checked" id="cb1" (click)="cb1 = !cb1">
+        <input *ngIf="!cb1 && update" type="checkbox" id="cb1" (click)="cb1 = !cb1">
+    </label>
+
+    <label *ngIf="update" for="cb2">From now?
+        <input *ngIf="cb2 && update" type="checkbox" checked="checked" id="cb2" (click)="cb2 = !cb2">
+        <input *ngIf="!cb2 && update" type="checkbox" id="cb2" (click)="cb2 = !cb2">
+    </label>
+
+    <button *ngIf="update" type="button" class="btn btn-default" (click)="generate()">Generate my schedule</button>
 </div>

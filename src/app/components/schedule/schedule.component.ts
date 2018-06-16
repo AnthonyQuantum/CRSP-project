@@ -13,14 +13,15 @@ import { TimeService } from '../../services/time/time.service';
 })
 export class ScheduleComponent {
 
-now: Date = new Date();
-timeRows: Array<TimeRow>;
-tasks: Array<any>;
-gtb: number;
-isGtb: boolean;
+cb1: boolean;
+cb2: boolean;
+update: boolean;
 
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
-   }
+    this.update = false;
+    this.cb1 = true;
+    this.cb2 = false;
+  }
 
   // 19.5 -> "7:30pm"
   timeToTitle(time: number)
@@ -29,7 +30,7 @@ isGtb: boolean;
   }
 
   generate() {
+    this.update = false;
     this._dataService.generateSchedule(this.currentUser.getName());
   }
-
 }

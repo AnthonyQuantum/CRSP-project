@@ -2,7 +2,7 @@
 
 <div class="auth-text">
   <div *ngIf="currentUser.getName() != null" class="inl greeting">
-    <div class="inl">Logged as: {{ currentUser.getName() }}</div>
+    <div class="inl">Logged as: {{ currentUser.getName() }} <span class="glyphicon glyphicon-ok okay"></span> </div>
     <br>
     <button type="button" class="btn btn-default" (click)="currentUser.logout()">
       <span>Logout</span>
@@ -15,12 +15,18 @@
     </button> 
   </div>
   <br>
-  <div *ngIf="currentUser.token == null" class="inl greeting">
-    <button type="button" class="btn btn-default" (click)="getCode()">
+  <div *ngIf="currentUser.getName() != null && currentUser.token == null" class="inl greeting">
+    <button type="button" class="btn btn-default" (click)="getOAuthURL()">
       <span>Allow calendar access</span>
     </button>
   </div>
-  <div *ngIf="currentUser.token != null" class="inl greeting">
-    <span>Access allowed</span>
+
+  <br>
+
+  <div *ngIf="currentUser.token != null || currentUser.gotToken" class="inl greeting">
+    <span>Calendar access allowed <span class="glyphicon glyphicon-ok okay"></span> </span>
+    <button type="button" class="btn btn-default" (click)="getOAuthURL()">
+      <span>Refresh</span>
+    </button>
   </div>
 </div>

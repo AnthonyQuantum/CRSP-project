@@ -76,7 +76,8 @@ export class DataService {
       email: user.email,
       wakeUpTime: user.wakeUpTime,
       goToBedTime: user.goToBedTime,
-      tasks: user.tasks
+      tasks: user.tasks,
+      token: null
     })
     .subscribe(
       res => {
@@ -98,6 +99,7 @@ export class DataService {
       this.currentUser.setWuTime(result.json().wuTime);
       this.currentUser.setGtbTime(result.json().gtbTime);
       this.currentUser.isValid = result.json().isValid;
+      this.currentUser.token = result.json().token;
       })
   }
 
@@ -127,9 +129,9 @@ export class DataService {
     )
   }
 
-  getToken(code: string)
+  getToken(code: string, user: string)
   {
-    return this._http.get("/api/getToken?code=" + code)
+    return this._http.get("/api/getToken?code=" + code + "&user=" + user)
       .map(result => this.result = result.json().data);
   }
 
