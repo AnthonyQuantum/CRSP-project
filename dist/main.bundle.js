@@ -294,7 +294,7 @@ module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    back
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton login\" routerLink=\"/auth\"><span class=\"glyphicon glyphicon-user\"></span></div>\n<div class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n\n<div class=\"cpFooter\">\n    &copy; 2018 &nbsp; <a href=\"http://anthonyquantum.com\">Anthony Quantum</a>\n</div>\n  \n"
+module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton login\" routerLink=\"/auth\"><span class=\"glyphicon glyphicon-user\"></span></div>\n<div *ngIf=\"currentUser.getName()\" class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div *ngIf=\"currentUser.getName()\" class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div *ngIf=\"currentUser.getName()\" class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n\n<div class=\"cpFooter\">\n    &copy; 2018 &nbsp; <a href=\"http://anthonyquantum.com\">Anthony Quantum</a>\n</div>\n  \n"
 
 /***/ }),
 
@@ -304,22 +304,29 @@ module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton log
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__ = __webpack_require__("./src/app/models/CurrentUser.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+    function AppComponent(currentUser) {
+        this.currentUser = currentUser;
     }
     AppComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-root',
             template: __webpack_require__("./src/app/app.component.html"),
             styles: [__webpack_require__("./src/app/app.component.css")]
-        })
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__models_CurrentUser__["a" /* CurrentUserModel */]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -438,7 +445,7 @@ var AppModule = /** @class */ (function () {
 
 
 var appRoutes = [
-    { path: '', component: __WEBPACK_IMPORTED_MODULE_2__components_schedule_schedule_component__["a" /* ScheduleComponent */] },
+    { path: '', component: __WEBPACK_IMPORTED_MODULE_6__components_auth_auth_component__["a" /* AuthComponent */] },
     { path: 'schedule', component: __WEBPACK_IMPORTED_MODULE_2__components_schedule_schedule_component__["a" /* ScheduleComponent */] },
     { path: 'tasks', component: __WEBPACK_IMPORTED_MODULE_3__components_tasks_tasks_component__["a" /* TasksComponent */] },
     { path: 'rhythms', component: __WEBPACK_IMPORTED_MODULE_1__components_rhythms_rhythms_component__["a" /* RhythmsComponent */] },
@@ -616,7 +623,7 @@ module.exports = ".input-group-btn {\n    margin-bottom: 25px;\n}\n\n.badge {\n 
 /***/ "./src/app/components/newTaskDialog/newTaskDialog.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-dialog\">\n  <div class=\"modal-content\">\n     <div class=\"modal-body\">\n        <div class=\"input-group\">\n            <input class=\"form-control\" [(ngModel)]=\"newTaskTitle\" placeholder=\"Title...\">\n            \n            <div class=\"input-group\">\n              Type:\n                <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <span class=\"caret\"></span>\n                    <span>{{ newTaskPriority }}</span>\n                    <span class=\"sr-only\">Toggle Dropdown</span>\n                  </button>\n                  <ul class=\"dropdown-menu dropdown-menu-right badge-dropdown-menu\"> \n                    <li class=\"drop-li\"><a class=\"badge badge-green badge-dropdown\" (click)=\"newTaskPriority = 'A'\">A</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-blue badge-dropdown\" (click)=\"newTaskPriority = 'B'\">B</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-yellow badge-dropdown\" (click)=\"newTaskPriority = 'T'\">T</a></li>\n                  </ul>\n            </div>\n\n            <div *ngIf=\"newTaskPriority == 'T'\" class=\"input-group\">\n                Start time:\n                  <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      <span class=\"caret\"></span>\n                      <span>{{ timeToTitle(newTaskStartTime) }}</span>\n                      <span class=\"sr-only\">Toggle Dropdown</span>\n                    </button>\n                    <ul class=\"dropdown-menu dropdown-menu-right\"> \n                        <li *ngFor=\"let time of times\" class=\"drop-li\"><a (click)=\"newTaskStartTime = time\">{{ timeToTitle(time) }}</a></li><br>\n                    </ul>\n              </div>\n            \n            <div class=\"input-group\">\n              Time to complete:\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ newTaskTime }}h</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 0.5\">0.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1\">1h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 1.5\">1.5h</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskTime = 2\">2h</a></li>\n              </ul>\n            </div>\n\n            <div class=\"input-group\">\n              Can be divided?\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ boolToWord(newTaskDivisible) }}</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = true\">Yes</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = false\">No</a></li>\n              </ul>\n            </div>\n\n          </div>\n\n     </div>\n     <div class=\"modal-footer\">\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\">Create</button>\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n     </div>\n   </div>\n</div>"
+module.exports = "<div class=\"modal-dialog\">\n  <div class=\"modal-content\">\n     <div class=\"modal-body\">\n        <div class=\"input-group\">\n            <input class=\"form-control\" [(ngModel)]=\"newTaskTitle\" placeholder=\"Title...\">\n            \n            <div class=\"input-group\">\n              Type:\n                <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                    <span class=\"caret\"></span>\n                    <span>{{ newTaskPriority }}</span>\n                    <span class=\"sr-only\">Toggle Dropdown</span>\n                  </button>\n                  <ul class=\"dropdown-menu dropdown-menu-right badge-dropdown-menu\"> \n                    <li class=\"drop-li\"><a class=\"badge badge-green badge-dropdown\" (click)=\"newTaskPriority = 'A'\">A</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-blue badge-dropdown\" (click)=\"newTaskPriority = 'B'\">B</a></li>\n                    <li class=\"drop-li\"><a class=\"badge badge-yellow badge-dropdown\" (click)=\"newTaskPriority = 'T'\">T</a></li>\n                  </ul>\n            </div>\n\n            <div *ngIf=\"newTaskPriority == 'T'\" class=\"input-group\">\n                Start time:\n                  <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                      <span class=\"caret\"></span>\n                      <span>{{ timeToTitle(newTaskStartTime) }}</span>\n                      <span class=\"sr-only\">Toggle Dropdown</span>\n                    </button>\n                    <ul class=\"dropdown-menu dropdown-menu-right\"> \n                        <li *ngFor=\"let time of times\" class=\"drop-li\"><a (click)=\"newTaskStartTime = time\">{{ timeToTitle(time) }}</a></li><br>\n                    </ul>\n              </div>\n            \n            <div class=\"input-group\">\n              Time to complete:\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ durationToTitle(newTaskTime) }}</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li *ngFor=\"let dur of durations\" class=\"drop-li\"><a (click)=\"newTaskTime = dur\">{{ durationToTitle(dur) }}</a></li>\n              </ul>\n            </div>\n\n            <div *ngIf=\"newTaskPriority != 'T'\" class=\"input-group\">\n              Can be divided?\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle search-button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                <span class=\"caret\"></span>\n                <span>{{ boolToWord(newTaskDivisible) }}</span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = true\">Yes</a></li>\n                <li class=\"drop-li\"><a (click)=\"newTaskDivisible = false\">No</a></li>\n              </ul>\n            </div>\n\n          </div>\n\n     </div>\n     <div class=\"modal-footer\">\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"confirm()\">Create</button>\n       <button type=\"button\" class=\"btn btn-default\" (click)=\"close()\" >Cancel</button>\n     </div>\n   </div>\n</div>"
 
 /***/ }),
 
@@ -667,7 +674,9 @@ var NewTaskDialogComponent = /** @class */ (function (_super) {
         _this.newTaskStartTime = 1;
         _this.newTaskDivisible = true;
         _this.times = [];
+        _this.durations = [];
         _this.times = _this._time.generateTimes();
+        _this.durations = [1, 2, 3, 4, 6, 8, 12];
         return _this;
     }
     // Add new task and close modal window
@@ -681,6 +690,9 @@ var NewTaskDialogComponent = /** @class */ (function (_super) {
     };
     NewTaskDialogComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
+    };
+    NewTaskDialogComponent.prototype.durationToTitle = function (duration) {
+        return this._time.durationToTitle(duration);
     };
     NewTaskDialogComponent.prototype.boolToWord = function (v) {
         if (v)
@@ -982,6 +994,7 @@ var ScheduleComponent = /** @class */ (function () {
         return this._time.timeToTitle(time);
     };
     ScheduleComponent.prototype.generate = function () {
+        console.log("OK in component");
         this.update = false;
         this._dataService.generateSchedule(this.currentUser.getName());
     };
@@ -1010,7 +1023,7 @@ module.exports = ".hdr {\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-
 /***/ "./src/app/components/tasks/tasks.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of tasks | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ task.time }}h</span> \n       \n      <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n      <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl btn-left\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl btn-right\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n              </ul>\n            </div>\n    </div>"
+module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of tasks | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ durationToTitle(task.time) }}</span> \n       \n      <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n      <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl btn-left\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl btn-right\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time+1; saveTimes();\">{{ timeToTitle(time+1) }}</a></li>\n              </ul>\n            </div>\n    </div>"
 
 /***/ }),
 
@@ -1086,6 +1099,9 @@ var TasksComponent = /** @class */ (function () {
     };
     TasksComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
+    };
+    TasksComponent.prototype.durationToTitle = function (duration) {
+        return this._time.durationToTitle(duration);
     };
     // Log out the user
     TasksComponent.prototype.logout = function () {
@@ -1348,6 +1364,7 @@ var DataService = /** @class */ (function () {
         });
     };
     DataService.prototype.generateSchedule = function (name) {
+        console.log("OK in service");
         this._http.post("/api/generateSchedule/" + name, {})
             .subscribe(function (res) {
             console.log(res);
@@ -1398,33 +1415,44 @@ var TimeService = /** @class */ (function () {
     // Generate time strings (1am-11pm)
     TimeService.prototype.generateTimes = function () {
         var times = [];
-        var iter = 0;
-        while (iter < 24) {
-            times.push(iter);
-            iter += 0.5;
-        }
+        for (var i = 1; i <= 96; ++i)
+            times.push(i);
         return times;
     };
-    TimeService.prototype.timeToTitle = function (time) {
-        var ending = "";
-        var iP = 0;
-        var fP = "";
+    TimeService.prototype.durationToTitle = function (duration) {
+        var h = 0;
+        var m = 0;
         var result = "";
-        if (Math.floor(time) == 0)
+        h = Math.floor(duration / 4);
+        m = (duration % 4) * 15;
+        if (h != 0)
+            result += h + "h ";
+        if (m != 0)
+            result += m + "m";
+        return result;
+    };
+    TimeService.prototype.timeToTitle = function (time) {
+        var iP = 0;
+        var fP = 0;
+        var col = "";
+        var ending = "";
+        var result = "";
+        iP = Math.floor((time - 1) / 4);
+        if (iP == 12 || iP == 24)
             iP = 12;
-        else {
-            iP = Math.floor(time);
-        }
-        if (time < 12)
+        else
+            iP %= 12;
+        fP = ((time - 1) % 4) * 15;
+        if (time <= 48)
             ending = "am";
-        else {
+        else
             ending = "pm";
-            if (iP != 12)
-                iP -= 12;
-        }
-        if (time != Math.floor(time) && time != 0)
-            fP = ":30";
-        result = iP + fP + ending;
+        if ((time - 1) % 4 != 0)
+            col = ":";
+        result = iP.toString();
+        if (fP != 0)
+            result += col + fP;
+        result += ending;
         return result;
     };
     TimeService = __decorate([

@@ -68,6 +68,11 @@ export class TasksComponent {
     return this._time.timeToTitle(time);
   }
 
+  durationToTitle(duration: number)
+  {
+    return this._time.durationToTitle(duration);
+  }
+
   // Log out the user
    logout()
    {

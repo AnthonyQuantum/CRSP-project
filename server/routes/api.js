@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
 const bodyParser = require('body-parser');
 const app = express();
-const fs = require('fs');
-const readline = require('readline');
 const {google} = require('googleapis');
+
+var scheduleGenerator = require('../scheduleGenerator');
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
@@ -171,7 +170,6 @@ router.get('/getToken', (req, res) => {
         }
 
         oAuth2Client.setCredentials(tokens);
-        addEvent(oAuth2Client);
         response.data = tokens;
         res.json(response);
 
@@ -189,37 +187,10 @@ router.get('/getToken', (req, res) => {
     });
 });
 
-var startDate = new Date();
-startDate.setHours(7);
-startDate.setMinutes(0);
-
-var endDate = new Date();
-endDate.setHours(8);
-endDate.setMinutes(0)
-
-var event = {
-    'summary': 'Hello world',
-    'start': {
-      'dateTime': startDate.toISOString()
-    },
-    'end': {
-      'dateTime': endDate.toISOString()
-    }
-};
-
-function addEvent(auth) {
-  const calendar = google.calendar({version: 'v3', auth});
-  calendar.events.insert({
-      auth: auth,
-      calendarId: 'primary',
-      resource: event,
-    }, function(err, event) {
-      if (err) {
-        console.log('There was an error contacting the Calendar service: ' + err);
-        return;
-      }
-      console.log('Event created successfully');
-    });
-}
+// Generate a new schedule
+router.post('/generateSchedule/:usr', (req, res) => {
+    console.log("OK in api.js");
+    scheduleGenerator.generate(req.params.usr, connection);
+});
 
 module.exports = router;

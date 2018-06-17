@@ -20,10 +20,12 @@ export class NewTaskDialogComponent extends DialogComponent<NewTaskDialogModel, 
   newTaskStartTime = 1;
   newTaskDivisible = true;
   times = [];
+  durations = [];
 
   constructor(dialogService: DialogService, private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
     super(dialogService);
     this.times = this._time.generateTimes();
+    this.durations = [1, 2, 3, 4, 6, 8, 12];
   }
 
   // Add new task and close modal window
@@ -39,6 +41,11 @@ export class NewTaskDialogComponent extends DialogComponent<NewTaskDialogModel, 
   timeToTitle(time: number)
   {
     return this._time.timeToTitle(time);
+  }
+
+  durationToTitle(duration: number)
+  {
+    return this._time.durationToTitle(duration);
   }
 
   boolToWord(v: boolean)

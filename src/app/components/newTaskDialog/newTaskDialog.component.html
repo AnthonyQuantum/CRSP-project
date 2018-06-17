@@ -34,18 +34,15 @@
               Time to complete:
               <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
-                <span>{{ newTaskTime }}h</span>
+                <span>{{ durationToTitle(newTaskTime) }}</span>
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right"> 
-                <li class="drop-li"><a (click)="newTaskTime = 0.5">0.5h</a></li>
-                <li class="drop-li"><a (click)="newTaskTime = 1">1h</a></li>
-                <li class="drop-li"><a (click)="newTaskTime = 1.5">1.5h</a></li>
-                <li class="drop-li"><a (click)="newTaskTime = 2">2h</a></li>
+                <li *ngFor="let dur of durations" class="drop-li"><a (click)="newTaskTime = dur">{{ durationToTitle(dur) }}</a></li>
               </ul>
             </div>
 
-            <div class="input-group">
+            <div *ngIf="newTaskPriority != 'T'" class="input-group">
               Can be divided?
               <button type="button" class="btn btn-default dropdown-toggle search-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>

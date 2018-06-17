@@ -9,7 +9,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { OauthcallbackComponent } from './components/oauthcallback/oauthcallback.component';
 
 const appRoutes: Routes = [
-    { path: '', component: ScheduleComponent },
+    { path: '', component: AuthComponent },
     { path: 'schedule', component: ScheduleComponent },
     { path: 'tasks', component: TasksComponent },
     { path: 'rhythms', component: RhythmsComponent },

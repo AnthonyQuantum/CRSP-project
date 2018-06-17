@@ -118,6 +118,7 @@ export class DataService {
 
   generateSchedule(name: string)
   {
+    console.log("OK in service");
     this._http.post("/api/generateSchedule/" + name, {})
     .subscribe(
       res => {

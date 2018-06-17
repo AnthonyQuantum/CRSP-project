@@ -17,7 +17,7 @@
         <span *ngIf="task.priority == 'B'" class="badg badge-blue">{{ task.priority }}</span>
         <span *ngIf="task.priority == 'T'" class="badg badge-yellow">{{ timeToTitle(task.startTime) }}</span> 
       {{ task.title }}
-      <span class="task-time">{{ task.time }}h</span> 
+      <span class="task-time">{{ durationToTitle(task.time) }}</span> 
        
       <input *ngIf="task.status == 1" class="chkbox" type="checkbox" checked="checked" id="{{ task.id }}" (click)="toggleStatus($event)">
       <input *ngIf="task.status == 0" class="chkbox" type="checkbox" id="{{ task.id }}" (click)="toggleStatus($event)">
@@ -45,7 +45,7 @@
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right"> 
-                <li class="drop-li" *ngFor="let time of times"><a (click)="gtbTime = time; saveTimes();">{{ timeToTitle(time) }}</a></li>
+                <li class="drop-li" *ngFor="let time of times"><a (click)="gtbTime = time+1; saveTimes();">{{ timeToTitle(time+1) }}</a></li>
               </ul>
             </div>
     </div>
