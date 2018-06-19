@@ -116,10 +116,9 @@ export class DataService {
     )
   }
 
-  generateSchedule(name: string)
+  generateSchedule(name: string, replaceCurrent: boolean, fromNow: boolean)
   {
-    console.log("OK in service");
-    this._http.post("/api/generateSchedule/" + name, {})
+    this._http.post("/api/generateSchedule/" + name + "?replace=" + replaceCurrent + "&fromNow=" + fromNow, {})
     .subscribe(
       res => {
         console.log(res);

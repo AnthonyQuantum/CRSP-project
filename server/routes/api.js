@@ -189,8 +189,7 @@ router.get('/getToken', (req, res) => {
 
 // Generate a new schedule
 router.post('/generateSchedule/:usr', (req, res) => {
-    console.log("OK in api.js");
-    scheduleGenerator.generate(req.params.usr, connection);
+    scheduleGenerator.generate(req.params.usr, req.query.replace, req.query.fromNow, connection);
 });
 
 module.exports = router;

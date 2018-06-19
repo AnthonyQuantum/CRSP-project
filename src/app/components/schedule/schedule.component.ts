@@ -30,8 +30,7 @@ update: boolean;
   }
 
   generate() {
-    console.log("OK in component");
     this.update = false;
-    this._dataService.generateSchedule(this.currentUser.getName());
+    this._dataService.generateSchedule(this.currentUser.getName(), this.cb1, this.cb2);
   }
 }

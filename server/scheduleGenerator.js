@@ -20,6 +20,8 @@ class Slot {
     }
 }
 
+var replaceFlag;
+var fromNowFlag;
 var userWuTime;
 var userGtbTime;
 var slots = [];
@@ -31,7 +33,7 @@ var tasksBND = [];
 var tasksTB = [];
 var event;
 
-function generate(username, connection) {
+function generate(username, replace, fromNow, connection) {
 
     // Get user's token from DB
     connection((db) => {
@@ -44,6 +46,8 @@ function generate(username, connection) {
                 userWuTime = parseInt(user[0].wakeUpTime);
                 userGtbTime = parseInt(user[0].goToBedTime);
                 tasks = user[0].tasks;
+                replaceFlag = (replace == 'true');
+                fromNowFlag = (fromNow == 'true');
                 generateSlots();
             })
             .catch((err) => {
@@ -76,6 +80,7 @@ function generateSlots() {
     currentSlot = new Slot(96, values[47], null, null);
     slots.push(currentSlot);
 
+    if (fromNowFlag) excludePassed();
     assignSleep();
     assignTB();
     assignND('A');
@@ -87,15 +92,28 @@ function generateSlots() {
     showSlots();
 }
 
+function excludePassed()
+{
+    var date = new Date();
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+    var total = hour*4 + Math.floor(minutes / 15) + 1;
+    
+    for(i = 0; i < total; ++i)
+        slots[i].task = "passed";
+}
+
 function assignSleep() {
     for (i = 1; i < userWuTime; i++)
     {
-        slots[i-1].setTask("Sleep", "Sleep");
+        if (slots[i-1].task != "passed")
+            slots[i-1].setTask("Sleep", "Sleep");
     }
 
-    for (i = userGtbTime-1; i < 96; ++i)
+    for (i = userGtbTime; i < 96; ++i)
     {
-        slots[i-1].setTask("Sleep", "Sleep");
+        if (slots[i-1].task != "passed")
+            slots[i-1].setTask("Sleep", "Sleep");
     }
 }
 
@@ -228,7 +246,7 @@ function createCalendar()
     while (i < 95)
     {
         duration = 1;
-        if (slots[i].task != null)
+        if (slots[i].task != null && slots[i].task != "passed")
         {
             for (j = i+1; j < 95; ++j)
                 if (slots[j].task == slots[i].task)
@@ -240,6 +258,8 @@ function createCalendar()
             startDate.setMinutes(((slots[i].number-1) % 4)*15);
             endDate.setHours(Math.floor((slots[i].number+duration-1) / 4));
             endDate.setMinutes(((slots[i].number+duration-1) % 4)*15);
+            if (slots[i].number+duration == 96)
+                endDate.setMinutes(endDate.getMinutes()+15);
 
             type = slots[i].taskType;
             color = 11;
@@ -266,6 +286,7 @@ function createCalendar()
             addEvent(oAuth2Client);
         }
         i += duration;
+        console.log("Dur: " + duration);
     }
 }
 

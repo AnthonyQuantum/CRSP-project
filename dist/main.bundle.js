@@ -994,9 +994,8 @@ var ScheduleComponent = /** @class */ (function () {
         return this._time.timeToTitle(time);
     };
     ScheduleComponent.prototype.generate = function () {
-        console.log("OK in component");
         this.update = false;
-        this._dataService.generateSchedule(this.currentUser.getName());
+        this._dataService.generateSchedule(this.currentUser.getName(), this.cb1, this.cb2);
     };
     ScheduleComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -1363,9 +1362,8 @@ var DataService = /** @class */ (function () {
             console.log("Error occured");
         });
     };
-    DataService.prototype.generateSchedule = function (name) {
-        console.log("OK in service");
-        this._http.post("/api/generateSchedule/" + name, {})
+    DataService.prototype.generateSchedule = function (name, replaceCurrent, fromNow) {
+        this._http.post("/api/generateSchedule/" + name + "?replace=" + replaceCurrent + "&fromNow=" + fromNow, {})
             .subscribe(function (res) {
             console.log(res);
         }, function (err) {
