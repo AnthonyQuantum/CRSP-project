@@ -7,14 +7,16 @@ var oAuth2Client = new google.auth.OAuth2("376770685318-59uhlg6rfsu1fbs8du6h5qh5
                                             "http://localhost:3000/oauthcallback");
 
 class Slot {
-    constructor(number, value, task) {
+    constructor(number, value, task, taskType) {
         this.number = number;
         this.value = value;
         this.task = task;
+        this.taskType = taskType;
     }
 
-    setTask(task) {
+    setTask(task, taskType) {
         this.task = task;
+        this.taskType = taskType;
     }
 }
 
@@ -27,6 +29,7 @@ var tasksAND = [];
 var tasksBD = [];
 var tasksBND = [];
 var tasksTB = [];
+var event;
 
 function generate(username, connection) {
 
@@ -65,67 +68,136 @@ function generateSlots() {
 
     for (i = 0; i < 47; ++i)
     {
-        currentSlot = new Slot(2*i+1, values[i], null);
+        currentSlot = new Slot(2*i+1, values[i], null, null);
         slots.push(currentSlot);
-        currentSlot = new Slot(2*i+2, Math.round(((values[i] + values[i+1]) / 2) * 100) / 100, null);
+        currentSlot = new Slot(2*i+2, Math.round(((values[i] + values[i+1]) / 2) * 100) / 100, null, null);
         slots.push(currentSlot);
     }
-    currentSlot = new Slot(96, values[47], null);
+    currentSlot = new Slot(96, values[47], null, null);
     slots.push(currentSlot);
 
     assignSleep();
+    assignTB();
+    assignND('A');
+    assignND('B');
+    assignD('A');
+    assignD('B');
+    createCalendar();
+
+    showSlots();
 }
 
 function assignSleep() {
-    console.log("WU: " + userWuTime);
-    console.log("GTB: " + userGtbTime);
     for (i = 1; i < userWuTime; i++)
     {
-        slots[i-1].setTask("Sleep");
+        slots[i-1].setTask("Sleep", "Sleep");
     }
 
     for (i = userGtbTime-1; i < 96; ++i)
     {
-        slots[i-1].setTask("Sleep");
+        slots[i-1].setTask("Sleep", "Sleep");
     }
-
-    assignTB();
 }
 
 function assignTB() {
-    sortTasks();
+    distributeTasks();
 
     tasksTB.forEach(task => {
         for (i = 0; i < task.time; ++i)
         {
             slots[task.startTime + i - 1].task = task.title;
+            slots[task.startTime + i - 1].taskType = "TB";
         }
     });
-
-    assignND('A');
 }
 
-function assignAND(type) {
+function assignND(type) {
     var tasks;
+    var maxSum = -1;
+    var maxPos = -1;
+    var flag = true;
+    var sum;
+
     if (type == 'A')
         tasks = tasksAND;
-    else
+    else if (type == 'B')
         tasks = tasksBND;
 
-    /*tasks.forEach(task => {
-        for (i = 0; i < task.time; ++i)
+    tasks.forEach(task => {
+        for (i = 0; i < 96-task.time; ++i)
         {
-            slots[task.startTime + i - 1].task = task.title;
+            sum = 0;
+            for (j = 0; j < task.time; ++j)
+            {
+                if (slots[i+j].task != null)
+                {
+                    flag = false;
+                    break;
+                }
+                sum += slots[i+j].value;
+            }
+            if (flag && sum > maxSum)
+            {
+                maxPos = i;
+                maxSum = sum;
+            }
+            else
+                flag = true;
         }
-    });*/
 
-    console.log(slots);
+        if (maxPos != -1)
+        {
+            for (i = maxPos; i < maxPos + task.time; ++i)
+            {
+                slots[i].task = task.title;
+                slots[i].taskType = type;
+            }
+        }
+
+        maxSum = -1;
+        maxPos = -1;
+    });
 }
 
+function assignD(type) {
+    var tasks;
+    var maxVal = -1;
+    var maxPos = -1;
+    var timeLeft = 0;
 
+    if (type == 'A')
+        tasks = tasksAD;
+    else if (type == 'B')
+        tasks = tasksBD;
 
+    tasks.forEach(task => {
+        timeLeft = parseInt(task.time);
+        while (timeLeft > 0)
+        {
+            for (i = 0; i < 95; ++i)
+            {
+                if (slots[i].task == null && parseFloat(slots[i].value) > maxVal)
+                {
+                    maxPos = i;
+                    maxVal = parseFloat(slots[i].value);
+                }
+            }
 
-function sortTasks() {
+            if (maxPos != -1)
+            {
+                slots[maxPos].task = task.title;
+                slots[maxPos].taskType = type;
+            }
+
+            maxVal = -1;
+            maxPos = -1;
+
+            --timeLeft;
+        }
+    });
+}
+
+function distributeTasks() {
     tasks.forEach(task => {
         if (task.priority == "A")
         {
@@ -144,23 +216,58 @@ function sortTasks() {
     });
 }
 
-var startDate = new Date();
-startDate.setHours(7);
-startDate.setMinutes(0);
+function createCalendar()
+{
+    var startDate = new Date();
+    var endDate = new Date();
+    var duration;
+    var i = 0;
+    var color;
+    var type;
 
-var endDate = new Date();
-endDate.setHours(8);
-endDate.setMinutes(0)
+    while (i < 95)
+    {
+        duration = 1;
+        if (slots[i].task != null)
+        {
+            for (j = i+1; j < 95; ++j)
+                if (slots[j].task == slots[i].task)
+                    ++duration;
+                else
+                    break;
 
-var event = {
-    'summary': 'Hello world',
-    'start': {
-      'dateTime': startDate.toISOString()
-    },
-    'end': {
-      'dateTime': endDate.toISOString()
+            startDate.setHours(Math.floor((slots[i].number-1) / 4));
+            startDate.setMinutes(((slots[i].number-1) % 4)*15);
+            endDate.setHours(Math.floor((slots[i].number+duration-1) / 4));
+            endDate.setMinutes(((slots[i].number+duration-1) % 4)*15);
+
+            type = slots[i].taskType;
+            color = 11;
+            if (type == "Sleep")
+                color = 3;
+            else if (type == "TB")
+                color = 5;
+            else if (type == "A")
+                color = 10;
+            else if (type == "B")
+                color = 9;
+
+            event = {
+                'summary': slots[i].task,
+                'colorId': color,
+                'start': {
+                  'dateTime': startDate.toISOString()
+                },
+                'end': {
+                  'dateTime': endDate.toISOString()
+                }
+            };
+
+            addEvent(oAuth2Client);
+        }
+        i += duration;
     }
-};
+}
 
 function addEvent(auth) {
   const calendar = google.calendar({version: 'v3', auth});
@@ -174,6 +281,13 @@ function addEvent(auth) {
         return;
       }
       console.log('Event created successfully');
+    });
+}
+
+function showSlots()
+{
+    slots.forEach(slot => {
+        console.log(slot.number + ": " + slot.task);
     });
 }
 
