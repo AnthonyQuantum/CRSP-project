@@ -68,4 +68,6 @@
 label {
     font-size: 2em;
     margin-left: 10px;
+    font-weight: normal;
+    line-height: 25px;
 }

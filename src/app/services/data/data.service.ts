@@ -18,7 +18,7 @@ export class DataService {
   // Get tasks
   getTasks(username: string) {
     return this._http.get("/api/tasks/" + username)
-      .map(result => this.result = result.json().data);
+      .map(result => this.currentUser.tasks = result.json().data);
   }
 
   // Add task
@@ -96,10 +96,12 @@ export class DataService {
       password: user.password
     })
     .map(result =>  {
-      this.currentUser.setWuTime(result.json().wuTime);
-      this.currentUser.setGtbTime(result.json().gtbTime);
+      this.currentUser.wuTime = result.json().wuTime;
+      this.currentUser.gtbTime = result.json().gtbTime;
       this.currentUser.isValid = result.json().isValid;
       this.currentUser.token = result.json().token;
+      this.currentUser.tasks = result.json().tasks;
+      localStorage.setItem('SecretToken', result.json().secretToken);
       })
   }
 
@@ -139,5 +141,30 @@ export class DataService {
   {
     return this._http.get("/api/getOAuthURL")
       .map(result => this.result = result.json().data);
+  }
+
+  loginToken(token: string) {
+    return this._http.get("/api/loginToken?token=" + token)
+    .map(result =>  {
+      this.currentUser.name = result.json().name;
+      this.currentUser.wuTime = result.json().wuTime;
+      this.currentUser.gtbTime = result.json().gtbTime;
+      this.currentUser.isValid = result.json().isValid;
+      this.currentUser.token = result.json().token;
+      this.currentUser.tasks = result.json().tasks;
+      localStorage.setItem('SecretToken', result.json().secretToken);
+      })
+  }
+
+  loginUserByToken() {
+    let tasks = [];
+    let secret = localStorage.getItem('SecretToken');
+    if (secret != undefined)
+    {
+      this.loginToken(secret)
+        .subscribe(res => {
+          tasks = this.currentUser.tasks;
+        });
+    }
   }
 }

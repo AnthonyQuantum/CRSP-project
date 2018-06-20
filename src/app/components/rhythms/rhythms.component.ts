@@ -60,7 +60,9 @@ export class RhythmsComponent implements AfterViewInit {
     });
   }
 
-  constructor(private _time: TimeService, private currentUser: CurrentUserModel, private _dataService: DataService) {}
+  constructor(private _time: TimeService, private currentUser: CurrentUserModel, private _dataService: DataService) {
+    this._dataService.loginUserByToken();
+  }
 
   timeToTitle(time: number)
   {

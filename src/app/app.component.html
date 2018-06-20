@@ -1,9 +1,9 @@
 <router-outlet></router-outlet>
 
 <div class="linkButton login" routerLink="/auth"><span class="glyphicon glyphicon-user"></span></div>
-<div *ngIf="currentUser.getName()" class="linkButton tasks" routerLink="/tasks"><span class="glyphicon glyphicon-check"></span></div>
-<div *ngIf="currentUser.getName()" class="linkButton schedule" routerLink="/schedule"><span class="glyphicon glyphicon-list-alt"></span></div>
-<div *ngIf="currentUser.getName()" class="linkButton rhythms" routerLink="/rhythms"><span class="glyphicon glyphicon-signal"></span></div>
+<div *ngIf="currentUser.name" class="linkButton tasks" routerLink="/tasks"><span class="glyphicon glyphicon-check"></span></div>
+<div *ngIf="currentUser.name" class="linkButton schedule" routerLink="/schedule"><span class="glyphicon glyphicon-list-alt"></span></div>
+<div *ngIf="currentUser.name" class="linkButton rhythms" routerLink="/rhythms"><span class="glyphicon glyphicon-signal"></span></div>
 
 <div class="cpFooter">
     &copy; 2018 &nbsp; <a href="http://anthonyquantum.com">Anthony Quantum</a>

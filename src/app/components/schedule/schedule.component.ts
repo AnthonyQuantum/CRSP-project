@@ -18,6 +18,7 @@ cb2: boolean;
 update: boolean;
 
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
+    this._dataService.loginUserByToken();
     this.update = false;
     this.cb1 = true;
     this.cb2 = false;
@@ -31,6 +32,6 @@ update: boolean;
 
   generate() {
     this.update = false;
-    this._dataService.generateSchedule(this.currentUser.getName(), this.cb1, this.cb2);
+    this._dataService.generateSchedule(this.currentUser.name, this.cb1, this.cb2);
   }
 }

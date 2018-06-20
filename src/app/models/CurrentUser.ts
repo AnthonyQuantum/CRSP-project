@@ -3,53 +3,26 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CurrentUserModel {
-private name = null;
-private wuTime = null;
-private gtbTime = null;
+public name = null;
+public wuTime = null;
+public gtbTime = null;
 public isValid = false;
 public token = null;
 public gotToken = false;
+public tasks = {};
 
 constructor() {}
 
-public setName(name: string)
-{
-    this.name = name;
-}
-
-public getName()
-{
-    return this.name;
-}
-
-public getWuTime()
-{
-    return this.wuTime;
-}
-
-public setWuTime(time: string)
-{
-    this.wuTime = time;
-}
-
-public getGtbTime()
-{
-    return this.gtbTime;
-}
-
-public setGtbTime(time: string)
-{
-    this.gtbTime = time;
-}
-
 public logout()
 {
-    this.setName(null);
-    this.setWuTime(null);
-    this.setGtbTime(null);
+    this.name = null;
+    this.wuTime = null;
+    this.gtbTime = null;
     this.isValid = false;
     this.token = null;
     this.gotToken = false;
+    this.tasks = {};
+    localStorage.removeItem('SecretToken');
 }
 
 }

@@ -7,14 +7,16 @@
 <div class="flexCenter">
     <button *ngIf="!update" type="button" class="btn btn-default" (click)="update = true">Update my calendar</button>
 
-    <label *ngIf="update" for="cb1">Replace all current events?
+    <label *ngIf="update" for="cb1" class="cont">Replace all current events?
         <input *ngIf="cb1 && update" type="checkbox" checked="checked" id="cb1" (click)="cb1 = !cb1">
         <input *ngIf="!cb1 && update" type="checkbox" id="cb1" (click)="cb1 = !cb1">
+        <span class="checkmark"></span>
     </label>
 
-    <label *ngIf="update" for="cb2">From now?
+    <label *ngIf="update" for="cb2" class="cont">From now?
         <input *ngIf="cb2 && update" type="checkbox" checked="checked" id="cb2" (click)="cb2 = !cb2">
         <input *ngIf="!cb2 && update" type="checkbox" id="cb2" (click)="cb2 = !cb2">
+        <span class="checkmark"></span>
     </label>
 
     <button *ngIf="update" type="button" class="btn btn-default" (click)="generate()">Generate my schedule</button>

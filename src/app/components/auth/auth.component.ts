@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { CurrentUserModel } from '../../models/CurrentUser';
 import { DataService } from '../../services/data/data.service';
+import { User } from '../../models/User'
 
 @Component({
   selector: 'app-auth',
@@ -15,6 +16,7 @@ export class AuthComponent {
   OAuthWindow: Window;
 
   constructor(private currentUser: CurrentUserModel, private _dataService: DataService, private _http: Http) {
+    this._dataService.loginUserByToken();
     window['ds'] = _dataService;
     window['usr'] = currentUser;
    }
@@ -28,7 +30,7 @@ export class AuthComponent {
       var idx = urlWithCode.lastIndexOf("code=");
       var code = urlWithCode.substring(idx + 5).replace("#","");
 
-      window['ds'].getToken(code, window['usr'].getName())
+      window['ds'].getToken(code, window['usr'].name)
         .subscribe(res => { 
           window['usr'].gotToken = true;
         });
@@ -41,6 +43,5 @@ export class AuthComponent {
         this.OAuthURL = res;
         this.getCode();
       });
-  }
-
+  }  
 }

@@ -18,17 +18,12 @@ export class TasksComponent {
   status: number;
   times = [];
 
-  wuTime: number;
-  gtbTime: number;
-
   isValid = false;
 
   constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel, private _time: TimeService) {
-    this._dataService.getTasks(this.currentUser.getName())
-      .subscribe(res => this.tasks = res);
+    this._dataService.loginUserByToken()
+    .subscribe(res => {});
     this.times = this._time.generateTimes();
-    this.wuTime = currentUser.getWuTime();
-    this.gtbTime = currentUser.getGtbTime();
   }
 
   showDialog() {
@@ -36,17 +31,17 @@ export class TasksComponent {
           message:'Confirm message'})
           .subscribe((isConfirmed)=>{
               if(isConfirmed) {
-                this._dataService.getTasks(this.currentUser.getName())
-                  .subscribe(res => this.tasks = res);
+                this._dataService.getTasks(this.currentUser.name)
+                  .subscribe(res => {});
               }
           });
   }
 
   deleteTask(event: any)
   {
-    this._dataService.deleteTask(event.target.id, this.currentUser.getName());
-    this._dataService.getTasks(this.currentUser.getName())
-      .subscribe(res => this.tasks = res);
+    this._dataService.deleteTask(event.target.id, this.currentUser.name);
+    this._dataService.getTasks(this.currentUser.name)
+      .subscribe(res => {});
   }
 
   toggleStatus(event: any)
@@ -55,12 +50,12 @@ export class TasksComponent {
       this.status = 1;
     else
       this.status = 0;
-    this._dataService.updateTask(event.target.id, this.status, this.currentUser.getName());
+    this._dataService.updateTask(event.target.id, this.status, this.currentUser.name);
   }
 
   saveTimes()
   {
-    this._dataService.saveTimes(this.wuTime, this.gtbTime, this.currentUser.getName());
+    this._dataService.saveTimes(this.currentUser.wuTime, this.currentUser.gtbTime, this.currentUser.name);
   }
 
   timeToTitle(time: number)
@@ -76,7 +71,7 @@ export class TasksComponent {
   // Log out the user
    logout()
    {
-     this.currentUser.setName(null);
+     this.currentUser.logout();
    }
 
 }

@@ -1,21 +1,21 @@
 <div class="hdr">Authorization</div>
 
 <div class="auth-text">
-  <div *ngIf="currentUser.getName() != null" class="inl greeting">
-    <div class="inl">Logged as: {{ currentUser.getName() }} <span class="glyphicon glyphicon-ok okay"></span> </div>
+  <div *ngIf="currentUser.name != null" class="inl greeting">
+    <div class="inl">Logged as: {{ currentUser.name }} <span class="glyphicon glyphicon-ok okay"></span> </div>
     <br>
     <button type="button" class="btn btn-default" (click)="currentUser.logout()">
       <span>Logout</span>
     </button>
     <br> 
   </div>
-  <div *ngIf="currentUser.getName() == null" class="inl greeting">
+  <div *ngIf="currentUser.name == null" class="inl greeting">
     <button type="button" class="btn btn-default" routerLink="/login">
       <span>Login</span>
     </button> 
   </div>
   <br>
-  <div *ngIf="currentUser.getName() != null && currentUser.token == null" class="inl greeting">
+  <div *ngIf="currentUser.name != null && currentUser.token == null" class="inl greeting">
     <button type="button" class="btn btn-default" (click)="getOAuthURL()">
       <span>Allow calendar access</span>
     </button>

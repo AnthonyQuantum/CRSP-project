@@ -294,7 +294,7 @@ module.exports = ".linkButton {\n    position: fixed;\n    right: 5px;\n    back
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton login\" routerLink=\"/auth\"><span class=\"glyphicon glyphicon-user\"></span></div>\n<div *ngIf=\"currentUser.getName()\" class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div *ngIf=\"currentUser.getName()\" class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div *ngIf=\"currentUser.getName()\" class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n\n<div class=\"cpFooter\">\n    &copy; 2018 &nbsp; <a href=\"http://anthonyquantum.com\">Anthony Quantum</a>\n</div>\n  \n"
+module.exports = "<router-outlet></router-outlet>\n\n<div class=\"linkButton login\" routerLink=\"/auth\"><span class=\"glyphicon glyphicon-user\"></span></div>\n<div *ngIf=\"currentUser.name\" class=\"linkButton tasks\" routerLink=\"/tasks\"><span class=\"glyphicon glyphicon-check\"></span></div>\n<div *ngIf=\"currentUser.name\" class=\"linkButton schedule\" routerLink=\"/schedule\"><span class=\"glyphicon glyphicon-list-alt\"></span></div>\n<div *ngIf=\"currentUser.name\" class=\"linkButton rhythms\" routerLink=\"/rhythms\"><span class=\"glyphicon glyphicon-signal\"></span></div>\n\n<div class=\"cpFooter\">\n    &copy; 2018 &nbsp; <a href=\"http://anthonyquantum.com\">Anthony Quantum</a>\n</div>\n  \n"
 
 /***/ }),
 
@@ -471,7 +471,7 @@ module.exports = ".auth-text {\n    font-size: 2em;\n    margin-top: 20px;\n    
 /***/ "./src/app/components/auth/auth.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.getName() != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.getName() }} <span class=\"glyphicon glyphicon-ok okay\"></span> </div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.getName() == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.getName() != null && currentUser.token == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getOAuthURL()\">\n      <span>Allow calendar access</span>\n    </button>\n  </div>\n\n  <br>\n\n  <div *ngIf=\"currentUser.token != null || currentUser.gotToken\" class=\"inl greeting\">\n    <span>Calendar access allowed <span class=\"glyphicon glyphicon-ok okay\"></span> </span>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getOAuthURL()\">\n      <span>Refresh</span>\n    </button>\n  </div>\n</div>"
+module.exports = "<div class=\"hdr\">Authorization</div>\n\n<div class=\"auth-text\">\n  <div *ngIf=\"currentUser.name != null\" class=\"inl greeting\">\n    <div class=\"inl\">Logged as: {{ currentUser.name }} <span class=\"glyphicon glyphicon-ok okay\"></span> </div>\n    <br>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"currentUser.logout()\">\n      <span>Logout</span>\n    </button>\n    <br> \n  </div>\n  <div *ngIf=\"currentUser.name == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" routerLink=\"/login\">\n      <span>Login</span>\n    </button> \n  </div>\n  <br>\n  <div *ngIf=\"currentUser.name != null && currentUser.token == null\" class=\"inl greeting\">\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getOAuthURL()\">\n      <span>Allow calendar access</span>\n    </button>\n  </div>\n\n  <br>\n\n  <div *ngIf=\"currentUser.token != null || currentUser.gotToken\" class=\"inl greeting\">\n    <span>Calendar access allowed <span class=\"glyphicon glyphicon-ok okay\"></span> </span>\n    <button type=\"button\" class=\"btn btn-default\" (click)=\"getOAuthURL()\">\n      <span>Refresh</span>\n    </button>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -502,6 +502,7 @@ var AuthComponent = /** @class */ (function () {
         this.currentUser = currentUser;
         this._dataService = _dataService;
         this._http = _http;
+        this._dataService.loginUserByToken();
         window['ds'] = _dataService;
         window['usr'] = currentUser;
     }
@@ -511,7 +512,7 @@ var AuthComponent = /** @class */ (function () {
             var urlWithCode = e.data;
             var idx = urlWithCode.lastIndexOf("code=");
             var code = urlWithCode.substring(idx + 5).replace("#", "");
-            window['ds'].getToken(code, window['usr'].getName())
+            window['ds'].getToken(code, window['usr'].name)
                 .subscribe(function (res) {
                 window['usr'].gotToken = true;
             });
@@ -593,7 +594,7 @@ var LoginComponent = /** @class */ (function () {
             .subscribe(function (res) {
             _this.isValid = _this.currentUser.isValid;
             if (_this.isValid) {
-                _this.currentUser.setName(user.name);
+                _this.currentUser.name = user.name;
                 _this.router.navigate(['/auth']);
             }
         });
@@ -682,9 +683,9 @@ var NewTaskDialogComponent = /** @class */ (function (_super) {
     // Add new task and close modal window
     NewTaskDialogComponent.prototype.confirm = function () {
         if (this.newTaskPriority == "T")
-            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.newTaskDivisible, this.currentUser.getName());
+            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.newTaskDivisible, this.currentUser.name);
         else
-            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, -1, this.newTaskDivisible, this.currentUser.getName());
+            this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, -1, this.newTaskDivisible, this.currentUser.name);
         this.result = true;
         this.close();
     };
@@ -819,7 +820,7 @@ var RegisterComponent = /** @class */ (function () {
             .subscribe(function (res) {
             _this.isValid = _this.currentUser.isValid;
             if (_this.isValid) {
-                _this.currentUser.setName(user.name);
+                _this.currentUser.name = user.name;
                 _this.router.navigate(['/auth']);
             }
         });
@@ -891,6 +892,7 @@ var RhythmsComponent = /** @class */ (function () {
             110, 115, 120, 123, 129, 131, 132, 131, 125, 120, 115, 111,
             106, 102, 101, 100, 100, 100, 101, 103, 105, 106, 107, 108,
             110, 111, 111, 110, 108, 105, 103, 100, 96, 93, 90];
+        this._dataService.loginUserByToken();
     }
     // Generate chart
     RhythmsComponent.prototype.ngAfterViewInit = function () {
@@ -947,14 +949,14 @@ var RhythmsComponent = /** @class */ (function () {
 /***/ "./src/app/components/schedule/schedule.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}\n\n.flexContainer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.calendar {\n    max-width: 300px;\n    max-height: 300px;\n}\n\n.flexCenter {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n\nlabel {\n    font-size: 2em;\n    margin-left: 10px;\n}"
+module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}\n\n.flexContainer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.calendar {\n    max-width: 300px;\n    max-height: 300px;\n}\n\n.flexCenter {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n\nlabel {\n    font-size: 2em;\n    margin-left: 10px;\n    font-weight: normal;\n    line-height: 25px;\n}"
 
 /***/ }),
 
 /***/ "./src/app/components/schedule/schedule.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n\n<div class=\"flexCenter\">\n    <button *ngIf=\"!update\" type=\"button\" class=\"btn btn-default\" (click)=\"update = true\">Update my calendar</button>\n\n    <label *ngIf=\"update\" for=\"cb1\">Replace all current events?\n        <input *ngIf=\"cb1 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <input *ngIf=\"!cb1 && update\" type=\"checkbox\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n    </label>\n\n    <label *ngIf=\"update\" for=\"cb2\">From now?\n        <input *ngIf=\"cb2 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <input *ngIf=\"!cb2 && update\" type=\"checkbox\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n    </label>\n\n    <button *ngIf=\"update\" type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Generate my schedule</button>\n</div>"
+module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n\n<div class=\"flexCenter\">\n    <button *ngIf=\"!update\" type=\"button\" class=\"btn btn-default\" (click)=\"update = true\">Update my calendar</button>\n\n    <label *ngIf=\"update\" for=\"cb1\" class=\"cont\">Replace all current events?\n        <input *ngIf=\"cb1 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <input *ngIf=\"!cb1 && update\" type=\"checkbox\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <span class=\"checkmark\"></span>\n    </label>\n\n    <label *ngIf=\"update\" for=\"cb2\" class=\"cont\">From now?\n        <input *ngIf=\"cb2 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <input *ngIf=\"!cb2 && update\" type=\"checkbox\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <span class=\"checkmark\"></span>\n    </label>\n\n    <button *ngIf=\"update\" type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Generate my schedule</button>\n</div>"
 
 /***/ }),
 
@@ -985,6 +987,7 @@ var ScheduleComponent = /** @class */ (function () {
         this._dataService = _dataService;
         this.currentUser = currentUser;
         this._time = _time;
+        this._dataService.loginUserByToken();
         this.update = false;
         this.cb1 = true;
         this.cb2 = false;
@@ -995,7 +998,7 @@ var ScheduleComponent = /** @class */ (function () {
     };
     ScheduleComponent.prototype.generate = function () {
         this.update = false;
-        this._dataService.generateSchedule(this.currentUser.getName(), this.cb1, this.cb2);
+        this._dataService.generateSchedule(this.currentUser.name, this.cb1, this.cb2);
     };
     ScheduleComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -1015,14 +1018,14 @@ var ScheduleComponent = /** @class */ (function () {
 /***/ "./src/app/components/tasks/tasks.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".hdr {\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    height: 50px;\n    line-height: 50px;\n    padding-right: 0px;\n    padding-left: 0px;\n}\n\n.chkbox {\n    position: absolute;\n    right: 25px;\n    top: 16px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 12.5px;\n    color: red;\n}\n\n.srch-comp {\n    padding-left: 0px;\n    padding-right: 0px;\n}\n\n.task-time {\n    position: absolute;\n    right: 50px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}\n\n.form-control, .btn\n{\n    height: 50px;\n}\n\n.slButton {\n    position: relative;\n    bottom: 2px;\n}\n\n.slLi {\n    text-align: center;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.show\n{\n    display: inline-block !important;\n}\n\n.btn-left {\n    position: absolute;\n    left: 0px;\n}\n\n.btn-right {\n    position: absolute;\n    right: 0px;\n}"
+module.exports = ".hdr {\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-list {\n    text-align: left;\n    border: 1px solid lightgray;\n    height: 50px;\n    line-height: 50px;\n    padding-right: 0px;\n    padding-left: 0px;\n}\n\n.close {\n    position: absolute;\n    right: 5px;\n    bottom: 12.5px;\n    color: red;\n}\n\n.srch-comp {\n    padding-left: 0px;\n    padding-right: 0px;\n}\n\n.task-time {\n    position: absolute;\n    right: 50px;\n}\n\n.start-time {\n    position: absolute;\n    right: 120px;\n}\n\n.form-control, .btn\n{\n    height: 50px;\n}\n\n.slButton {\n    position: relative;\n    bottom: 2px;\n}\n\n.slLi {\n    text-align: center;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.show\n{\n    display: inline-block !important;\n}\n\n.btn-left {\n    position: absolute;\n    left: 0px;\n}\n\n.btn-right {\n    position: absolute;\n    right: 0px;\n}\n\nlabel {\n    position: absolute;\n    right: 10px;\n    top: 16px;\n    -webkit-transform: scale(0.75, 0.75);\n            transform: scale(0.75, 0.75);\n}"
 
 /***/ }),
 
 /***/ "./src/app/components/tasks/tasks.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of tasks | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ durationToTitle(task.time) }}</span> \n       \n      <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n      <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl btn-left\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl btn-right\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time+1; saveTimes();\">{{ timeToTitle(time+1) }}</a></li>\n              </ul>\n            </div>\n    </div>"
+module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of jsonToArray(currentUser.tasks) | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ durationToTitle(task.time) }}</span> \n      <label class=\"cont\">\n        <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n        <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n        <span class=\"checkmark\"></span>\n      </label>\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl btn-left\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(currentUser.wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl btn-right\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(currentUser.gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time+1; saveTimes();\">{{ timeToTitle(time+1) }}</a></li>\n              </ul>\n            </div>\n    </div>"
 
 /***/ }),
 
@@ -1055,18 +1058,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var TasksComponent = /** @class */ (function () {
     function TasksComponent(_dataService, dialogService, currentUser, _time) {
-        var _this = this;
         this._dataService = _dataService;
         this.dialogService = dialogService;
         this.currentUser = currentUser;
         this._time = _time;
         this.times = [];
         this.isValid = false;
-        this._dataService.getTasks(this.currentUser.getName())
-            .subscribe(function (res) { return _this.tasks = res; });
+        this.currentUser.tasks = {};
+        this._dataService.loginUserByToken();
         this.times = this._time.generateTimes();
-        this.wuTime = currentUser.getWuTime();
-        this.gtbTime = currentUser.getGtbTime();
     }
     TasksComponent.prototype.showDialog = function () {
         var _this = this;
@@ -1075,26 +1075,25 @@ var TasksComponent = /** @class */ (function () {
         })
             .subscribe(function (isConfirmed) {
             if (isConfirmed) {
-                _this._dataService.getTasks(_this.currentUser.getName())
-                    .subscribe(function (res) { return _this.tasks = res; });
+                _this._dataService.getTasks(_this.currentUser.name)
+                    .subscribe(function (res) { });
             }
         });
     };
     TasksComponent.prototype.deleteTask = function (event) {
-        var _this = this;
-        this._dataService.deleteTask(event.target.id, this.currentUser.getName());
-        this._dataService.getTasks(this.currentUser.getName())
-            .subscribe(function (res) { return _this.tasks = res; });
+        this._dataService.deleteTask(event.target.id, this.currentUser.name);
+        this._dataService.getTasks(this.currentUser.name)
+            .subscribe(function (res) { });
     };
     TasksComponent.prototype.toggleStatus = function (event) {
         if (event.target.checked)
             this.status = 1;
         else
             this.status = 0;
-        this._dataService.updateTask(event.target.id, this.status, this.currentUser.getName());
+        this._dataService.updateTask(event.target.id, this.status, this.currentUser.name);
     };
     TasksComponent.prototype.saveTimes = function () {
-        this._dataService.saveTimes(this.wuTime, this.gtbTime, this.currentUser.getName());
+        this._dataService.saveTimes(this.currentUser.wuTime, this.currentUser.gtbTime, this.currentUser.name);
     };
     TasksComponent.prototype.timeToTitle = function (time) {
         return this._time.timeToTitle(time);
@@ -1104,7 +1103,11 @@ var TasksComponent = /** @class */ (function () {
     };
     // Log out the user
     TasksComponent.prototype.logout = function () {
-        this.currentUser.setName(null);
+        this.currentUser.logout();
+    };
+    TasksComponent.prototype.jsonToArray = function (obj) {
+        var arr = obj.json();
+        return arr;
     };
     TasksComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -1146,32 +1149,17 @@ var CurrentUserModel = /** @class */ (function () {
         this.isValid = false;
         this.token = null;
         this.gotToken = false;
+        this.tasks = {};
     }
-    CurrentUserModel.prototype.setName = function (name) {
-        this.name = name;
-    };
-    CurrentUserModel.prototype.getName = function () {
-        return this.name;
-    };
-    CurrentUserModel.prototype.getWuTime = function () {
-        return this.wuTime;
-    };
-    CurrentUserModel.prototype.setWuTime = function (time) {
-        this.wuTime = time;
-    };
-    CurrentUserModel.prototype.getGtbTime = function () {
-        return this.gtbTime;
-    };
-    CurrentUserModel.prototype.setGtbTime = function (time) {
-        this.gtbTime = time;
-    };
     CurrentUserModel.prototype.logout = function () {
-        this.setName(null);
-        this.setWuTime(null);
-        this.setGtbTime(null);
+        this.name = null;
+        this.wuTime = null;
+        this.gtbTime = null;
         this.isValid = false;
         this.token = null;
         this.gotToken = false;
+        this.tasks = {};
+        localStorage.removeItem('SecretToken');
     };
     CurrentUserModel = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
@@ -1286,7 +1274,7 @@ var DataService = /** @class */ (function () {
     DataService.prototype.getTasks = function (username) {
         var _this = this;
         return this._http.get("/api/tasks/" + username)
-            .map(function (result) { return _this.result = result.json().data; });
+            .map(function (result) { return _this.currentUser.tasks = result.json().data; });
     };
     // Add task
     DataService.prototype.addTask = function (title, priority, time, startTime, divisible, username) {
@@ -1348,10 +1336,12 @@ var DataService = /** @class */ (function () {
             password: user.password
         })
             .map(function (result) {
-            _this.currentUser.setWuTime(result.json().wuTime);
-            _this.currentUser.setGtbTime(result.json().gtbTime);
+            _this.currentUser.wuTime = result.json().wuTime;
+            _this.currentUser.gtbTime = result.json().gtbTime;
             _this.currentUser.isValid = result.json().isValid;
             _this.currentUser.token = result.json().token;
+            _this.currentUser.tasks = result.json().tasks;
+            localStorage.setItem('SecretToken', result.json().secretToken);
         });
     };
     DataService.prototype.saveTimes = function (wuTime, gtbTime, username) {
@@ -1379,6 +1369,26 @@ var DataService = /** @class */ (function () {
         var _this = this;
         return this._http.get("/api/getOAuthURL")
             .map(function (result) { return _this.result = result.json().data; });
+    };
+    DataService.prototype.loginToken = function (token) {
+        var _this = this;
+        return this._http.get("/api/loginToken?token=" + token)
+            .map(function (result) {
+            _this.currentUser.name = result.json().name;
+            _this.currentUser.wuTime = result.json().wuTime;
+            _this.currentUser.gtbTime = result.json().gtbTime;
+            _this.currentUser.isValid = result.json().isValid;
+            _this.currentUser.token = result.json().token;
+            _this.currentUser.tasks = result.json().tasks;
+            localStorage.setItem('SecretToken', result.json().secretToken);
+        });
+    };
+    DataService.prototype.loginUserByToken = function () {
+        var secret = localStorage.getItem('SecretToken');
+        if (secret != undefined) {
+            this.loginToken(secret)
+                .subscribe(function (res) { });
+        }
     };
     DataService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),

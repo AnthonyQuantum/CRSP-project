@@ -4,6 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const app = express();
 const {google} = require('googleapis');
+var randtoken = require('rand-token');
 
 var scheduleGenerator = require('../scheduleGenerator');
 
@@ -97,7 +98,9 @@ router.put('/tasksUpdate/:usr/:id', (req, res) => {
 // Add new user
 router.post('/addUser', (req, res) => {
     connection((db) => {
-        db.collection('users').insert(req.body)
+        var newUsr = req.body;
+        newUsr.secretToken = randtoken.generate(32);
+        db.collection('users').insert(newUsr)
             .catch((err) => {
                 sendError(err, res);
             });
@@ -119,6 +122,8 @@ router.post('/loginUser', (req, res) => {
                     response.wuTime = users[0].wakeUpTime;
                     response.gtbTime = users[0].goToBedTime;
                     response.token = users[0].token;
+                    response.secretToken = users[0].secretToken;
+                    response.tasks = users[0].tasks;
                 }
                 res.json(response);
             })
@@ -190,6 +195,34 @@ router.get('/getToken', (req, res) => {
 // Generate a new schedule
 router.post('/generateSchedule/:usr', (req, res) => {
     scheduleGenerator.generate(req.params.usr, req.query.replace, req.query.fromNow, connection);
+});
+
+router.get('/loginToken', (req, res) => {
+    var obj = {};
+    obj.secretToken = req.query.token;
+    connection((db) => {
+        db.collection('users')
+            .find(obj)
+            .toArray()
+            .then((users) => {
+                if (users === undefined || users.length == 0)
+                    response.isValid = false;
+                else
+                {
+                    response.isValid = true;
+                    response.name = users[0].name;
+                    response.wuTime = users[0].wakeUpTime;
+                    response.gtbTime = users[0].goToBedTime;
+                    response.token = users[0].token;
+                    response.secretToken = users[0].secretToken;
+                    response.tasks = users[0].tasks;
+                }
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
 });
 
 module.exports = router;

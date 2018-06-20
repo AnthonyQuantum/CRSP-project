@@ -31,9 +31,9 @@ export class NewTaskDialogComponent extends DialogComponent<NewTaskDialogModel, 
   // Add new task and close modal window
   confirm() {
     if (this.newTaskPriority == "T")
-      this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.newTaskDivisible, this.currentUser.getName());
+      this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, this.newTaskStartTime, this.newTaskDivisible, this.currentUser.name);
     else
-      this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, -1, this.newTaskDivisible, this.currentUser.getName());
+      this._dataService.addTask(this.newTaskTitle, this.newTaskPriority, this.newTaskTime, -1, this.newTaskDivisible, this.currentUser.name);
     this.result = true;
     this.close();
   }

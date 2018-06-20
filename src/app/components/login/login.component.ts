@@ -24,7 +24,7 @@ export class LoginComponent {
       .subscribe(res => { 
         this.isValid = this.currentUser.isValid; 
         if (this.isValid) {
-          this.currentUser.setName(user.name);
+          this.currentUser.name = user.name;
           this.router.navigate(['/auth']);
         }
       });
