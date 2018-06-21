@@ -121,15 +121,8 @@ export class DataService {
 
   generateSchedule(name: string, replaceCurrent: boolean, fromNow: boolean)
   {
-    this._http.post("/api/generateSchedule/" + name + "?replace=" + replaceCurrent + "&fromNow=" + fromNow, {})
-    .subscribe(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.log("Error occured");
-      }
-    )
+    return this._http.post("/api/generateSchedule/" + name + "?replace=" + replaceCurrent + "&fromNow=" + fromNow, {})
+      .map(result => this.result = result.json().data);
   }
 
   getToken(code: string, user: string)

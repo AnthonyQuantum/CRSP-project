@@ -72,12 +72,13 @@ label {
     line-height: 25px;
 }
 
-.lds-ellipsis {
-    margin-left: 50px;
-}
-
 .status {
     font-size: 2em;
     position: relative;
-    top: -20px;
+    top: 15px;
+}
+
+.flexAlt {
+    display: flex;
+    justify-content: center;
 }

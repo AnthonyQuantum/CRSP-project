@@ -194,7 +194,12 @@ router.get('/getToken', (req, res) => {
 
 // Generate a new schedule
 router.post('/generateSchedule/:usr', (req, res) => {
-    scheduleGenerator.generate(req.params.usr, req.query.replace, req.query.fromNow, connection);
+    response.data = 0;
+    scheduleGenerator.generate(req.params.usr, req.query.replace, req.query.fromNow, connection, function() {
+        response.data = "Done"; 
+        console.log("All done!");
+        res.json(response); 
+    });
 });
 
 router.get('/loginToken', (req, res) => {

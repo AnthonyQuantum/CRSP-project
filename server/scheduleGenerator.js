@@ -32,8 +32,9 @@ var tasksBD = [];
 var tasksBND = [];
 var tasksTB = [];
 var event;
+var quantityOfEvents;
 
-function generate(username, replace, fromNow, connection) {
+function generate(username, replace, fromNow, connection, callback) {
 
     // Get user's token from DB
     connection((db) => {
@@ -48,7 +49,7 @@ function generate(username, replace, fromNow, connection) {
                 tasks = user[0].tasks;
                 replaceFlag = (replace == 'true');
                 fromNowFlag = (fromNow == 'true');
-                generateSlots();
+                generateSlots(callback);
             })
             .catch((err) => {
                 sendError(err, res);
@@ -56,7 +57,7 @@ function generate(username, replace, fromNow, connection) {
     });
 }
 
-function generateSlots() {
+function generateSlots(callback) {
     values = [87.5,82.5,77.5,72.5,67.5,
         62.5,58,54.5,61.5,75,
         85,95,102.5,107.5,112.5,
@@ -82,14 +83,15 @@ function generateSlots() {
 
     if (fromNowFlag) excludePassed();
     assignSleep();
+    distributeTasks();
     assignTB();
     assignND('A');
     assignND('B');
     assignD('A');
     assignD('B');
-    createCalendar();
+    createCalendar(callback);
 
-    showSlots();
+    //showSlots();
 }
 
 function excludePassed()
@@ -118,8 +120,6 @@ function assignSleep() {
 }
 
 function assignTB() {
-    distributeTasks();
-
     tasksTB.forEach(task => {
         for (i = 0; i < task.time; ++i)
         {
@@ -232,10 +232,13 @@ function distributeTasks() {
         } else
             tasksTB.push(task);
     });
+    quantityOfEvents = 2 + tasksTB.length + tasksAND.length + tasksBND.length + tasksAD.length + tasksBD.length;
 }
 
-function createCalendar()
+function createCalendar(callback)
 {
+    clearCalendar(oAuth2Client);
+
     var startDate = new Date();
     var endDate = new Date();
     var duration;
@@ -283,16 +286,61 @@ function createCalendar()
                 }
             };
 
-            addEvent(oAuth2Client);
+            addEvent(oAuth2Client, callback);
         }
         i += duration;
-        console.log("Dur: " + duration);
     }
 }
 
-function addEvent(auth) {
+function clearCalendar(auth) {
+    const calendar = google.calendar({version: 'v3', auth});
+
+    var eventIds = [];
+
+    var strDate = new Date();
+    strDate.setHours(0);
+    strDate.setMinutes(0);
+    var finDate = new Date();
+    finDate.setHours(23);
+    finDate.setMinutes(59);
+  
+    calendar.events.list({
+      calendarId: 'primary',
+      timeMin: strDate.toISOString(),
+      timeMax: finDate.toISOString(),
+      singleEvents: true,
+      orderBy: 'startTime',
+    }, (err, {data}) => {
+      if (err) return console.log('The API returned an error: ' + err);
+      const events = data.items;
+      if (events.length) {
+        events.map((event, i) => {
+          eventIds.push(event.id);
+        });
+      } else {
+        console.log('No events found.');
+      }
+
+      eventIds.forEach(id => {
+        calendar.events.delete({
+            auth: auth,
+            calendarId: 'primary',
+            eventId: id,
+          }, function(err) {
+            if (err) {
+              console.log('Error: ' + err);
+              return;
+            }
+          });
+      });
+      console.log("Calendar is clear!");
+    });
+}
+
+async function addEvent(auth, callback) {
   const calendar = google.calendar({version: 'v3', auth});
-  calendar.events.insert({
+
+    calendar.events.insert({
       auth: auth,
       calendarId: 'primary',
       resource: event,
@@ -302,6 +350,9 @@ function addEvent(auth) {
         return;
       }
       console.log('Event created successfully');
+      --quantityOfEvents;
+      if (quantityOfEvents == 0)
+        callback();
     });
 }
 
