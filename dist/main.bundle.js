@@ -949,14 +949,14 @@ var RhythmsComponent = /** @class */ (function () {
 /***/ "./src/app/components/schedule/schedule.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}\n\n.flexContainer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.calendar {\n    max-width: 300px;\n    max-height: 300px;\n}\n\n.flexCenter {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n\nlabel {\n    font-size: 2em;\n    margin-left: 10px;\n    font-weight: normal;\n    line-height: 25px;\n}"
+module.exports = ".text-grey {\n    color: grey;\n}\n\n.hr-one {\n    background: grey;\n    margin: 0px;\n    position: relative;\n    top: 25px;\n}\n\n.hr-half {\n    background: lightgray;\n    margin: 0px;\n}\n\n.task-block {\n    background: #2cb5e8;\n    padding: 5px 10px;\n    position: absolute;\n    left: 25%;\n    width: 50%;\n    color: white;\n    z-index: 1;\n}\n\n.sleep-task-block {\n    background: #2E3192 !important;\n    z-index: 1;\n}\n\n.row {\n    height: 25px;\n}\n\n.greeting {\n    text-align: right;\n    font-size: 0.5em !important;\n}\n\n.now {\n    text-align: left;\n}\n\n.time-title {\n    position: relative;\n    top: 35px;\n}\n\n.task-margin {\n    margin-top: 25px;\n}\n\n.flexContainer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n\n.calendar {\n    max-width: 300px;\n    max-height: 300px;\n}\n\n.flexCenter {\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n}\n\nlabel {\n    font-size: 2em;\n    margin-left: 10px;\n    font-weight: normal;\n    line-height: 25px;\n}\n\n.lds-ellipsis {\n    margin-left: 50px;\n}\n\n.status {\n    font-size: 2em;\n    position: relative;\n    top: -20px;\n}"
 
 /***/ }),
 
 /***/ "./src/app/components/schedule/schedule.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n\n<div class=\"flexCenter\">\n    <button *ngIf=\"!update\" type=\"button\" class=\"btn btn-default\" (click)=\"update = true\">Update my calendar</button>\n\n    <label *ngIf=\"update\" for=\"cb1\" class=\"cont\">Replace all current events?\n        <input *ngIf=\"cb1 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <input *ngIf=\"!cb1 && update\" type=\"checkbox\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <span class=\"checkmark\"></span>\n    </label>\n\n    <label *ngIf=\"update\" for=\"cb2\" class=\"cont\">From now?\n        <input *ngIf=\"cb2 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <input *ngIf=\"!cb2 && update\" type=\"checkbox\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <span class=\"checkmark\"></span>\n    </label>\n\n    <button *ngIf=\"update\" type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Generate my schedule</button>\n</div>"
+module.exports = "<div class=\"hdr\">Calendar</div>\n\n<div class=\"flexContainer\">\n    <img src=\"../../../assets/calendar.svg\" class=\"calendar\">\n</div>\n\n<div class=\"flexCenter\">\n    <button *ngIf=\"!update\" type=\"button\" class=\"btn btn-default\" (click)=\"update = true\">Update my calendar</button>\n\n    <label *ngIf=\"update\" for=\"cb1\" class=\"cont\">Replace all current events?\n        <input *ngIf=\"cb1 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <input *ngIf=\"!cb1 && update\" type=\"checkbox\" id=\"cb1\" (click)=\"cb1 = !cb1\">\n        <span class=\"checkmark\"></span>\n    </label>\n\n    <label *ngIf=\"update\" for=\"cb2\" class=\"cont\">From now?\n        <input *ngIf=\"cb2 && update\" type=\"checkbox\" checked=\"checked\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <input *ngIf=\"!cb2 && update\" type=\"checkbox\" id=\"cb2\" (click)=\"cb2 = !cb2\">\n        <span class=\"checkmark\"></span>\n    </label>\n\n    <button *ngIf=\"update\" type=\"button\" class=\"btn btn-default\" (click)=\"generate()\">Generate my schedule</button>\n\n    <div *ngIf=\"inProcess\">\n        <div class=\"lds-ellipsis inl\"><div></div><div></div><div></div><div></div></div>\n        <span class=\"inl status\">Status</span>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -987,6 +987,7 @@ var ScheduleComponent = /** @class */ (function () {
         this._dataService = _dataService;
         this.currentUser = currentUser;
         this._time = _time;
+        this.inProcess = false;
         this._dataService.loginUserByToken();
         this.update = false;
         this.cb1 = true;
@@ -998,6 +999,7 @@ var ScheduleComponent = /** @class */ (function () {
     };
     ScheduleComponent.prototype.generate = function () {
         this.update = false;
+        this.inProcess = true;
         this._dataService.generateSchedule(this.currentUser.name, this.cb1, this.cb2);
     };
     ScheduleComponent = __decorate([
@@ -1025,7 +1027,7 @@ module.exports = ".hdr {\n    height: 80px;\n    line-height: 90px;\n}\n\n.task-
 /***/ "./src/app/components/tasks/tasks.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of jsonToArray(currentUser.tasks) | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ durationToTitle(task.time) }}</span> \n      <label class=\"cont\">\n        <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n        <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n        <span class=\"checkmark\"></span>\n      </label>\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl btn-left\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(currentUser.wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl btn-right\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(currentUser.gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time+1; saveTimes();\">{{ timeToTitle(time+1) }}</a></li>\n              </ul>\n            </div>\n    </div>"
+module.exports = "<div class=\"hdr\">Tasks</div>\n\n<div class=\"col-lg-12 srch-comp\">\n  <div class=\"input-group\">\n    <input class=\"form-control\" [(ngModel)]=\"searchText\" placeholder=\"Search...\">\n    <div class=\"input-group-btn\">\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"showDialog()\">\n          <span>New</span>\n      </button>\n\n    </div>\n  </div>\n</div>\n\n    <div class=\"task-list col-lg-12\" *ngFor=\"let task of currentUser.tasksArray | filter : searchText\">\n        <span *ngIf=\"task.priority == 'A'\" class=\"badg badge-green\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'B'\" class=\"badg badge-blue\">{{ task.priority }}</span>\n        <span *ngIf=\"task.priority == 'T'\" class=\"badg badge-yellow\">{{ timeToTitle(task.startTime) }}</span> \n      {{ task.title }}\n      <span class=\"task-time\">{{ durationToTitle(task.time) }}</span> \n      <label class=\"cont\">\n        <input *ngIf=\"task.status == 1\" class=\"chkbox\" type=\"checkbox\" checked=\"checked\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n        <input *ngIf=\"task.status == 0\" class=\"chkbox\" type=\"checkbox\" id=\"{{ task.id }}\" (click)=\"toggleStatus($event)\">\n        <span class=\"checkmark\"></span>\n      </label>\n    <span class=\"close\" (click)=\"deleteTask($event)\" id=\"{{ task.id }}\">&times;</span>\n    </div>\n\n    <div class=\"task-list col-lg-12 slLi\">\n        <div class=\"input-group inl btn-left\">\n            <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                {{ timeToTitle(currentUser.wuTime) }}\n              <span class=\"caret\"></span>\n              <span class=\"sr-only\">Toggle Dropdown</span>\n            </button>\n            <ul class=\"dropdown-menu dropdown-menu-right\"> \n              <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"wuTime = time; saveTimes();\">{{ timeToTitle(time) }}</a></li>\n            </ul>\n          </div>\n\n          <span class=\"slTitle\">Sleep</span>\n\n          <div class=\"input-group inl btn-right\">\n              <button (click)=\"sTimesFlag = true\" type=\"button\" class=\"btn btn-default dropdown-toggle badge-purple slButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                  {{ timeToTitle(currentUser.gtbTime) }}\n                <span class=\"caret\"></span>\n                <span class=\"sr-only\">Toggle Dropdown</span>\n              </button>\n              <ul class=\"dropdown-menu dropdown-menu-right\"> \n                <li class=\"drop-li\" *ngFor=\"let time of times\"><a (click)=\"gtbTime = time+1; saveTimes();\">{{ timeToTitle(time+1) }}</a></li>\n              </ul>\n            </div>\n    </div>"
 
 /***/ }),
 
@@ -1064,7 +1066,6 @@ var TasksComponent = /** @class */ (function () {
         this._time = _time;
         this.times = [];
         this.isValid = false;
-        this.currentUser.tasks = {};
         this._dataService.loginUserByToken();
         this.times = this._time.generateTimes();
     }
@@ -1076,14 +1077,21 @@ var TasksComponent = /** @class */ (function () {
             .subscribe(function (isConfirmed) {
             if (isConfirmed) {
                 _this._dataService.getTasks(_this.currentUser.name)
-                    .subscribe(function (res) { });
+                    .subscribe(function (res) {
+                    _this.currentUser.tasks = res;
+                    _this.currentUser.tasksArray = res;
+                });
             }
         });
     };
     TasksComponent.prototype.deleteTask = function (event) {
+        var _this = this;
         this._dataService.deleteTask(event.target.id, this.currentUser.name);
         this._dataService.getTasks(this.currentUser.name)
-            .subscribe(function (res) { });
+            .subscribe(function (res) {
+            _this.currentUser.tasks = res;
+            _this.currentUser.tasksArray = res;
+        });
     };
     TasksComponent.prototype.toggleStatus = function (event) {
         if (event.target.checked)
@@ -1104,10 +1112,6 @@ var TasksComponent = /** @class */ (function () {
     // Log out the user
     TasksComponent.prototype.logout = function () {
         this.currentUser.logout();
-    };
-    TasksComponent.prototype.jsonToArray = function (obj) {
-        var arr = obj.json();
-        return arr;
     };
     TasksComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -1150,6 +1154,7 @@ var CurrentUserModel = /** @class */ (function () {
         this.token = null;
         this.gotToken = false;
         this.tasks = {};
+        this.tasksArray = [];
     }
     CurrentUserModel.prototype.logout = function () {
         this.name = null;
@@ -1159,6 +1164,7 @@ var CurrentUserModel = /** @class */ (function () {
         this.token = null;
         this.gotToken = false;
         this.tasks = {};
+        this.tasksArray = [];
         localStorage.removeItem('SecretToken');
     };
     CurrentUserModel = __decorate([
@@ -1341,6 +1347,7 @@ var DataService = /** @class */ (function () {
             _this.currentUser.isValid = result.json().isValid;
             _this.currentUser.token = result.json().token;
             _this.currentUser.tasks = result.json().tasks;
+            _this.currentUser.tasksArray = result.json().tasks;
             localStorage.setItem('SecretToken', result.json().secretToken);
         });
     };
@@ -1380,6 +1387,7 @@ var DataService = /** @class */ (function () {
             _this.currentUser.isValid = result.json().isValid;
             _this.currentUser.token = result.json().token;
             _this.currentUser.tasks = result.json().tasks;
+            _this.currentUser.tasksArray = result.json().tasks;
             localStorage.setItem('SecretToken', result.json().secretToken);
         });
     };

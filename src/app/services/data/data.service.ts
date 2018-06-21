@@ -101,6 +101,7 @@ export class DataService {
       this.currentUser.isValid = result.json().isValid;
       this.currentUser.token = result.json().token;
       this.currentUser.tasks = result.json().tasks;
+      this.currentUser.tasksArray = result.json().tasks;
       localStorage.setItem('SecretToken', result.json().secretToken);
       })
   }
@@ -152,19 +153,17 @@ export class DataService {
       this.currentUser.isValid = result.json().isValid;
       this.currentUser.token = result.json().token;
       this.currentUser.tasks = result.json().tasks;
+      this.currentUser.tasksArray = result.json().tasks;
       localStorage.setItem('SecretToken', result.json().secretToken);
       })
   }
 
   loginUserByToken() {
-    let tasks = [];
     let secret = localStorage.getItem('SecretToken');
     if (secret != undefined)
     {
       this.loginToken(secret)
-        .subscribe(res => {
-          tasks = this.currentUser.tasks;
-        });
+        .subscribe(res => {});
     }
   }
 }

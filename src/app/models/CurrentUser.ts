@@ -10,6 +10,7 @@ public isValid = false;
 public token = null;
 public gotToken = false;
 public tasks = {};
+public tasksArray = [];
 
 constructor() {}
 
@@ -22,6 +23,7 @@ public logout()
     this.token = null;
     this.gotToken = false;
     this.tasks = {};
+    this.tasksArray = [];
     localStorage.removeItem('SecretToken');
 }
 

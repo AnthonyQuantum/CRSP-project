@@ -20,4 +20,9 @@
     </label>
 
     <button *ngIf="update" type="button" class="btn btn-default" (click)="generate()">Generate my schedule</button>
+
+    <div *ngIf="inProcess">
+        <div class="lds-ellipsis inl"><div></div><div></div><div></div><div></div></div>
+        <span class="inl status">Generating...</span>
+    </div>
 </div>

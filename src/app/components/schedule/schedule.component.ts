@@ -16,6 +16,7 @@ export class ScheduleComponent {
 cb1: boolean;
 cb2: boolean;
 update: boolean;
+inProcess = false;
 
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
     this._dataService.loginUserByToken();
@@ -32,6 +33,7 @@ update: boolean;
 
   generate() {
     this.update = false;
+    this.inProcess = true;
     this._dataService.generateSchedule(this.currentUser.name, this.cb1, this.cb2);
   }
 }

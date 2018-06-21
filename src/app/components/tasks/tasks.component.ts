@@ -14,15 +14,13 @@ import { User } from '../../models/User';
 })
 export class TasksComponent {
 
-  tasks: Array<any>;
   status: number;
   times = [];
 
   isValid = false;
 
   constructor(private _dataService: DataService, private dialogService:DialogService, private currentUser: CurrentUserModel, private _time: TimeService) {
-    this._dataService.loginUserByToken()
-    .subscribe(res => {});
+    this._dataService.loginUserByToken();
     this.times = this._time.generateTimes();
   }
 
@@ -32,7 +30,10 @@ export class TasksComponent {
           .subscribe((isConfirmed)=>{
               if(isConfirmed) {
                 this._dataService.getTasks(this.currentUser.name)
-                  .subscribe(res => {});
+                  .subscribe(res => { 
+                    this.currentUser.tasks = res;
+                    this.currentUser.tasksArray = res;
+                   });
               }
           });
   }
@@ -41,7 +42,10 @@ export class TasksComponent {
   {
     this._dataService.deleteTask(event.target.id, this.currentUser.name);
     this._dataService.getTasks(this.currentUser.name)
-      .subscribe(res => {});
+      .subscribe(res => { 
+        this.currentUser.tasks = res;
+        this.currentUser.tasksArray = res;
+      });
   }
 
   toggleStatus(event: any)

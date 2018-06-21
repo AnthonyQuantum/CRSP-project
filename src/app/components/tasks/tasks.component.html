@@ -12,7 +12,7 @@
   </div>
 </div>
 
-    <div class="task-list col-lg-12" *ngFor="let task of tasks | filter : searchText">
+    <div class="task-list col-lg-12" *ngFor="let task of currentUser.tasksArray | filter : searchText">
         <span *ngIf="task.priority == 'A'" class="badg badge-green">{{ task.priority }}</span>
         <span *ngIf="task.priority == 'B'" class="badg badge-blue">{{ task.priority }}</span>
         <span *ngIf="task.priority == 'T'" class="badg badge-yellow">{{ timeToTitle(task.startTime) }}</span> 

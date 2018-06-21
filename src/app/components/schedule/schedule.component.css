@@ -71,3 +71,13 @@ label {
     font-weight: normal;
     line-height: 25px;
 }
+
+.lds-ellipsis {
+    margin-left: 50px;
+}
+
+.status {
+    font-size: 2em;
+    position: relative;
+    top: -20px;
+}
