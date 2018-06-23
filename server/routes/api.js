@@ -194,11 +194,24 @@ router.get('/getToken', (req, res) => {
 
 // Generate a new schedule
 router.post('/generateSchedule/:usr', (req, res) => {
-    response.data = 0;
-    scheduleGenerator.generate(req.params.usr, req.query.replace, req.query.fromNow, connection, function() {
-        response.data = "Done"; 
-        console.log("All done!");
-        res.json(response); 
+    response.data = "";
+    scheduleGenerator.generate(req.params.usr, req.query.replace, req.query.fromNow, connection, function(result) {
+        try {
+            if (result == "Done")
+            {
+                response.data = "Done"; 
+                console.log("All done!");
+            } else if (result == "Error")
+            {
+                response.data = "Error"; 
+                console.log("Error!");
+            }
+        
+            res.json(response);
+        }
+        catch(Error) {
+            console.log("Catched an error");
+        } 
     });
 });
 

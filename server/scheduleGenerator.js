@@ -33,6 +33,8 @@ var tasksBND = [];
 var tasksTB = [];
 var event;
 var quantityOfEvents;
+var slotsLeft = 96;
+var hasError = false;
 
 function generate(username, replace, fromNow, connection, callback) {
 
@@ -82,14 +84,21 @@ function generateSlots(callback) {
     slots.push(currentSlot);
 
     if (fromNowFlag) excludePassed();
-    assignSleep();
-    distributeTasks();
-    assignTB();
-    assignND('A');
-    assignND('B');
-    assignD('A');
-    assignD('B');
-    createCalendar(callback);
+    assignSleep(callback);
+    if (!hasError)
+        distributeTasks();
+    if (!hasError)
+        assignTB(callback);
+    if (!hasError)
+        assignND('A', callback);
+    if (!hasError)
+        assignND('B', callback);
+    if (!hasError)
+        assignD('A', callback);
+    if (!hasError)
+        assignD('B', callback);
+    if (!hasError)
+        createCalendar(callback);
 
     //showSlots();
 }
@@ -103,43 +112,88 @@ function excludePassed()
     
     for(i = 0; i < total; ++i)
         slots[i].task = "passed";
+
+    slotsLeft -= total;
 }
 
-function assignSleep() {
+function assignSleep(callback) {
+    if (userWuTime > userGtbTime) { callback("Error"); hasError = true; return; }
     for (i = 1; i < userWuTime; i++)
     {
         if (slots[i-1].task != "passed")
+        {
             slots[i-1].setTask("Sleep", "Sleep");
+            --slotsLeft;
+        }
+            
     }
 
     for (i = userGtbTime; i < 96; ++i)
     {
         if (slots[i-1].task != "passed")
+        {
             slots[i-1].setTask("Sleep", "Sleep");
+            --slotsLeft;
+        }
+            
     }
 }
 
-function assignTB() {
+function distributeTasks() {
+    tasksAD = [];
+    tasksAND = [];
+    tasksBD = [];
+    tasksBND = [];
+    tasksTB = [];
+
+    tasks.forEach(task => {
+        if (task.priority == "A")
+        {
+            if (task.divisible)
+                tasksAD.push(task);
+            else
+                tasksAND.push(task);
+        } else if (task.priority == "B")
+        {
+            if (task.divisible)
+                tasksBD.push(task);
+            else
+                tasksBND.push(task);
+        } else
+            tasksTB.push(task);
+    });
+    quantityOfEvents = 2 + tasksTB.length + tasksAND.length + tasksBND.length + tasksAD.length + tasksBD.length;
+}
+
+function assignTB(callback) {
     tasksTB.forEach(task => {
         for (i = 0; i < task.time; ++i)
         {
+            if (slots[task.startTime + i - 1].task != null) { callback("Error"); hasError = true; return; }
             slots[task.startTime + i - 1].task = task.title;
             slots[task.startTime + i - 1].taskType = "TB";
+            --slotsLeft;
         }
     });
 }
 
-function assignND(type) {
+function assignND(type, callback) {
     var tasks;
     var maxSum = -1;
     var maxPos = -1;
     var flag = true;
     var sum;
+    var totalTime = 0;
 
     if (type == 'A')
         tasks = tasksAND;
     else if (type == 'B')
         tasks = tasksBND;
+
+    tasks.forEach(task => {
+        totalTime += task.time;
+    });
+    if (totalTime > slotsLeft) { callback("Error"); hasError = true; return; }
 
     tasks.forEach(task => {
         for (i = 0; i < 96-task.time; ++i)
@@ -175,9 +229,11 @@ function assignND(type) {
         maxSum = -1;
         maxPos = -1;
     });
+
+    slotsLeft -= totalTime;
 }
 
-function assignD(type) {
+function assignD(type, callback) {
     var tasks;
     var maxVal = -1;
     var maxPos = -1;
@@ -206,6 +262,7 @@ function assignD(type) {
                 slots[maxPos].task = task.title;
                 slots[maxPos].taskType = type;
             }
+            else { callback("Error"); hasError = true; return; }
 
             maxVal = -1;
             maxPos = -1;
@@ -215,29 +272,9 @@ function assignD(type) {
     });
 }
 
-function distributeTasks() {
-    tasks.forEach(task => {
-        if (task.priority == "A")
-        {
-            if (task.divisible)
-                tasksAD.push(task);
-            else
-                tasksAND.push(task);
-        } else if (task.priority == "B")
-        {
-            if (task.divisible)
-                tasksBD.push(task);
-            else
-                tasksBND.push(task);
-        } else
-            tasksTB.push(task);
-    });
-    quantityOfEvents = 2 + tasksTB.length + tasksAND.length + tasksBND.length + tasksAD.length + tasksBD.length;
-}
-
 function createCalendar(callback)
 {
-    clearCalendar(oAuth2Client);
+    clearCalendar(oAuth2Client, callback);
 
     var startDate = new Date();
     var endDate = new Date();
@@ -246,7 +283,7 @@ function createCalendar(callback)
     var color;
     var type;
 
-    while (i < 95)
+    while (i < 95 && !hasError)
     {
         duration = 1;
         if (slots[i].task != null && slots[i].task != "passed")
@@ -267,13 +304,13 @@ function createCalendar(callback)
             type = slots[i].taskType;
             color = 11;
             if (type == "Sleep")
-                color = 3;
+                color = 3; // purple
             else if (type == "TB")
-                color = 5;
+                color = 5; // yellow
             else if (type == "A")
-                color = 10;
+                color = 10; // light green
             else if (type == "B")
-                color = 9;
+                color = 9; // light blue
 
             event = {
                 'summary': slots[i].task,
@@ -292,7 +329,7 @@ function createCalendar(callback)
     }
 }
 
-function clearCalendar(auth) {
+function clearCalendar(auth, callback) {
     const calendar = google.calendar({version: 'v3', auth});
 
     var eventIds = [];
@@ -311,7 +348,12 @@ function clearCalendar(auth) {
       singleEvents: true,
       orderBy: 'startTime',
     }, (err, {data}) => {
-      if (err) return console.log('The API returned an error: ' + err);
+      if (err)
+      { 
+        callback("Error");
+        hasError = true;
+        return console.log('The API returned an error: ' + err);
+      }
       const events = data.items;
       if (events.length) {
         events.map((event, i) => {
@@ -329,6 +371,8 @@ function clearCalendar(auth) {
           }, function(err) {
             if (err) {
               console.log('Error: ' + err);
+              callback("Error");
+              hasError = true;
               return;
             }
           });
@@ -337,7 +381,7 @@ function clearCalendar(auth) {
     });
 }
 
-async function addEvent(auth, callback) {
+function addEvent(auth, callback) {
   const calendar = google.calendar({version: 'v3', auth});
 
     calendar.events.insert({
@@ -347,12 +391,14 @@ async function addEvent(auth, callback) {
     }, function(err, event) {
       if (err) {
         console.log('There was an error contacting the Calendar service: ' + err);
+        callback("Error");
+        hasError = true;
         return;
       }
       console.log('Event created successfully');
       --quantityOfEvents;
       if (quantityOfEvents == 0)
-        callback();
+        callback("Done");
     });
 }
 

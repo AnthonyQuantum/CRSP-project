@@ -22,12 +22,15 @@
     <button *ngIf="update" type="button" class="btn btn-default" (click)="generate()">Generate my schedule</button>
 
     <div class="flexCenter">
-        <div *ngIf="processing && status != 'Done'" class="flexAlt">
+        <div *ngIf="processing" class="flexAlt">
             <div class="lds-ellipsis inl"><div></div><div></div><div></div><div></div></div>
             <span class="inl status">Generating...</span>
         </div>
-        <div *ngIf="status == 'Done'" class="flexAlt">
+        <div *ngIf="status == 'Done'" class="flexAlt" [ngClass]="statusClass">
                 <span class="inl status">Done <span class="glyphicon glyphicon-ok okay"></span></span>
+        </div>
+        <div *ngIf="status == 'Error'" class="flexAlt" [ngClass]="statusClass">
+            <span class="inl status">Error <span class="glyphicon glyphicon-remove remove"></span></span>
         </div>
     </div>
 </div>

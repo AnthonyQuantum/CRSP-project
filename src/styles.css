@@ -212,7 +212,10 @@ button, .linkButton {
     }
   }
 
-  .okay {
-    color: green;
+.okay {
+  color: green;
+}
+.remove {
+  color: red;
 }
   

@@ -18,6 +18,7 @@ cb2: boolean;
 update: boolean;
 status: string;
 processing = false;
+statusClass = "";
 
   constructor(private _dataService: DataService, private currentUser: CurrentUserModel, private _time: TimeService) {
     this._dataService.loginUserByToken();
@@ -38,6 +39,12 @@ processing = false;
     this._dataService.generateSchedule(this.currentUser.name, this.cb1, this.cb2)
       .subscribe(res => { 
         this.status = res;
+        this.processing = false;
+        this.statusClass = "animated fadeOut";
+        setTimeout(() => {
+          this.statusClass = "hiddn";
+          this.status = "";
+        }, 3000);
       });
   }
 }
