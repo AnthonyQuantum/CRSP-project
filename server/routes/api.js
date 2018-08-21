@@ -204,7 +204,7 @@ router.post('/generateSchedule/:usr', (req, res) => {
             } else if (result == "Error")
             {
                 response.data = "Error"; 
-                console.log("Error!");
+                console.log("Got an error!");
             }
         
             res.json(response);

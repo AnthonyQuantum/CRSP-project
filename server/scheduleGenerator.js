@@ -272,7 +272,7 @@ function assignD(type, callback) {
     });
 }
 
-function createCalendar(callback)
+async function createCalendar(callback)
 {
     clearCalendar(oAuth2Client, callback);
 
@@ -323,7 +323,8 @@ function createCalendar(callback)
                 }
             };
 
-            addEvent(oAuth2Client, callback);
+            console.log("Called AddEvent");
+            var sth = await addEvent(oAuth2Client, callback);
         }
         i += duration;
     }
@@ -354,6 +355,9 @@ function clearCalendar(auth, callback) {
         hasError = true;
         return console.log('The API returned an error: ' + err);
       }
+
+      if (!hasError)
+      {
       const events = data.items;
       if (events.length) {
         events.map((event, i) => {
@@ -378,13 +382,15 @@ function clearCalendar(auth, callback) {
           });
       });
       console.log("Calendar is clear!");
+    }
+
     });
 }
 
-function addEvent(auth, callback) {
+async function addEvent(auth, callback) {
   const calendar = google.calendar({version: 'v3', auth});
 
-    calendar.events.insert({
+    var sth = await calendar.events.insert({
       auth: auth,
       calendarId: 'primary',
       resource: event,
