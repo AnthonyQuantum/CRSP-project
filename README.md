@@ -5,6 +5,7 @@ This project is now closed and (probably?) won't be ever continued.
 ## Technologies
 
 Frontend: Angular 2
+
 Backend: NodeJS, MongoDB, Express
 
 ## How to run
