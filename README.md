@@ -1,10 +1,12 @@
 # Rhythm
 
-This project is now closed and (probably?) won't be ever continued.
+[This project is now closed and (probably?) won't be ever continued.]
+
+The idea was to create an app that can make personal schedules based on person's circadian rhythms.
 
 ## Technologies
 
-Frontend: Angular 2
+Frontend: Angular2
 
 Backend: NodeJS, MongoDB, Express
 
